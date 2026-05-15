@@ -28,6 +28,8 @@ QuickBite AWS EC2 + GitHub Actions CI/CD Guide (Hinglish)
 2.1) Packages update
 - sudo apt-get update
 
+sdfghj
+
 2.2) Docker Engine install
 - sudo apt-get install -y ca-certificates curl gnupg
 - sudo install -m 0755 -d /etc/apt/keyrings
