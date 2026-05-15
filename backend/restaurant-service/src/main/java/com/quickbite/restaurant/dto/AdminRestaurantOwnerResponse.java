@@ -14,5 +14,8 @@ public record AdminRestaurantOwnerResponse(
         boolean active,
         LocalDateTime createdAt
 ) {
+        public Long id() {
+                return ownerId;
+        }
 }
 

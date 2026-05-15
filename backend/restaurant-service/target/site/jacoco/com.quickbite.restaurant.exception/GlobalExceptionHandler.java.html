@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GlobalExceptionHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">restaurant-service</a> &gt; <a href="index.source.html" class="el_package">com.quickbite.restaurant.exception</a> &gt; <span class="el_source">GlobalExceptionHandler.java</span></div><h1>GlobalExceptionHandler.java</h1><pre class="source lang-java linenums">package com.quickbite.restaurant.exception;
+
+import java.time.Instant;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authorization.AuthorizationDeniedException;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+@RestControllerAdvice
+<span class="fc" id="L16">public class GlobalExceptionHandler {</span>
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; handleIllegalArgument(IllegalArgumentException ex) {
+<span class="fc" id="L20">        Map&lt;String, Object&gt; body = new LinkedHashMap&lt;&gt;();</span>
+<span class="fc" id="L21">        body.put(&quot;timestamp&quot;, Instant.now().toString());</span>
+<span class="fc" id="L22">        body.put(&quot;status&quot;, HttpStatus.BAD_REQUEST.value());</span>
+<span class="fc" id="L23">        body.put(&quot;error&quot;, HttpStatus.BAD_REQUEST.getReasonPhrase());</span>
+<span class="fc" id="L24">        body.put(&quot;message&quot;, ex.getMessage());</span>
+<span class="fc" id="L25">        return ResponseEntity.badRequest().body(body);</span>
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; handleValidation(MethodArgumentNotValidException ex) {
+<span class="nc" id="L30">        String message = ex.getBindingResult().getFieldErrors().stream()</span>
+<span class="nc" id="L31">                .findFirst()</span>
+<span class="nc" id="L32">                .map(error -&gt; error.getField() + &quot; &quot; + error.getDefaultMessage())</span>
+<span class="nc" id="L33">                .orElse(&quot;Validation failed&quot;);</span>
+<span class="nc" id="L34">        Map&lt;String, Object&gt; body = new LinkedHashMap&lt;&gt;();</span>
+<span class="nc" id="L35">        body.put(&quot;timestamp&quot;, Instant.now().toString());</span>
+<span class="nc" id="L36">        body.put(&quot;status&quot;, HttpStatus.BAD_REQUEST.value());</span>
+<span class="nc" id="L37">        body.put(&quot;error&quot;, HttpStatus.BAD_REQUEST.getReasonPhrase());</span>
+<span class="nc" id="L38">        body.put(&quot;message&quot;, message);</span>
+<span class="nc" id="L39">        return ResponseEntity.badRequest().body(body);</span>
+    }
+
+    @ExceptionHandler(AuthorizationDeniedException.class)
+    public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; handleAuthorizationDenied(AuthorizationDeniedException ex) {
+<span class="nc" id="L44">        Map&lt;String, Object&gt; body = new LinkedHashMap&lt;&gt;();</span>
+<span class="nc" id="L45">        body.put(&quot;timestamp&quot;, Instant.now().toString());</span>
+<span class="nc" id="L46">        body.put(&quot;status&quot;, HttpStatus.FORBIDDEN.value());</span>
+<span class="nc" id="L47">        body.put(&quot;error&quot;, HttpStatus.FORBIDDEN.getReasonPhrase());</span>
+<span class="nc" id="L48">        body.put(&quot;message&quot;, &quot;You do not have permission to access this resource&quot;);</span>
+<span class="nc" id="L49">        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(body);</span>
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; handleAccessDenied(AccessDeniedException ex) {
+<span class="fc" id="L54">        Map&lt;String, Object&gt; body = new LinkedHashMap&lt;&gt;();</span>
+<span class="fc" id="L55">        body.put(&quot;timestamp&quot;, Instant.now().toString());</span>
+<span class="fc" id="L56">        body.put(&quot;status&quot;, HttpStatus.FORBIDDEN.value());</span>
+<span class="fc" id="L57">        body.put(&quot;error&quot;, HttpStatus.FORBIDDEN.getReasonPhrase());</span>
+<span class="fc" id="L58">        body.put(&quot;message&quot;, &quot;You do not have permission to access this resource&quot;);</span>
+<span class="fc" id="L59">        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(body);</span>
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; handleMaxUploadSize(MaxUploadSizeExceededException ex) {
+<span class="nc" id="L64">        Map&lt;String, Object&gt; body = new LinkedHashMap&lt;&gt;();</span>
+<span class="nc" id="L65">        body.put(&quot;timestamp&quot;, Instant.now().toString());</span>
+<span class="nc" id="L66">        body.put(&quot;status&quot;, HttpStatus.PAYLOAD_TOO_LARGE.value());</span>
+<span class="nc" id="L67">        body.put(&quot;error&quot;, HttpStatus.PAYLOAD_TOO_LARGE.getReasonPhrase());</span>
+<span class="nc" id="L68">        body.put(&quot;message&quot;, &quot;Image is too large. Please upload a smaller file.&quot;);</span>
+<span class="nc" id="L69">        return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body(body);</span>
+    }
+
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; handleIllegalState(IllegalStateException ex) {
+<span class="nc" id="L74">        Map&lt;String, Object&gt; body = new LinkedHashMap&lt;&gt;();</span>
+<span class="nc" id="L75">        body.put(&quot;timestamp&quot;, Instant.now().toString());</span>
+<span class="nc" id="L76">        body.put(&quot;status&quot;, HttpStatus.SERVICE_UNAVAILABLE.value());</span>
+<span class="nc" id="L77">        body.put(&quot;error&quot;, HttpStatus.SERVICE_UNAVAILABLE.getReasonPhrase());</span>
+<span class="nc bnc" id="L78" title="All 2 branches missed.">        body.put(&quot;message&quot;, ex.getMessage() != null ? ex.getMessage() : &quot;Service dependency is unavailable&quot;);</span>
+<span class="nc" id="L79">        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(body);</span>
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; handleRuntime(RuntimeException ex) {
+<span class="nc" id="L84">        Map&lt;String, Object&gt; body = new LinkedHashMap&lt;&gt;();</span>
+<span class="nc" id="L85">        body.put(&quot;timestamp&quot;, Instant.now().toString());</span>
+<span class="nc" id="L86">        body.put(&quot;status&quot;, HttpStatus.INTERNAL_SERVER_ERROR.value());</span>
+<span class="nc" id="L87">        body.put(&quot;error&quot;, HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());</span>
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        body.put(&quot;message&quot;, ex.getMessage() != null ? ex.getMessage() : &quot;Registration upload failed&quot;);</span>
+<span class="nc" id="L89">        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(body);</span>
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; handleGenericException(Exception ex) {
+<span class="nc" id="L94">        Map&lt;String, Object&gt; body = new LinkedHashMap&lt;&gt;();</span>
+<span class="nc" id="L95">        body.put(&quot;timestamp&quot;, Instant.now().toString());</span>
+<span class="nc" id="L96">        body.put(&quot;status&quot;, HttpStatus.INTERNAL_SERVER_ERROR.value());</span>
+<span class="nc" id="L97">        body.put(&quot;error&quot;, HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase());</span>
+<span class="nc" id="L98">        body.put(&quot;message&quot;, &quot;An internal error occurred. Please try again later.&quot;);</span>
+<span class="nc" id="L99">        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(body);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

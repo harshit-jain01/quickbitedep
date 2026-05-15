@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DeliveryServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">delivery-service</a> &gt; <a href="index.source.html" class="el_package">com.quickbite.delivery.service.impl</a> &gt; <span class="el_source">DeliveryServiceImpl.java</span></div><h1>DeliveryServiceImpl.java</h1><pre class="source lang-java linenums">package com.quickbite.delivery.service.impl;
+
+import com.quickbite.delivery.client.OrderInternalClient;
+import com.quickbite.delivery.dto.AgentAssignedOrderResponse;
+import com.quickbite.delivery.dto.AgentEarningsResponse;
+import com.quickbite.delivery.dto.DeliveryAssignmentRequest;
+import com.quickbite.delivery.dto.DeliveryAssignmentResponse;
+import com.quickbite.delivery.dto.DeliveryAgentAvailabilityRequest;
+import com.quickbite.delivery.dto.DeliveryAgentRegistrationRequest;
+import com.quickbite.delivery.dto.DeliveryAgentResponse;
+import com.quickbite.delivery.dto.internal.DeliveryAssignmentUpdateRequest;
+import com.quickbite.delivery.dto.internal.DeliveryStatusUpdateRequest;
+import com.quickbite.delivery.repository.DeliveryAgentRepository;
+import com.quickbite.delivery.service.DeliveryService;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+@Service
+public class DeliveryServiceImpl implements DeliveryService {
+
+<span class="fc" id="L24">    private static final Logger logger = LoggerFactory.getLogger(DeliveryServiceImpl.class);</span>
+
+<span class="fc" id="L26">    private static final double EARNING_PER_DELIVERY = 40.0;</span>
+
+    private final DeliveryAgentRepository deliveryAgentRepository;
+    private final OrderInternalClient orderInternalClient;
+
+<span class="fc" id="L31">    public DeliveryServiceImpl(DeliveryAgentRepository deliveryAgentRepository, OrderInternalClient orderInternalClient) {</span>
+<span class="fc" id="L32">        this.deliveryAgentRepository = deliveryAgentRepository;</span>
+<span class="fc" id="L33">        this.orderInternalClient = orderInternalClient;</span>
+<span class="fc" id="L34">    }</span>
+
+    @Override
+    public DeliveryAgentResponse register(DeliveryAgentRegistrationRequest request) {
+<span class="fc" id="L38">        logger.info(&quot;Registering delivery agent for phone={}&quot;, request.phone());</span>
+<span class="fc" id="L39">        return toAgentResponse(deliveryAgentRepository.register(</span>
+<span class="fc" id="L40">                request.name().trim(),</span>
+<span class="fc" id="L41">                request.phone().trim(),</span>
+<span class="fc" id="L42">                request.vehicleType().trim(),</span>
+<span class="fc" id="L43">                request.vehicleNumber().trim()</span>
+        ));
+    }
+
+    @Override
+    public List&lt;DeliveryAgentResponse&gt; getAllAgents() {
+<span class="nc" id="L49">        logger.debug(&quot;Fetching all delivery agents&quot;);</span>
+<span class="nc" id="L50">        return deliveryAgentRepository.findAll().stream()</span>
+<span class="nc" id="L51">                .map(this::toAgentResponse)</span>
+<span class="nc" id="L52">                .toList();</span>
+    }
+
+    @Override
+    public DeliveryAgentResponse verifyAndActivate(String agentId) {
+<span class="nc" id="L57">        logger.info(&quot;Verifying and activating agentId={}&quot;, agentId);</span>
+<span class="nc" id="L58">        return toAgentResponse(deliveryAgentRepository.verifyAndActivate(agentId));</span>
+    }
+
+    @Override
+    public DeliveryAgentResponse getAgentByPhone(String phone) {
+<span class="nc" id="L63">        return toAgentResponse(deliveryAgentRepository.findByPhone(phone));</span>
+    }
+
+    @Override
+    public DeliveryAgentResponse getOrCreateAgentByPhone(String phone, String authenticatedUser) {
+<span class="fc" id="L68">        logger.debug(&quot;Fetching or creating delivery agent by phone&quot;);</span>
+        try {
+<span class="nc" id="L70">            return toAgentResponse(deliveryAgentRepository.findByPhone(phone));</span>
+<span class="fc" id="L71">        } catch (IllegalArgumentException ex) {</span>
+<span class="pc bpc" id="L72" title="1 of 2 branches missed.">            if (!&quot;Delivery agent not found&quot;.equalsIgnoreCase(ex.getMessage())) {</span>
+<span class="nc" id="L73">                throw ex;</span>
+            }
+
+<span class="pc bpc" id="L76" title="1 of 2 branches missed.">            String normalizedPhone = phone == null ? &quot;&quot; : phone.trim();</span>
+<span class="fc bfc" id="L77" title="All 2 branches covered.">            if (normalizedPhone.isBlank()) {</span>
+<span class="fc" id="L78">                logger.warn(&quot;Cannot resolve delivery agent profile because authenticated phone is blank&quot;);</span>
+<span class="fc" id="L79">                throw new IllegalArgumentException(&quot;Authenticated phone not found. Please login again.&quot;);</span>
+            }
+
+<span class="fc" id="L82">            String agentName = deriveDefaultName(authenticatedUser);</span>
+<span class="fc" id="L83">            String vehicleNumber = deriveTemporaryVehicleNumber(normalizedPhone);</span>
+<span class="fc" id="L84">            logger.info(&quot;Creating delivery agent profile for authenticated phone={}&quot;, normalizedPhone);</span>
+<span class="fc" id="L85">            return toAgentResponse(deliveryAgentRepository.register(agentName, phone, &quot;Bike&quot;, vehicleNumber));</span>
+        }
+    }
+
+    @Override
+    public DeliveryAgentResponse updateAvailability(String agentId, DeliveryAgentAvailabilityRequest request) {
+<span class="nc" id="L91">        logger.info(&quot;Updating availability for agentId={} online={}&quot;, agentId, request.online());</span>
+<span class="nc" id="L92">        return toAgentResponse(deliveryAgentRepository.updateAvailability(agentId, request.online()));</span>
+    }
+
+    @Override
+    public DeliveryAssignmentResponse assign(DeliveryAssignmentRequest request) {
+<span class="fc" id="L97">        logger.info(&quot;Publishing order for delivery assignment orderReference={}&quot;, request.orderReference());</span>
+<span class="fc" id="L98">        deliveryAgentRepository.createAssignment(</span>
+<span class="fc" id="L99">                request.orderReference(),</span>
+<span class="fc" id="L100">                null,</span>
+<span class="fc" id="L101">                request.restaurantName(),</span>
+<span class="fc" id="L102">                request.deliveryAddress()</span>
+        );
+<span class="fc" id="L104">        return new DeliveryAssignmentResponse(</span>
+<span class="fc" id="L105">                request.orderReference(),</span>
+<span class="fc" id="L106">                null,</span>
+<span class="fc" id="L107">                null,</span>
+<span class="fc" id="L108">                &quot;PENDING_ASSIGNMENT&quot;,</span>
+<span class="fc" id="L109">                0</span>
+        );
+    }
+
+    @Override
+    public List&lt;AgentAssignedOrderResponse&gt; getAssignedOrders(String agentId) {
+<span class="fc" id="L115">        logger.debug(&quot;Fetching visible assignments for agentId={}&quot;, agentId);</span>
+<span class="fc" id="L116">        return deliveryAgentRepository.findVisibleAssignmentsForAgent(agentId).stream()</span>
+<span class="fc" id="L117">                .map(assignment -&gt; new AgentAssignedOrderResponse(</span>
+<span class="fc" id="L118">                        assignment.orderReference(),</span>
+<span class="fc" id="L119">                        assignment.restaurantName(),</span>
+<span class="fc" id="L120">                        assignment.deliveryAddress(),</span>
+<span class="fc" id="L121">                        assignment.assignmentStatus(),</span>
+<span class="fc" id="L122">                        assignment.assignedAt(),</span>
+<span class="fc" id="L123">                        assignment.acceptedAt(),</span>
+<span class="fc" id="L124">                        assignment.pickedUpAt(),</span>
+<span class="fc" id="L125">                        assignment.deliveredAt()</span>
+<span class="fc" id="L126">                ))</span>
+<span class="fc" id="L127">                .toList();</span>
+    }
+
+    @Override
+    public AgentAssignedOrderResponse acceptOrder(String agentId, String orderReference) {
+<span class="nc" id="L132">        logger.info(&quot;Accepting order orderReference={} agentId={}&quot;, orderReference, agentId);</span>
+<span class="nc" id="L133">        var reservedAgent = deliveryAgentRepository.reserveAgentForOrder(agentId, orderReference);</span>
+<span class="nc" id="L134">        var assignment = deliveryAgentRepository.markAccepted(agentId, orderReference);</span>
+<span class="nc" id="L135">        updateOrderAgent(orderReference, agentId, reservedAgent.name(), ThreadLocalRandom.current().nextInt(18, 36));</span>
+<span class="nc" id="L136">        return new AgentAssignedOrderResponse(</span>
+<span class="nc" id="L137">                assignment.orderReference(),</span>
+<span class="nc" id="L138">                assignment.restaurantName(),</span>
+<span class="nc" id="L139">                assignment.deliveryAddress(),</span>
+<span class="nc" id="L140">                assignment.assignmentStatus(),</span>
+<span class="nc" id="L141">                assignment.assignedAt(),</span>
+<span class="nc" id="L142">                assignment.acceptedAt(),</span>
+<span class="nc" id="L143">                assignment.pickedUpAt(),</span>
+<span class="nc" id="L144">                assignment.deliveredAt()</span>
+        );
+    }
+
+    @Override
+    public AgentAssignedOrderResponse markPickedUp(String agentId, String orderReference) {
+<span class="nc" id="L150">        logger.info(&quot;Marking picked-up orderReference={} agentId={}&quot;, orderReference, agentId);</span>
+<span class="nc" id="L151">        var assignment = deliveryAgentRepository.markPickedUp(agentId, orderReference);</span>
+<span class="nc" id="L152">        updateOrderStatus(orderReference, &quot;PICKED_UP&quot;);</span>
+<span class="nc" id="L153">        return new AgentAssignedOrderResponse(</span>
+<span class="nc" id="L154">                assignment.orderReference(),</span>
+<span class="nc" id="L155">                assignment.restaurantName(),</span>
+<span class="nc" id="L156">                assignment.deliveryAddress(),</span>
+<span class="nc" id="L157">                assignment.assignmentStatus(),</span>
+<span class="nc" id="L158">                assignment.assignedAt(),</span>
+<span class="nc" id="L159">                assignment.acceptedAt(),</span>
+<span class="nc" id="L160">                assignment.pickedUpAt(),</span>
+<span class="nc" id="L161">                assignment.deliveredAt()</span>
+        );
+    }
+
+    @Override
+    public AgentAssignedOrderResponse markDelivered(String agentId, String orderReference) {
+<span class="nc" id="L167">        logger.info(&quot;Marking delivered orderReference={} agentId={}&quot;, orderReference, agentId);</span>
+<span class="nc" id="L168">        var assignment = deliveryAgentRepository.markDelivered(agentId, orderReference);</span>
+<span class="nc" id="L169">        updateOrderStatus(orderReference, &quot;DELIVERED&quot;);</span>
+<span class="nc" id="L170">        return new AgentAssignedOrderResponse(</span>
+<span class="nc" id="L171">                assignment.orderReference(),</span>
+<span class="nc" id="L172">                assignment.restaurantName(),</span>
+<span class="nc" id="L173">                assignment.deliveryAddress(),</span>
+<span class="nc" id="L174">                assignment.assignmentStatus(),</span>
+<span class="nc" id="L175">                assignment.assignedAt(),</span>
+<span class="nc" id="L176">                assignment.acceptedAt(),</span>
+<span class="nc" id="L177">                assignment.pickedUpAt(),</span>
+<span class="nc" id="L178">                assignment.deliveredAt()</span>
+        );
+    }
+
+    @Override
+    public AgentEarningsResponse getEarnings(String agentId) {
+<span class="fc" id="L184">        logger.debug(&quot;Fetching earnings for agentId={}&quot;, agentId);</span>
+<span class="fc" id="L185">        var agent = deliveryAgentRepository.findById(agentId);</span>
+<span class="fc" id="L186">        return new AgentEarningsResponse(</span>
+<span class="fc" id="L187">                agent.id(),</span>
+<span class="fc" id="L188">                agent.completedDeliveries(),</span>
+<span class="fc" id="L189">                agent.completedDeliveries() * EARNING_PER_DELIVERY</span>
+        );
+    }
+
+    private void updateOrderAgent(String orderReference, String agentId, String agentName, int etaMinutes) {
+<span class="nc" id="L194">        logger.debug(&quot;Updating order-service assignment orderReference={} agentId={} etaMinutes={}&quot;, orderReference, agentId, etaMinutes);</span>
+<span class="nc" id="L195">        orderInternalClient.updateAgent(</span>
+<span class="nc" id="L196">                &quot;SYSTEM&quot;,</span>
+<span class="nc" id="L197">                orderReference,</span>
+<span class="nc" id="L198">                new DeliveryAssignmentUpdateRequest(agentId, agentName, etaMinutes)</span>
+        );
+<span class="nc" id="L200">    }</span>
+
+    private void updateOrderStatus(String orderReference, String deliveryStatus) {
+<span class="nc" id="L203">        logger.debug(&quot;Updating order-service delivery status orderReference={} status={}&quot;, orderReference, deliveryStatus);</span>
+<span class="nc" id="L204">        orderInternalClient.updateStatus(</span>
+<span class="nc" id="L205">                &quot;DELIVERY_AGENT&quot;,</span>
+<span class="nc" id="L206">                orderReference,</span>
+<span class="nc" id="L207">                new DeliveryStatusUpdateRequest(deliveryStatus)</span>
+        );
+<span class="nc" id="L209">    }</span>
+
+    private DeliveryAgentResponse toAgentResponse(com.quickbite.delivery.model.DeliveryAgent agent) {
+<span class="fc" id="L212">        return new DeliveryAgentResponse(</span>
+<span class="fc" id="L213">                agent.id(),</span>
+<span class="fc" id="L214">                agent.name(),</span>
+<span class="fc" id="L215">                agent.phone(),</span>
+<span class="fc" id="L216">                agent.vehicleType(),</span>
+<span class="fc" id="L217">                agent.vehicleNumber(),</span>
+<span class="fc" id="L218">                agent.verified(),</span>
+<span class="fc" id="L219">                agent.active(),</span>
+<span class="fc" id="L220">                agent.online(),</span>
+<span class="fc" id="L221">                agent.completedDeliveries()</span>
+        );
+    }
+
+    private String deriveDefaultName(String authenticatedUser) {
+<span class="pc bpc" id="L226" title="2 of 4 branches missed.">        if (authenticatedUser == null || authenticatedUser.isBlank()) {</span>
+<span class="nc" id="L227">            return &quot;Delivery Agent&quot;;</span>
+        }
+<span class="fc" id="L229">        String localPart = authenticatedUser.split(&quot;@&quot;, 2)[0].trim();</span>
+<span class="pc bpc" id="L230" title="1 of 2 branches missed.">        if (localPart.isBlank()) {</span>
+<span class="nc" id="L231">            return &quot;Delivery Agent&quot;;</span>
+        }
+<span class="fc" id="L233">        String sanitized = localPart.replaceAll(&quot;[^a-zA-Z0-9 ]&quot;, &quot; &quot;).trim();</span>
+<span class="pc bpc" id="L234" title="1 of 2 branches missed.">        if (sanitized.isBlank()) {</span>
+<span class="nc" id="L235">            return &quot;Delivery Agent&quot;;</span>
+        }
+<span class="fc" id="L237">        return Character.toUpperCase(sanitized.charAt(0)) + sanitized.substring(1);</span>
+    }
+
+    private String deriveTemporaryVehicleNumber(String phone) {
+<span class="pc bpc" id="L241" title="1 of 2 branches missed.">        String digitsOnly = phone == null ? &quot;&quot; : phone.replaceAll(&quot;[^0-9]&quot;, &quot;&quot;);</span>
+<span class="pc bpc" id="L242" title="1 of 2 branches missed.">        if (digitsOnly.isBlank()) {</span>
+<span class="nc" id="L243">            return &quot;TEMP-0000000000&quot;;</span>
+        }
+<span class="fc" id="L245">        return &quot;TEMP-&quot; + digitsOnly;</span>
+    }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

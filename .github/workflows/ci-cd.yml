@@ -14,6 +14,7 @@ permissions:
 env:
   BACKEND_DIR: backend
   FRONTEND_DIR: frontend
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   backend-tests:

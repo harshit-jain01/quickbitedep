@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DeliveryAgentRepository.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">delivery-service</a> &gt; <a href="index.source.html" class="el_package">com.quickbite.delivery.repository</a> &gt; <span class="el_source">DeliveryAgentRepository.java</span></div><h1>DeliveryAgentRepository.java</h1><pre class="source lang-java linenums">package com.quickbite.delivery.repository;
+
+import com.quickbite.delivery.model.AgentOrderAssignment;
+import com.quickbite.delivery.model.DeliveryAgent;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class DeliveryAgentRepository {
+
+<span class="fc" id="L19">    private static final Logger logger = LoggerFactory.getLogger(DeliveryAgentRepository.class);</span>
+
+<span class="fc" id="L21">    private final AtomicInteger idSequence = new AtomicInteger(1000);</span>
+<span class="fc" id="L22">    private final Map&lt;String, DeliveryAgent&gt; agentsById = new ConcurrentHashMap&lt;&gt;();</span>
+<span class="fc" id="L23">    private final Map&lt;String, AgentOrderAssignment&gt; assignmentsByOrder = new ConcurrentHashMap&lt;&gt;();</span>
+
+    // Initialize with sample data for testing
+<span class="fc" id="L26">    public DeliveryAgentRepository() {</span>
+<span class="fc" id="L27">        initializeSampleData();</span>
+<span class="fc" id="L28">    }</span>
+
+    private void initializeSampleData() {
+        // No sample data - agents must be registered
+<span class="fc" id="L32">        logger.info(&quot;Initialized delivery agent repository with no sample agents&quot;);</span>
+<span class="fc" id="L33">    }</span>
+
+    public synchronized DeliveryAgent register(String name, String phone, String vehicleType, String vehicleNumber) {
+<span class="fc" id="L36">        logger.info(&quot;Creating delivery agent profile for phone={}&quot;, phone);</span>
+<span class="fc" id="L37">        String id = &quot;AGT&quot; + idSequence.incrementAndGet();</span>
+<span class="fc" id="L38">        DeliveryAgent agent = new DeliveryAgent(</span>
+                id,
+                name,
+                phone,
+                vehicleType,
+                vehicleNumber,
+                true,
+                true,
+                true,
+                null,
+                0,
+<span class="fc" id="L49">                Instant.now()</span>
+        );
+<span class="fc" id="L51">        agentsById.put(id, agent);</span>
+<span class="fc" id="L52">        return agent;</span>
+    }
+
+    public List&lt;DeliveryAgent&gt; findAll() {
+<span class="nc" id="L56">        return agentsById.values().stream()</span>
+<span class="nc" id="L57">                .sorted(Comparator.comparing(DeliveryAgent::createdAt).reversed())</span>
+<span class="nc" id="L58">                .toList();</span>
+    }
+
+    public DeliveryAgent findById(String agentId) {
+<span class="fc" id="L62">        DeliveryAgent agent = agentsById.get(agentId);</span>
+<span class="pc bpc" id="L63" title="1 of 2 branches missed.">        if (agent == null) {</span>
+<span class="nc" id="L64">            throw new IllegalArgumentException(&quot;Delivery agent not found&quot;);</span>
+        }
+<span class="fc" id="L66">        return agent;</span>
+    }
+
+    public DeliveryAgent findByPhone(String phone) {
+<span class="fc" id="L70">        String normalizedTarget = normalizePhone(phone);</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">        if (normalizedTarget.isBlank()) {</span>
+<span class="fc" id="L72">            throw new IllegalArgumentException(&quot;Delivery agent phone is required&quot;);</span>
+        }
+
+<span class="fc" id="L75">        return agentsById.values().stream()</span>
+<span class="fc" id="L76">                .filter(agent -&gt; phoneMatches(normalizedTarget, normalizePhone(agent.phone())))</span>
+<span class="fc" id="L77">                .findFirst()</span>
+<span class="pc" id="L78">                .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Delivery agent not found&quot;));</span>
+    }
+
+    public synchronized DeliveryAgent verifyAndActivate(String agentId) {
+<span class="fc" id="L82">        DeliveryAgent current = findById(agentId);</span>
+<span class="fc" id="L83">        DeliveryAgent updated = current.withVerification(true, true);</span>
+<span class="fc" id="L84">        agentsById.put(agentId, updated);</span>
+<span class="fc" id="L85">        return updated;</span>
+    }
+
+    public synchronized DeliveryAgent updateAvailability(String agentId, boolean online) {
+<span class="fc" id="L89">        logger.debug(&quot;Updating availability in repository for agentId={} online={}&quot;, agentId, online);</span>
+<span class="fc" id="L90">        DeliveryAgent current = findById(agentId);</span>
+<span class="pc bpc" id="L91" title="2 of 4 branches missed.">        if (!current.active() || !current.verified()) {</span>
+<span class="nc" id="L92">            throw new IllegalArgumentException(&quot;Only verified and active delivery agents can go online&quot;);</span>
+        }
+<span class="pc bpc" id="L94" title="1 of 4 branches missed.">        if (current.currentOrderReference() != null &amp;&amp; !online) {</span>
+<span class="fc" id="L95">            throw new IllegalArgumentException(&quot;Agent with an active order cannot go offline&quot;);</span>
+        }
+<span class="fc" id="L97">        DeliveryAgent updated = current.withAvailability(online);</span>
+<span class="fc" id="L98">        agentsById.put(agentId, updated);</span>
+<span class="fc" id="L99">        return updated;</span>
+    }
+
+    public synchronized DeliveryAgent reserveAvailableAgent(String orderReference) {
+<span class="fc" id="L103">        DeliveryAgent selected = agentsById.values().stream()</span>
+<span class="fc" id="L104">                .filter(DeliveryAgent::verified)</span>
+<span class="fc" id="L105">                .filter(DeliveryAgent::active)</span>
+<span class="fc" id="L106">                .filter(DeliveryAgent::online)</span>
+<span class="pc bpc" id="L107" title="1 of 2 branches missed.">                .filter(agent -&gt; agent.currentOrderReference() == null)</span>
+<span class="fc" id="L108">                .findFirst()</span>
+<span class="fc" id="L109">                .orElseThrow(() -&gt; new IllegalArgumentException(&quot;No verified delivery agent is currently available&quot;));</span>
+
+<span class="fc" id="L111">        DeliveryAgent reserved = selected.withCurrentOrder(orderReference);</span>
+<span class="fc" id="L112">        agentsById.put(selected.id(), reserved);</span>
+<span class="fc" id="L113">        return reserved;</span>
+    }
+
+    public synchronized DeliveryAgent reserveAgentForOrder(String agentId, String orderReference) {
+<span class="fc" id="L117">        DeliveryAgent selected = findById(agentId);</span>
+<span class="pc bpc" id="L118" title="2 of 4 branches missed.">        if (!selected.verified() || !selected.active()) {</span>
+<span class="nc" id="L119">            throw new IllegalArgumentException(&quot;Only verified and active delivery agents can accept orders&quot;);</span>
+        }
+<span class="fc bfc" id="L121" title="All 2 branches covered.">        if (!selected.online()) {</span>
+<span class="fc" id="L122">            throw new IllegalArgumentException(&quot;Please go online before accepting orders&quot;);</span>
+        }
+<span class="pc bpc" id="L124" title="3 of 4 branches missed.">        if (selected.currentOrderReference() != null &amp;&amp; !orderReference.equals(selected.currentOrderReference())) {</span>
+<span class="nc" id="L125">            throw new IllegalArgumentException(&quot;You already have an active order&quot;);</span>
+        }
+
+<span class="fc" id="L128">        DeliveryAgent reserved = selected.withCurrentOrder(orderReference);</span>
+<span class="fc" id="L129">        agentsById.put(selected.id(), reserved);</span>
+<span class="fc" id="L130">        return reserved;</span>
+    }
+
+    public synchronized void createAssignment(String orderReference, String agentId, String restaurantName, String deliveryAddress) {
+<span class="fc" id="L134">        logger.info(&quot;Creating assignment entry for orderReference={} agentId={}&quot;, orderReference, agentId);</span>
+<span class="fc" id="L135">        assignmentsByOrder.put(</span>
+                orderReference,
+                new AgentOrderAssignment(
+                        orderReference,
+                        agentId,
+                        restaurantName,
+                        deliveryAddress,
+                        &quot;ASSIGNED&quot;,
+<span class="fc" id="L143">                        Instant.now(),</span>
+                        null,
+                        null,
+                        null
+                )
+        );
+<span class="fc" id="L149">    }</span>
+
+    public List&lt;AgentOrderAssignment&gt; findAssignmentsByAgentId(String agentId) {
+<span class="nc" id="L152">        List&lt;AgentOrderAssignment&gt; assignments = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L153" title="All 2 branches missed.">        for (AgentOrderAssignment assignment : assignmentsByOrder.values()) {</span>
+<span class="nc bnc" id="L154" title="All 2 branches missed.">            if (assignment.agentId().equals(agentId)) {</span>
+<span class="nc" id="L155">                assignments.add(assignment);</span>
+            }
+<span class="nc" id="L157">        }</span>
+<span class="nc" id="L158">        assignments.sort(Comparator.comparing(AgentOrderAssignment::assignedAt).reversed());</span>
+<span class="nc" id="L159">        return assignments;</span>
+    }
+
+    public List&lt;AgentOrderAssignment&gt; findVisibleAssignmentsForAgent(String agentId) {
+<span class="fc" id="L163">        List&lt;AgentOrderAssignment&gt; assignments = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L164" title="All 2 branches covered.">        for (AgentOrderAssignment assignment : assignmentsByOrder.values()) {</span>
+<span class="pc bpc" id="L165" title="1 of 2 branches missed.">            if (&quot;DELIVERED&quot;.equalsIgnoreCase(assignment.assignmentStatus())) {</span>
+<span class="fc" id="L166">                continue;</span>
+            }
+<span class="nc bnc" id="L168" title="All 6 branches missed.">            if (assignment.agentId() == null || assignment.agentId().isBlank() || assignment.agentId().equals(agentId)) {</span>
+<span class="nc" id="L169">                assignments.add(assignment);</span>
+            }
+<span class="nc" id="L171">        }</span>
+<span class="fc" id="L172">        assignments.sort(Comparator.comparing(AgentOrderAssignment::assignedAt).reversed());</span>
+<span class="fc" id="L173">        return assignments;</span>
+    }
+
+    public synchronized AgentOrderAssignment markAccepted(String agentId, String orderReference) {
+<span class="fc" id="L177">        logger.info(&quot;Mark accepted in repository orderReference={} agentId={}&quot;, orderReference, agentId);</span>
+<span class="fc" id="L178">        AgentOrderAssignment assignment = assignmentsByOrder.get(orderReference);</span>
+<span class="pc bpc" id="L179" title="1 of 2 branches missed.">        if (assignment == null) {</span>
+<span class="nc" id="L180">            throw new IllegalArgumentException(&quot;Assignment not found for this order&quot;);</span>
+        }
+<span class="pc bpc" id="L182" title="3 of 6 branches missed.">        if (assignment.agentId() != null &amp;&amp; !assignment.agentId().isBlank() &amp;&amp; !assignment.agentId().equals(agentId)) {</span>
+<span class="nc" id="L183">            throw new IllegalArgumentException(&quot;Order is already accepted by another delivery agent&quot;);</span>
+        }
+<span class="fc" id="L185">        AgentOrderAssignment updated = assignment.withAgentAndStatus(</span>
+                agentId,
+                &quot;ACCEPTED&quot;,
+<span class="pc bpc" id="L188" title="1 of 2 branches missed.">                assignment.acceptedAt() == null ? Instant.now() : assignment.acceptedAt(),</span>
+<span class="fc" id="L189">                assignment.pickedUpAt(),</span>
+<span class="fc" id="L190">                assignment.deliveredAt()</span>
+        );
+<span class="fc" id="L192">        assignmentsByOrder.put(orderReference, updated);</span>
+<span class="fc" id="L193">        return updated;</span>
+    }
+
+    public synchronized AgentOrderAssignment markPickedUp(String agentId, String orderReference) {
+<span class="fc" id="L197">        logger.info(&quot;Mark picked-up in repository orderReference={} agentId={}&quot;, orderReference, agentId);</span>
+<span class="fc" id="L198">        AgentOrderAssignment assignment = requireAssignment(agentId, orderReference);</span>
+<span class="pc bpc" id="L199" title="1 of 2 branches missed.">        if (assignment.acceptedAt() == null) {</span>
+<span class="nc" id="L200">            throw new IllegalArgumentException(&quot;Order must be accepted before marking as picked up&quot;);</span>
+        }
+<span class="fc" id="L202">        AgentOrderAssignment updated = assignment.withStatus(&quot;PICKED_UP&quot;, assignment.acceptedAt(), Instant.now(), assignment.deliveredAt());</span>
+<span class="fc" id="L203">        assignmentsByOrder.put(orderReference, updated);</span>
+<span class="fc" id="L204">        return updated;</span>
+    }
+
+    public synchronized AgentOrderAssignment markDelivered(String agentId, String orderReference) {
+<span class="fc" id="L208">        logger.info(&quot;Mark delivered in repository orderReference={} agentId={}&quot;, orderReference, agentId);</span>
+<span class="fc" id="L209">        AgentOrderAssignment assignment = requireAssignment(agentId, orderReference);</span>
+<span class="pc bpc" id="L210" title="1 of 2 branches missed.">        if (assignment.pickedUpAt() == null) {</span>
+<span class="nc" id="L211">            throw new IllegalArgumentException(&quot;Order must be picked up before marking as delivered&quot;);</span>
+        }
+<span class="fc" id="L213">        AgentOrderAssignment updated = assignment.withStatus(&quot;DELIVERED&quot;, assignment.acceptedAt(), assignment.pickedUpAt(), Instant.now());</span>
+<span class="fc" id="L214">        assignmentsByOrder.put(orderReference, updated);</span>
+
+<span class="fc" id="L216">        DeliveryAgent current = findById(agentId);</span>
+<span class="fc" id="L217">        DeliveryAgent completed = current.incrementCompletedDeliveries().withAvailability(true);</span>
+<span class="fc" id="L218">        agentsById.put(agentId, completed);</span>
+<span class="fc" id="L219">        return updated;</span>
+    }
+
+    private AgentOrderAssignment requireAssignment(String agentId, String orderReference) {
+<span class="fc" id="L223">        AgentOrderAssignment assignment = assignmentsByOrder.get(orderReference);</span>
+<span class="pc bpc" id="L224" title="3 of 6 branches missed.">        if (assignment == null || assignment.agentId() == null || !assignment.agentId().equals(agentId)) {</span>
+<span class="nc" id="L225">            throw new IllegalArgumentException(&quot;Assignment not found for this delivery agent and order&quot;);</span>
+        }
+<span class="fc" id="L227">        return assignment;</span>
+    }
+
+    private boolean phoneMatches(String source, String target) {
+<span class="pc bpc" id="L231" title="1 of 2 branches missed.">        if (source.equals(target)) {</span>
+<span class="nc" id="L232">            return true;</span>
+        }
+<span class="pc bpc" id="L234" title="2 of 4 branches missed.">        if (source.length() &gt;= 10 &amp;&amp; target.length() &gt;= 10) {</span>
+<span class="fc" id="L235">            return source.substring(source.length() - 10).equals(target.substring(target.length() - 10));</span>
+        }
+<span class="nc" id="L237">        return false;</span>
+    }
+
+    private String normalizePhone(String value) {
+<span class="pc bpc" id="L241" title="1 of 2 branches missed.">        if (value == null) {</span>
+<span class="nc" id="L242">            return &quot;&quot;;</span>
+        }
+<span class="fc" id="L244">        return value.replaceAll(&quot;[^0-9]&quot;, &quot;&quot;);</span>
+    }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

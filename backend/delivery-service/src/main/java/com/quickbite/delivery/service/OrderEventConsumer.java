@@ -16,6 +16,10 @@ public class OrderEventConsumer {
             groupId = "${spring.kafka.consumer.group-id}"
     )
     public void consume(OrderEvent event) {
+        if (event == null) {
+            logger.warn("delivery-service received a null order event");
+            return;
+        }
         try {
             logger.info(
                     "delivery-service consumed event={} orderReference={} restaurant={}",

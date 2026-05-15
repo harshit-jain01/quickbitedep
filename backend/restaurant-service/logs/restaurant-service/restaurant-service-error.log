@@ -1,0 +1,15 @@
+2026-05-15 16:20:30.821 ERROR [restaurant-service] [main] o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 3 of constructor in com.quickbite.restaurant.controller.RestaurantOwnerController required a bean of type 'org.springframework.cloud.openfeign.FeignClientFactory' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'org.springframework.cloud.openfeign.FeignClientFactory' in your configuration.
+

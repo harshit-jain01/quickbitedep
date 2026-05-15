@@ -60,6 +60,8 @@ class DeliveryAgentRepositoryTest {
 
     @Test
     void reserveAvailableAgent_shouldAssignOpenOrder() {
+        repository.register("Available Rider", "9999999996", "Bike", "MP09AB1006");
+
         var reserved = repository.reserveAvailableAgent("ORD-200");
         assertEquals("ORD-200", reserved.currentOrderReference());
     }

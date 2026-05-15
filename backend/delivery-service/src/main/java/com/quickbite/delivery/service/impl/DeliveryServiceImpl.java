@@ -79,7 +79,10 @@ public class DeliveryServiceImpl implements DeliveryService {
                 throw new IllegalArgumentException("Authenticated phone not found. Please login again.");
             }
 
-            throw new IllegalArgumentException("Delivery agent not found. Please register with your vehicle details first.");
+            String agentName = deriveDefaultName(authenticatedUser);
+            String vehicleNumber = deriveTemporaryVehicleNumber(normalizedPhone);
+            logger.info("Creating delivery agent profile for authenticated phone={}", normalizedPhone);
+            return toAgentResponse(deliveryAgentRepository.register(agentName, phone, "Bike", vehicleNumber));
         }
     }
 
@@ -232,6 +235,14 @@ public class DeliveryServiceImpl implements DeliveryService {
             return "Delivery Agent";
         }
         return Character.toUpperCase(sanitized.charAt(0)) + sanitized.substring(1);
+    }
+
+    private String deriveTemporaryVehicleNumber(String phone) {
+        String digitsOnly = phone == null ? "" : phone.replaceAll("[^0-9]", "");
+        if (digitsOnly.isBlank()) {
+            return "TEMP-0000000000";
+        }
+        return "TEMP-" + digitsOnly;
     }
 }
 

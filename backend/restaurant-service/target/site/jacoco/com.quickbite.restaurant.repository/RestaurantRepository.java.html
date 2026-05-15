@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RestaurantRepository.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">restaurant-service</a> &gt; <a href="index.source.html" class="el_package">com.quickbite.restaurant.repository</a> &gt; <span class="el_source">RestaurantRepository.java</span></div><h1>RestaurantRepository.java</h1><pre class="source lang-java linenums">package com.quickbite.restaurant.repository;
+
+import com.quickbite.restaurant.model.Category;
+import com.quickbite.restaurant.model.Restaurant;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class RestaurantRepository {
+
+<span class="fc" id="L24">    private static final Logger logger = LoggerFactory.getLogger(RestaurantRepository.class);</span>
+<span class="fc" id="L25">    private static final Path DELETED_IDS_FILE = Paths.get(</span>
+<span class="fc" id="L26">            System.getProperty(&quot;user.home&quot;),</span>
+            &quot;.quickbite&quot;,
+            &quot;restaurant-service&quot;,
+            &quot;deleted-default-restaurant-ids.txt&quot;
+    );
+
+<span class="nc" id="L32">    private final List&lt;Category&gt; categories = List.of(</span>
+            new Category(&quot;north-indian&quot;, &quot;North Indian&quot;, &quot;https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&amp;fit=crop&amp;w=400&amp;q=80&quot;),
+            new Category(&quot;biryani&quot;, &quot;Biryani&quot;, &quot;https://images.unsplash.com/photo-1633945274309-2c16c9682a8d?auto=format&amp;fit=crop&amp;w=400&amp;q=80&quot;),
+            new Category(&quot;south-indian&quot;, &quot;South Indian&quot;, &quot;https://images.unsplash.com/photo-1668236543090-82eba5ee5976?auto=format&amp;fit=crop&amp;w=400&amp;q=80&quot;),
+            new Category(&quot;pizza&quot;, &quot;Pizza&quot;, &quot;https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&amp;fit=crop&amp;w=400&amp;q=80&quot;),
+            new Category(&quot;burger&quot;, &quot;Burger&quot;, &quot;https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&amp;fit=crop&amp;w=400&amp;q=80&quot;),
+            new Category(&quot;desserts&quot;, &quot;Desserts&quot;, &quot;https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&amp;fit=crop&amp;w=400&amp;q=80&quot;)
+    );
+
+<span class="nc" id="L41">    private final List&lt;Restaurant&gt; restaurants = new ArrayList&lt;&gt;(List.of(</span>
+<span class="nc" id="L42">            new Restaurant(1L, &quot;Spice Route Kitchen&quot;, &quot;North Indian&quot;, &quot;Maharana Pratap Nagar&quot;, List.of(&quot;North Indian&quot;, &quot;Thali&quot;, &quot;Tandoor&quot;), 4.7, 28, 450, 2.8, &quot;https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&amp;fit=crop&amp;w=900&amp;q=80&quot;, &quot;Comfort food platters, slow-cooked curries, and smoky kebabs.&quot;),</span>
+<span class="nc" id="L43">            new Restaurant(2L, &quot;Nawab Dum Biryani&quot;, &quot;Biryani&quot;, &quot;Arera Colony&quot;, List.of(&quot;Biryani&quot;, &quot;Mughlai&quot;, &quot;Kebabs&quot;), 4.8, 24, 500, 3.1, &quot;https://images.unsplash.com/photo-1563379091339-03246963d29a?auto=format&amp;fit=crop&amp;w=900&amp;q=80&quot;, &quot;Long-grain biryanis and Hyderabad-inspired gravies.&quot;),</span>
+<span class="nc" id="L44">            new Restaurant(3L, &quot;Dosa Stories&quot;, &quot;South Indian&quot;, &quot;New Market&quot;, List.of(&quot;South Indian&quot;, &quot;Breakfast&quot;, &quot;Filter Coffee&quot;), 4.6, 19, 300, 1.7, &quot;https://images.unsplash.com/photo-1610192244261-3f33de3f55e4?auto=format&amp;fit=crop&amp;w=900&amp;q=80&quot;, &quot;Crisp dosas, ghee podi idlis, and all-day tiffin boxes.&quot;),</span>
+<span class="nc" id="L45">            new Restaurant(4L, &quot;Firestone Pizza&quot;, &quot;Pizza&quot;, &quot;Shahpura&quot;, List.of(&quot;Pizza&quot;, &quot;Italian&quot;, &quot;Sides&quot;), 4.5, 26, 550, 4.2, &quot;https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&amp;fit=crop&amp;w=900&amp;q=80&quot;, &quot;Wood-fired pizzas, garlic breads, and creamy pastas.&quot;),</span>
+<span class="nc" id="L46">            new Restaurant(5L, &quot;Stacked Burgers Co.&quot;, &quot;Burger&quot;, &quot;10 No. Market&quot;, List.of(&quot;Burger&quot;, &quot;Fries&quot;, &quot;Shakes&quot;), 4.4, 21, 400, 2.4, &quot;https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&amp;fit=crop&amp;w=900&amp;q=80&quot;, &quot;Smash burgers, peri peri fries, and thick shakes.&quot;),</span>
+<span class="nc" id="L47">            new Restaurant(6L, &quot;Velvet Spoon Desserts&quot;, &quot;Desserts&quot;, &quot;Indrapuri&quot;, List.of(&quot;Desserts&quot;, &quot;Cakes&quot;, &quot;Ice Cream&quot;), 4.9, 18, 350, 2.2, &quot;https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&amp;fit=crop&amp;w=900&amp;q=80&quot;, &quot;Cakes, waffles, brownie tubs, and baked cheesecakes.&quot;)</span>
+    ));
+<span class="nc" id="L49">    private final Set&lt;Long&gt; deletedRestaurantIds = new HashSet&lt;&gt;();</span>
+
+<span class="nc" id="L51">    public RestaurantRepository() {</span>
+<span class="nc" id="L52">        loadDeletedRestaurantIds();</span>
+<span class="nc" id="L53">    }</span>
+
+    public List&lt;Category&gt; findAllCategories() {
+<span class="nc" id="L56">        logger.debug(&quot;Repository category list requested&quot;);</span>
+<span class="nc" id="L57">        return categories;</span>
+    }
+
+    public List&lt;Restaurant&gt; findAll(String category, String search) {
+<span class="nc" id="L61">        logger.debug(&quot;Repository restaurant list requested category={} search={}&quot;, category, search);</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        String normalizedCategory = category == null ? &quot;&quot; : category.trim().toLowerCase(Locale.ROOT);</span>
+<span class="nc bnc" id="L63" title="All 2 branches missed.">        String normalizedSearch = search == null ? &quot;&quot; : search.trim().toLowerCase(Locale.ROOT);</span>
+
+<span class="nc" id="L65">        return restaurants.stream()</span>
+<span class="nc bnc" id="L66" title="All 2 branches missed.">                .filter(restaurant -&gt; !deletedRestaurantIds.contains(restaurant.id()))</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">                .filter(restaurant -&gt; normalizedCategory.isBlank()</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">                        || restaurant.category().toLowerCase(Locale.ROOT).equals(normalizedCategory))</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">                .filter(restaurant -&gt; normalizedSearch.isBlank()</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">                        || restaurant.name().toLowerCase(Locale.ROOT).contains(normalizedSearch)</span>
+<span class="nc" id="L71">                        || restaurant.cuisines().stream()</span>
+<span class="nc" id="L72">                        .map(value -&gt; value.toLowerCase(Locale.ROOT))</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">                        .anyMatch(value -&gt; value.contains(normalizedSearch)))</span>
+<span class="nc" id="L74">                .sorted(Comparator.comparingDouble(Restaurant::rating).reversed())</span>
+<span class="nc" id="L75">                .collect(Collectors.toCollection(ArrayList::new));</span>
+    }
+
+    public Restaurant findById(Long restaurantId) {
+<span class="nc" id="L79">        logger.debug(&quot;Repository restaurant lookup by id={}&quot;, restaurantId);</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">        if (deletedRestaurantIds.contains(restaurantId)) {</span>
+<span class="nc" id="L81">            throw new IllegalArgumentException(&quot;Restaurant not found&quot;);</span>
+        }
+<span class="nc" id="L83">        return restaurants.stream()</span>
+<span class="nc" id="L84">                .filter(restaurant -&gt; restaurant.id().equals(restaurantId))</span>
+<span class="nc" id="L85">                .findFirst()</span>
+<span class="nc" id="L86">                .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Restaurant not found&quot;));</span>
+    }
+
+    public boolean deleteById(Long restaurantId) {
+<span class="nc" id="L90">        logger.warn(&quot;Repository delete restaurant by id={}&quot;, restaurantId);</span>
+<span class="nc" id="L91">        boolean removed = restaurants.removeIf(restaurant -&gt; restaurant.id().equals(restaurantId));</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">        if (removed) {</span>
+<span class="nc" id="L93">            deletedRestaurantIds.add(restaurantId);</span>
+<span class="nc" id="L94">            persistDeletedRestaurantIds();</span>
+        }
+<span class="nc" id="L96">        return removed;</span>
+    }
+
+    private void loadDeletedRestaurantIds() {
+<span class="nc bnc" id="L100" title="All 2 branches missed.">        if (!Files.exists(DELETED_IDS_FILE)) {</span>
+<span class="nc" id="L101">            return;</span>
+        }
+        try {
+<span class="nc" id="L104">            List&lt;String&gt; lines = Files.readAllLines(DELETED_IDS_FILE, StandardCharsets.UTF_8);</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">            for (String line : lines) {</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">                String trimmed = line == null ? &quot;&quot; : line.trim();</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">                if (!trimmed.isBlank()) {</span>
+<span class="nc" id="L108">                    deletedRestaurantIds.add(Long.parseLong(trimmed));</span>
+                }
+<span class="nc" id="L110">            }</span>
+<span class="nc" id="L111">            logger.info(&quot;Loaded {} deleted default restaurant ids&quot;, deletedRestaurantIds.size());</span>
+<span class="nc" id="L112">        } catch (Exception ex) {</span>
+<span class="nc" id="L113">            logger.warn(&quot;Failed to load deleted default restaurant ids: {}&quot;, ex.getMessage());</span>
+<span class="nc" id="L114">        }</span>
+<span class="nc" id="L115">    }</span>
+
+    private void persistDeletedRestaurantIds() {
+        try {
+<span class="nc" id="L119">            Files.createDirectories(DELETED_IDS_FILE.getParent());</span>
+<span class="nc" id="L120">            List&lt;String&gt; lines = deletedRestaurantIds.stream()</span>
+<span class="nc" id="L121">                    .sorted()</span>
+<span class="nc" id="L122">                    .map(String::valueOf)</span>
+<span class="nc" id="L123">                    .toList();</span>
+<span class="nc" id="L124">            Files.write(DELETED_IDS_FILE, lines, StandardCharsets.UTF_8);</span>
+<span class="nc" id="L125">        } catch (IOException ex) {</span>
+<span class="nc" id="L126">            logger.warn(&quot;Failed to persist deleted default restaurant ids: {}&quot;, ex.getMessage());</span>
+<span class="nc" id="L127">        }</span>
+<span class="nc" id="L128">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

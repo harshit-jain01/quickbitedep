@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RestaurantServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">restaurant-service</a> &gt; <a href="index.source.html" class="el_package">com.quickbite.restaurant.service.impl</a> &gt; <span class="el_source">RestaurantServiceImpl.java</span></div><h1>RestaurantServiceImpl.java</h1><pre class="source lang-java linenums">package com.quickbite.restaurant.service.impl;
+
+import com.quickbite.restaurant.dto.CategoryResponse;
+import com.quickbite.restaurant.dto.RestaurantResponse;
+import com.quickbite.restaurant.model.Category;
+import com.quickbite.restaurant.model.Restaurant;
+import com.quickbite.restaurant.model.RestaurantOwnerEntity;
+import com.quickbite.restaurant.repository.RestaurantOwnerRepository;
+import com.quickbite.restaurant.repository.RestaurantRepository;
+import com.quickbite.restaurant.service.RestaurantService;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Locale;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+@Service
+public class RestaurantServiceImpl implements RestaurantService {
+
+<span class="fc" id="L22">    private static final Logger logger = LoggerFactory.getLogger(RestaurantServiceImpl.class);</span>
+
+    private static final long OWNER_RESTAURANT_ID_OFFSET = 1_000_000L;
+    private static final String DEFAULT_OWNER_IMAGE = &quot;https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&amp;fit=crop&amp;w=900&amp;q=80&quot;;
+
+    private final RestaurantRepository restaurantRepository;
+    private final RestaurantOwnerRepository restaurantOwnerRepository;
+
+    public RestaurantServiceImpl(
+            RestaurantRepository restaurantRepository,
+            RestaurantOwnerRepository restaurantOwnerRepository
+<span class="fc" id="L33">    ) {</span>
+<span class="fc" id="L34">        this.restaurantRepository = restaurantRepository;</span>
+<span class="fc" id="L35">        this.restaurantOwnerRepository = restaurantOwnerRepository;</span>
+<span class="fc" id="L36">    }</span>
+
+    @Override
+    public List&lt;CategoryResponse&gt; getCategories() {
+<span class="fc" id="L40">        logger.debug(&quot;Loading restaurant categories&quot;);</span>
+<span class="fc" id="L41">        return restaurantRepository.findAllCategories().stream()</span>
+<span class="fc" id="L42">                .map(this::toCategoryResponse)</span>
+<span class="fc" id="L43">                .toList();</span>
+    }
+
+    @Override
+    public List&lt;RestaurantResponse&gt; getRestaurants(String category, String search) {
+<span class="fc" id="L48">        logger.debug(&quot;Loading restaurants with category={} search={}&quot;, category, search);</span>
+<span class="fc" id="L49">        String normalizedCategory = normalize(category);</span>
+<span class="fc" id="L50">        String normalizedSearch = normalize(search);</span>
+
+<span class="fc" id="L52">        List&lt;Restaurant&gt; catalog = new ArrayList&lt;&gt;(restaurantRepository.findAll(null, null));</span>
+<span class="fc" id="L53">        catalog.addAll(restaurantOwnerRepository.findAll().stream()</span>
+<span class="pc bpc" id="L54" title="2 of 4 branches missed.">                .filter(owner -&gt; owner.getIsActive() == null || owner.getIsActive())</span>
+<span class="fc" id="L55">                .map(this::toRestaurantFromOwner)</span>
+<span class="fc" id="L56">                .toList());</span>
+
+<span class="fc" id="L58">        return catalog.stream()</span>
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">                .filter(restaurant -&gt; normalizedCategory.isBlank()</span>
+<span class="pc bnc" id="L60" title="All 2 branches missed.">                        || restaurant.category().toLowerCase(Locale.ROOT).equals(normalizedCategory))</span>
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">                .filter(restaurant -&gt; normalizedSearch.isBlank()</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">                        || restaurant.name().toLowerCase(Locale.ROOT).contains(normalizedSearch)</span>
+<span class="fc" id="L63">                        || restaurant.cuisines().stream()</span>
+<span class="fc" id="L64">                        .map(value -&gt; value.toLowerCase(Locale.ROOT))</span>
+<span class="pc bpc" id="L65" title="1 of 2 branches missed.">                        .anyMatch(value -&gt; value.contains(normalizedSearch)))</span>
+<span class="fc" id="L66">                .sorted(Comparator.comparingDouble(Restaurant::rating).reversed())</span>
+<span class="fc" id="L67">                .map(this::toRestaurantResponse)</span>
+<span class="fc" id="L68">                .toList();</span>
+    }
+
+    @Override
+    public RestaurantResponse getRestaurant(Long restaurantId) {
+<span class="fc" id="L73">        logger.info(&quot;Loading restaurant details for restaurantId={}&quot;, restaurantId);</span>
+<span class="pc bpc" id="L74" title="1 of 2 branches missed.">        if (restaurantId &gt;= OWNER_RESTAURANT_ID_OFFSET) {</span>
+<span class="fc" id="L75">            long ownerId = restaurantId - OWNER_RESTAURANT_ID_OFFSET;</span>
+<span class="fc" id="L76">            RestaurantOwnerEntity owner = restaurantOwnerRepository.findById(ownerId)</span>
+<span class="pc" id="L77">                    .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Restaurant not found&quot;));</span>
+<span class="pc bpc" id="L78" title="2 of 4 branches missed.">            if (owner.getIsActive() != null &amp;&amp; !owner.getIsActive()) {</span>
+<span class="fc" id="L79">                throw new IllegalArgumentException(&quot;Restaurant not found&quot;);</span>
+            }
+<span class="nc" id="L81">            return toRestaurantResponse(toRestaurantFromOwner(owner));</span>
+        }
+<span class="nc" id="L83">        return toRestaurantResponse(restaurantRepository.findById(restaurantId));</span>
+    }
+
+    @Override
+    public List&lt;RestaurantResponse&gt; getAllRestaurantsForAdmin() {
+<span class="nc" id="L88">        return getRestaurants(null, null);</span>
+    }
+
+    @Override
+    public void deleteRestaurantById(Long restaurantId) {
+<span class="fc" id="L93">        logger.warn(&quot;Deleting restaurant by id={}&quot;, restaurantId);</span>
+<span class="fc bfc" id="L94" title="All 2 branches covered.">        if (restaurantId &gt;= OWNER_RESTAURANT_ID_OFFSET) {</span>
+<span class="fc" id="L95">            long ownerId = restaurantId - OWNER_RESTAURANT_ID_OFFSET;</span>
+<span class="pc bpc" id="L96" title="1 of 2 branches missed.">            if (!restaurantOwnerRepository.existsById(ownerId)) {</span>
+<span class="nc" id="L97">                throw new IllegalArgumentException(&quot;Restaurant not found&quot;);</span>
+            }
+<span class="fc" id="L99">            restaurantOwnerRepository.deleteById(ownerId);</span>
+<span class="fc" id="L100">            return;</span>
+        }
+
+<span class="pc bpc" id="L103" title="1 of 2 branches missed.">        if (!restaurantRepository.deleteById(restaurantId)) {</span>
+<span class="fc" id="L104">            throw new IllegalArgumentException(&quot;Restaurant not found&quot;);</span>
+        }
+<span class="nc" id="L106">    }</span>
+
+    private Restaurant toRestaurantFromOwner(RestaurantOwnerEntity owner) {
+<span class="pc bpc" id="L109" title="2 of 4 branches missed.">        String cuisineType = owner.getCuisineType() == null || owner.getCuisineType().isBlank()</span>
+<span class="nc" id="L110">                ? &quot;Multi-cuisine&quot;</span>
+<span class="fc" id="L111">                : owner.getCuisineType().trim();</span>
+<span class="fc" id="L112">        List&lt;String&gt; cuisines = parseCuisines(cuisineType);</span>
+<span class="pc bpc" id="L113" title="2 of 4 branches missed.">        String area = owner.getCity() != null &amp;&amp; !owner.getCity().isBlank()</span>
+<span class="fc" id="L114">                ? owner.getCity()</span>
+<span class="pc bnc" id="L115" title="All 4 branches missed.">                : (owner.getAddress() != null &amp;&amp; !owner.getAddress().isBlank() ? owner.getAddress() : &quot;Your area&quot;);</span>
+<span class="pc bpc" id="L116" title="1 of 2 branches missed.">        int deliveryTime = owner.getEstimatedDeliveryTime() != null ? owner.getEstimatedDeliveryTime() : 30;</span>
+<span class="pc bpc" id="L117" title="1 of 2 branches missed.">        int priceForTwo = owner.getMinimumOrderAmount() != null</span>
+<span class="fc" id="L118">                ? Math.max(200, (int) Math.round(owner.getMinimumOrderAmount() * 2))</span>
+<span class="pc" id="L119">                : 400;</span>
+<span class="pc bpc" id="L120" title="3 of 4 branches missed.">        String imageUrl = owner.getImageUrl() != null &amp;&amp; !owner.getImageUrl().isBlank()</span>
+<span class="nc" id="L121">                ? owner.getImageUrl()</span>
+<span class="fc" id="L122">                : DEFAULT_OWNER_IMAGE;</span>
+
+<span class="fc" id="L124">        return new Restaurant(</span>
+<span class="fc" id="L125">                OWNER_RESTAURANT_ID_OFFSET + owner.getId(),</span>
+<span class="fc" id="L126">                owner.getRestaurantName(),</span>
+<span class="fc" id="L127">                cuisines.get(0),</span>
+                area,
+                cuisines,
+                4.2,
+                deliveryTime,
+                priceForTwo,
+                2.5,
+                imageUrl,
+                &quot;Freshly onboarded restaurant partner&quot;
+        );
+    }
+
+    private List&lt;String&gt; parseCuisines(String cuisineType) {
+<span class="fc" id="L140">        List&lt;String&gt; cuisines = java.util.Arrays.stream(cuisineType.split(&quot;,&quot;))</span>
+<span class="fc" id="L141">                .map(String::trim)</span>
+<span class="pc bpc" id="L142" title="1 of 2 branches missed.">                .filter(value -&gt; !value.isBlank())</span>
+<span class="fc" id="L143">                .toList();</span>
+<span class="pc bpc" id="L144" title="1 of 2 branches missed.">        if (cuisines.isEmpty()) {</span>
+<span class="nc" id="L145">            return List.of(&quot;Multi-cuisine&quot;);</span>
+        }
+<span class="fc" id="L147">        return cuisines;</span>
+    }
+
+    private String normalize(String value) {
+<span class="fc bfc" id="L151" title="All 2 branches covered.">        return value == null ? &quot;&quot; : value.trim().toLowerCase(Locale.ROOT);</span>
+    }
+
+    private CategoryResponse toCategoryResponse(Category category) {
+<span class="fc" id="L155">        return new CategoryResponse(category.id(), category.name(), category.imageUrl());</span>
+    }
+
+    private RestaurantResponse toRestaurantResponse(Restaurant restaurant) {
+<span class="fc" id="L159">        return new RestaurantResponse(</span>
+<span class="fc" id="L160">                restaurant.id(),</span>
+<span class="fc" id="L161">                restaurant.name(),</span>
+<span class="fc" id="L162">                restaurant.category(),</span>
+<span class="fc" id="L163">                restaurant.area(),</span>
+<span class="fc" id="L164">                restaurant.cuisines(),</span>
+<span class="fc" id="L165">                restaurant.rating(),</span>
+<span class="fc" id="L166">                restaurant.deliveryTimeMinutes(),</span>
+<span class="fc" id="L167">                restaurant.priceForTwo(),</span>
+<span class="fc" id="L168">                restaurant.distanceKm(),</span>
+<span class="fc" id="L169">                restaurant.imageUrl(),</span>
+<span class="fc" id="L170">                restaurant.description()</span>
+        );
+    }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

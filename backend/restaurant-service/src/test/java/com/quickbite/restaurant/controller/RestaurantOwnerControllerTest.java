@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.quickbite.restaurant.client.OrderServiceClient;
+import com.quickbite.restaurant.client.ReviewServiceClient;
 import com.quickbite.restaurant.dto.RestaurantOwnerProfileResponse;
 import com.quickbite.restaurant.exception.GlobalExceptionHandler;
 import com.quickbite.restaurant.security.JwtAuthenticationFilter;
@@ -51,6 +52,9 @@ class RestaurantOwnerControllerTest {
 
     @MockBean
     private OrderServiceClient orderServiceClient;
+
+        @MockBean
+        private ReviewServiceClient reviewServiceClient;
 
     @MockBean
     private JwtAuthenticationFilter jwtAuthenticationFilter;

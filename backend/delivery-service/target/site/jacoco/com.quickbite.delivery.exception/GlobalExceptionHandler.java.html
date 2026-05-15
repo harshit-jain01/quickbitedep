@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GlobalExceptionHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">delivery-service</a> &gt; <a href="index.source.html" class="el_package">com.quickbite.delivery.exception</a> &gt; <span class="el_source">GlobalExceptionHandler.java</span></div><h1>GlobalExceptionHandler.java</h1><pre class="source lang-java linenums">package com.quickbite.delivery.exception;
+
+import java.time.Instant;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.server.ResponseStatusException;
+
+@RestControllerAdvice
+<span class="fc" id="L14">public class GlobalExceptionHandler {</span>
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; handleValidation(MethodArgumentNotValidException ex) {
+<span class="nc" id="L18">        String message = ex.getBindingResult().getFieldErrors().stream()</span>
+<span class="nc" id="L19">                .findFirst()</span>
+<span class="nc" id="L20">                .map(error -&gt; error.getField() + &quot; &quot; + error.getDefaultMessage())</span>
+<span class="nc" id="L21">                .orElse(&quot;Validation failed&quot;);</span>
+<span class="nc" id="L22">        Map&lt;String, Object&gt; body = new LinkedHashMap&lt;&gt;();</span>
+<span class="nc" id="L23">        body.put(&quot;timestamp&quot;, Instant.now().toString());</span>
+<span class="nc" id="L24">        body.put(&quot;status&quot;, HttpStatus.BAD_REQUEST.value());</span>
+<span class="nc" id="L25">        body.put(&quot;error&quot;, HttpStatus.BAD_REQUEST.getReasonPhrase());</span>
+<span class="nc" id="L26">        body.put(&quot;message&quot;, message);</span>
+<span class="nc" id="L27">        return ResponseEntity.badRequest().body(body);</span>
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; handleIllegalArgument(IllegalArgumentException ex) {
+<span class="nc" id="L32">        Map&lt;String, Object&gt; body = new LinkedHashMap&lt;&gt;();</span>
+<span class="nc" id="L33">        body.put(&quot;timestamp&quot;, Instant.now().toString());</span>
+<span class="nc" id="L34">        body.put(&quot;status&quot;, HttpStatus.BAD_REQUEST.value());</span>
+<span class="nc" id="L35">        body.put(&quot;error&quot;, HttpStatus.BAD_REQUEST.getReasonPhrase());</span>
+<span class="nc" id="L36">        body.put(&quot;message&quot;, ex.getMessage());</span>
+<span class="nc" id="L37">        return ResponseEntity.badRequest().body(body);</span>
+    }
+
+    @ExceptionHandler(ResponseStatusException.class)
+    public ResponseEntity&lt;Map&lt;String, Object&gt;&gt; handleResponseStatus(ResponseStatusException ex) {
+<span class="fc" id="L42">        Map&lt;String, Object&gt; body = new LinkedHashMap&lt;&gt;();</span>
+<span class="fc" id="L43">        body.put(&quot;timestamp&quot;, Instant.now().toString());</span>
+<span class="fc" id="L44">        body.put(&quot;status&quot;, ex.getStatusCode().value());</span>
+<span class="fc" id="L45">        body.put(&quot;error&quot;, HttpStatus.valueOf(ex.getStatusCode().value()).getReasonPhrase());</span>
+<span class="pc bpc" id="L46" title="1 of 2 branches missed.">        body.put(&quot;message&quot;, ex.getReason() == null ? &quot;Request failed&quot; : ex.getReason());</span>
+<span class="fc" id="L47">        return ResponseEntity.status(ex.getStatusCode()).body(body);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
