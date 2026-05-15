@@ -1,66 +1,149 @@
+name: quickbite-prod
+
+x-backend-common: &backend-common
+  restart: unless-stopped
+  environment:
+    EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+    JWT_SECRET: ${JWT_SECRET}
+
+x-mysql-common: &mysql-common
+  MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-abcd}
+  MYSQL_PASSWORD: ${MYSQL_PASSWORD:-abcd}
+
 services:
-  eureka-server:
-    image: harshitjain011/eureka-server:latest
-
-  api-gateway:
-    image: harshitjain011/api-gateway:latest
-    environment:
-      JWT_SECRET: ${JWT_SECRET}
-
-  auth-service:
-    image: harshitjain011/auth-service:latest
+  mysql:
+    image: mysql:8.4
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-abcd}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-abcd}
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  kafka:
+    image: apache/kafka:3.7.2
+    restart: unless-stopped
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    volumes:
+      - kafka-data:/tmp/kraft-combined-logs
+
+  eureka-server:
+    image: harshitjain011/eureka-server:latest
+    restart: unless-stopped
+    ports:
+      - "8761:8761"
+
+  api-gateway:
+    <<: *backend-common
+    image: harshitjain011/api-gateway:latest
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      AUTH_SERVICE_URI: lb://AUTH-SERVICE
+      RESTAURANT_SERVICE_URI: lb://RESTAURANT-SERVICE
+      ORDER_SERVICE_URI: lb://ORDER-SERVICE
+      CART_SERVICE_URI: lb://CART-SERVICE
+      TRACKING_SERVICE_URI: lb://TRACKING-SERVICE
+      JWT_SECRET: ${JWT_SECRET}
+    ports:
+      - "9090:9090"
+
+  auth-service:
+    <<: *backend-common
+    image: harshitjain011/auth-service:latest
+    environment:
+      <<: *mysql-common
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: quickbite_auth
+      MYSQL_USERNAME: root
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      APP_OAUTH2_REDIRECT_URI: ${APP_OAUTH2_REDIRECT_URI:-http://localhost/oauth/callback}
       JWT_SECRET: ${JWT_SECRET}
 
   restaurant-service:
+    <<: *backend-common
     image: harshitjain011/restaurant-service:latest
     environment:
+      <<: *mysql-common
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/quickbite_restaurant?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&createDatabaseIfNotExist=true
+      CLOUDINARY_ENABLED: "false"
       JWT_SECRET: ${JWT_SECRET}
 
   menu-service:
+    <<: *backend-common
     image: harshitjain011/menu-service:latest
     environment:
+      <<: *mysql-common
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/quickbite_menu?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&createDatabaseIfNotExist=true
+      CLOUDINARY_ENABLED: "false"
       JWT_SECRET: ${JWT_SECRET}
 
   cart-service:
+    <<: *backend-common
     image: harshitjain011/cart-service:latest
     environment:
+      <<: *mysql-common
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/quickbite_cart?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&createDatabaseIfNotExist=true
       JWT_SECRET: ${JWT_SECRET}
 
   order-service:
+    <<: *backend-common
     image: harshitjain011/order-service:latest
     environment:
-      ORDER_DB_PASSWORD: ${MYSQL_PASSWORD:-abcd}
+      <<: *mysql-common
+      ORDER_DB_URL: jdbc:mysql://mysql:3306/quickbite_order?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      ORDER_DB_USERNAME: root
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       JWT_SECRET: ${JWT_SECRET}
 
   payment-service:
+    <<: *backend-common
     image: harshitjain011/payment-service:latest
     environment:
+      <<: *mysql-common
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/quickbite_payment?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&createDatabaseIfNotExist=true
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       RAZORPAY_KEY_ID: ${RAZORPAY_KEY_ID}
       RAZORPAY_KEY_SECRET: ${RAZORPAY_KEY_SECRET}
       JWT_SECRET: ${JWT_SECRET}
 
   delivery-service:
+    <<: *backend-common
     image: harshitjain011/delivery-service:latest
     environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       JWT_SECRET: ${JWT_SECRET}
 
   review-service:
+    <<: *backend-common
     image: harshitjain011/review-service:latest
     environment:
+      <<: *mysql-common
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/quickbite_review?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&createDatabaseIfNotExist=true
       JWT_SECRET: ${JWT_SECRET}
 
   tracking-service:
+    <<: *backend-common
     image: harshitjain011/tracking-service:latest
 
   frontend:
     image: harshitjain011/frontend:latest
+    restart: unless-stopped
+    ports:
+      - "80:80"
 
-  mysql:
-    image: mysql:8.4
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-abcd}
+volumes:
+  mysql-data:
+  kafka-data:
