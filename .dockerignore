@@ -1,0 +1,11 @@
+.git
+.github
+**/target
+**/node_modules
+**/dist
+**/build
+**/coverage
+**/.env
+**/*.log
+**/OnlineFoodDeliveryPlatform-Backend-main/OnlineFoodDeliveryPlatform-Backend-main
+**/OnlineFoodDeliveryPlatform-Frontend-main/OnlineFoodDeliveryPlatform-Frontend-main

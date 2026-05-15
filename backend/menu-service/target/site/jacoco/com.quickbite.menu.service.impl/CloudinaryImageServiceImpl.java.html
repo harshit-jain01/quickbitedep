@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CloudinaryImageServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">menu-service</a> &gt; <a href="index.source.html" class="el_package">com.quickbite.menu.service.impl</a> &gt; <span class="el_source">CloudinaryImageServiceImpl.java</span></div><h1>CloudinaryImageServiceImpl.java</h1><pre class="source lang-java linenums">package com.quickbite.menu.service.impl;
+
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import com.quickbite.menu.service.CloudinaryImageService;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.LinkedHashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+@Service
+public class CloudinaryImageServiceImpl implements CloudinaryImageService {
+
+<span class="nc" id="L26">    private static final Logger logger = LoggerFactory.getLogger(CloudinaryImageServiceImpl.class);</span>
+
+<span class="nc" id="L28">    private static final Set&lt;String&gt; ALLOWED_CONTENT_TYPES = Set.of(</span>
+            &quot;image/jpeg&quot;,
+            &quot;image/png&quot;,
+            &quot;image/webp&quot;
+    );
+<span class="nc" id="L33">    private static final Set&lt;String&gt; ALLOWED_EXTENSIONS = Set.of(&quot;jpg&quot;, &quot;jpeg&quot;, &quot;png&quot;, &quot;webp&quot;);</span>
+
+    private final Cloudinary cloudinary;
+    private final String folder;
+
+    public CloudinaryImageServiceImpl(
+            ObjectProvider&lt;Cloudinary&gt; cloudinaryProvider,
+            @Value(&quot;${cloudinary.folder:quickbite/menu-items}&quot;) String folder,
+            @Value(&quot;${cloudinary.enabled:false}&quot;) boolean enabled,
+            @Value(&quot;${cloudinary.cloud-name:}&quot;) String cloudName,
+            @Value(&quot;${cloudinary.api-key:}&quot;) String apiKey,
+            @Value(&quot;${cloudinary.api-secret:}&quot;) String apiSecret
+<span class="nc" id="L45">    ) {</span>
+<span class="nc" id="L46">        this.cloudinary = resolveCloudinary(cloudinaryProvider.getIfAvailable(), enabled, cloudName, apiKey, apiSecret);</span>
+<span class="nc" id="L47">        this.folder = folder;</span>
+<span class="nc" id="L48">    }</span>
+
+    @Override
+    public String uploadMenuItemImage(MultipartFile imageFile, Long restaurantId) {
+<span class="nc" id="L52">        logger.info(&quot;Uploading menu item image for restaurantId={}&quot;, restaurantId);</span>
+<span class="nc bnc" id="L53" title="All 4 branches missed.">        if (imageFile == null || imageFile.isEmpty()) {</span>
+<span class="nc" id="L54">            throw new IllegalArgumentException(&quot;Menu item image is required&quot;);</span>
+        }
+
+<span class="nc" id="L57">        validateImageFormat(imageFile);</span>
+
+<span class="nc bnc" id="L59" title="All 2 branches missed.">        if (cloudinary == null) {</span>
+<span class="nc" id="L60">            throw new IllegalStateException(&quot;Cloudinary is disabled. Set CLOUDINARY_ENABLED=true and provide CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, and CLOUDINARY_API_SECRET.&quot;);</span>
+        }
+
+        try {
+<span class="nc bnc" id="L64" title="All 2 branches missed.">            String originalFilename = imageFile.getOriginalFilename() == null ? &quot;menu-item-image&quot; : imageFile.getOriginalFilename();</span>
+<span class="nc" id="L65">            Map&lt;?, ?&gt; uploadResult = cloudinary.uploader().upload(</span>
+<span class="nc" id="L66">                    imageFile.getBytes(),</span>
+<span class="nc" id="L67">                    ObjectUtils.asMap(</span>
+                            &quot;folder&quot;, folder,
+<span class="nc" id="L69">                            &quot;public_id&quot;, &quot;restaurant_&quot; + restaurantId + &quot;_item_&quot; + UUID.randomUUID(),</span>
+<span class="nc" id="L70">                            &quot;overwrite&quot;, true,</span>
+                            &quot;resource_type&quot;, &quot;image&quot;,
+<span class="nc" id="L72">                            &quot;use_filename&quot;, true,</span>
+                            &quot;filename_override&quot;, originalFilename
+                    )
+            );
+
+<span class="nc" id="L77">            Object secureUrl = uploadResult.get(&quot;secure_url&quot;);</span>
+<span class="nc bnc" id="L78" title="All 4 branches missed.">            if (secureUrl == null || secureUrl.toString().isBlank()) {</span>
+<span class="nc" id="L79">                throw new IllegalStateException(&quot;Cloudinary upload did not return a URL&quot;);</span>
+            }
+
+<span class="nc" id="L82">            return secureUrl.toString();</span>
+<span class="nc" id="L83">        } catch (IOException ioException) {</span>
+<span class="nc" id="L84">            logger.error(&quot;Failed to read menu image file for restaurantId={}&quot;, restaurantId, ioException);</span>
+<span class="nc" id="L85">            throw new RuntimeException(&quot;Failed to read image file&quot;, ioException);</span>
+<span class="nc" id="L86">        } catch (Exception exception) {</span>
+<span class="nc" id="L87">            logger.error(&quot;Failed to upload menu image for restaurantId={}&quot;, restaurantId, exception);</span>
+<span class="nc" id="L88">            throw new RuntimeException(&quot;Failed to upload image to Cloudinary: &quot; + exception.getMessage(), exception);</span>
+        }
+    }
+
+    private Cloudinary resolveCloudinary(Cloudinary existing, boolean enabled, String cloudName, String apiKey, String apiSecret) {
+<span class="nc bnc" id="L93" title="All 2 branches missed.">        if (existing != null) {</span>
+<span class="nc" id="L94">            return existing;</span>
+        }
+
+<span class="nc" id="L97">        Map&lt;String, String&gt; dotenv = readDotEnvValues();</span>
+<span class="nc" id="L98">        String resolvedCloudName = firstNonBlank(cloudName, System.getenv(&quot;CLOUDINARY_CLOUD_NAME&quot;), dotenv.get(&quot;CLOUDINARY_CLOUD_NAME&quot;));</span>
+<span class="nc" id="L99">        String resolvedApiKey = firstNonBlank(apiKey, System.getenv(&quot;CLOUDINARY_API_KEY&quot;), dotenv.get(&quot;CLOUDINARY_API_KEY&quot;));</span>
+<span class="nc" id="L100">        String resolvedApiSecret = firstNonBlank(apiSecret, System.getenv(&quot;CLOUDINARY_API_SECRET&quot;), dotenv.get(&quot;CLOUDINARY_API_SECRET&quot;));</span>
+<span class="nc" id="L101">        String envEnabled = firstNonBlank(System.getenv(&quot;CLOUDINARY_ENABLED&quot;), dotenv.get(&quot;CLOUDINARY_ENABLED&quot;));</span>
+
+<span class="nc bnc" id="L103" title="All 6 branches missed.">        boolean hasCredentials = isNotBlank(resolvedCloudName) &amp;&amp; isNotBlank(resolvedApiKey) &amp;&amp; isNotBlank(resolvedApiSecret);</span>
+<span class="nc bnc" id="L104" title="All 8 branches missed.">        boolean resolvedEnabled = enabled || &quot;true&quot;.equalsIgnoreCase(envEnabled) || (isBlank(envEnabled) &amp;&amp; hasCredentials);</span>
+<span class="nc bnc" id="L105" title="All 4 branches missed.">        if (!resolvedEnabled || !hasCredentials) {</span>
+<span class="nc" id="L106">            return null;</span>
+        }
+
+<span class="nc" id="L109">        return new Cloudinary(ObjectUtils.asMap(</span>
+                &quot;cloud_name&quot;, resolvedCloudName,
+                &quot;api_key&quot;, resolvedApiKey,
+                &quot;api_secret&quot;, resolvedApiSecret,
+<span class="nc" id="L113">                &quot;secure&quot;, true</span>
+        ));
+    }
+
+    private Map&lt;String, String&gt; readDotEnvValues() {
+<span class="nc" id="L118">        Map&lt;String, String&gt; values = new LinkedHashMap&lt;&gt;();</span>
+<span class="nc" id="L119">        Path[] candidates = new Path[] {</span>
+<span class="nc" id="L120">                Paths.get(&quot;.env&quot;),</span>
+<span class="nc" id="L121">                Paths.get(&quot;menu-service&quot;, &quot;.env&quot;),</span>
+<span class="nc" id="L122">                Paths.get(&quot;restaurant-service&quot;, &quot;.env&quot;),</span>
+<span class="nc" id="L123">                Paths.get(System.getProperty(&quot;user.dir&quot;, &quot;.&quot;), &quot;.env&quot;),</span>
+<span class="nc" id="L124">                Paths.get(System.getProperty(&quot;user.dir&quot;, &quot;.&quot;), &quot;menu-service&quot;, &quot;.env&quot;),</span>
+<span class="nc" id="L125">                Paths.get(System.getProperty(&quot;user.dir&quot;, &quot;.&quot;), &quot;restaurant-service&quot;, &quot;.env&quot;)</span>
+        };
+
+<span class="nc bnc" id="L128" title="All 2 branches missed.">        for (Path path : candidates) {</span>
+<span class="nc bnc" id="L129" title="All 2 branches missed.">            if (!Files.exists(path)) {</span>
+<span class="nc" id="L130">                continue;</span>
+            }
+
+            try {
+<span class="nc bnc" id="L134" title="All 2 branches missed.">                for (String rawLine : Files.readAllLines(path, StandardCharsets.UTF_8)) {</span>
+<span class="nc" id="L135">                    String line = rawLine.trim();</span>
+<span class="nc bnc" id="L136" title="All 4 branches missed.">                    if (line.startsWith(&quot;#&quot;) || !line.contains(&quot;=&quot;)) {</span>
+<span class="nc" id="L137">                        continue;</span>
+                    }
+<span class="nc" id="L139">                    int separator = line.indexOf('=');</span>
+<span class="nc bnc" id="L140" title="All 2 branches missed.">                    if (separator &lt;= 0) {</span>
+<span class="nc" id="L141">                        continue;</span>
+                    }
+<span class="nc" id="L143">                    String key = line.substring(0, separator).trim();</span>
+<span class="nc" id="L144">                    String value = stripQuotes(line.substring(separator + 1).trim());</span>
+<span class="nc bnc" id="L145" title="All 4 branches missed.">                    if (!key.isEmpty() &amp;&amp; !values.containsKey(key)) {</span>
+<span class="nc" id="L146">                        values.put(key, value);</span>
+                    }
+<span class="nc" id="L148">                }</span>
+<span class="nc" id="L149">            } catch (IOException ignored) {</span>
+                // Ignore parse failures and continue with other sources.
+<span class="nc" id="L151">                logger.debug(&quot;Skipping unreadable dotenv path={} for Cloudinary config&quot;, path);</span>
+<span class="nc" id="L152">            }</span>
+        }
+
+<span class="nc" id="L155">        return values;</span>
+    }
+
+    private String stripQuotes(String value) {
+<span class="nc bnc" id="L159" title="All 4 branches missed.">        if (value == null || value.length() &lt; 2) {</span>
+<span class="nc" id="L160">            return value;</span>
+        }
+<span class="nc bnc" id="L162" title="All 8 branches missed.">        if ((value.startsWith(&quot;\&quot;&quot;) &amp;&amp; value.endsWith(&quot;\&quot;&quot;)) || (value.startsWith(&quot;'&quot;) &amp;&amp; value.endsWith(&quot;'&quot;))) {</span>
+<span class="nc" id="L163">            return value.substring(1, value.length() - 1);</span>
+        }
+<span class="nc" id="L165">        return value;</span>
+    }
+
+    private String firstNonBlank(String... candidates) {
+<span class="nc bnc" id="L169" title="All 2 branches missed.">        for (String candidate : candidates) {</span>
+<span class="nc bnc" id="L170" title="All 2 branches missed.">            if (isNotBlank(candidate)) {</span>
+<span class="nc" id="L171">                return candidate.trim();</span>
+            }
+        }
+<span class="nc" id="L174">        return null;</span>
+    }
+
+    private boolean isBlank(String value) {
+<span class="nc bnc" id="L178" title="All 4 branches missed.">        return value == null || value.trim().isEmpty();</span>
+    }
+
+    private boolean isNotBlank(String value) {
+<span class="nc bnc" id="L182" title="All 2 branches missed.">        return !isBlank(value);</span>
+    }
+
+    private void validateImageFormat(MultipartFile imageFile) {
+<span class="nc" id="L186">        String contentType = imageFile.getContentType();</span>
+<span class="nc" id="L187">        String extension = getFileExtension(imageFile.getOriginalFilename());</span>
+
+<span class="nc bnc" id="L189" title="All 4 branches missed.">        boolean allowedType = contentType != null &amp;&amp; ALLOWED_CONTENT_TYPES.contains(contentType.toLowerCase(Locale.ROOT));</span>
+<span class="nc bnc" id="L190" title="All 4 branches missed.">        boolean allowedExtension = extension != null &amp;&amp; ALLOWED_EXTENSIONS.contains(extension);</span>
+
+<span class="nc bnc" id="L192" title="All 4 branches missed.">        if (!allowedType &amp;&amp; !allowedExtension) {</span>
+<span class="nc" id="L193">            throw new IllegalArgumentException(&quot;Unsupported image format. Please upload JPG, PNG, or WEBP.&quot;);</span>
+        }
+<span class="nc" id="L195">    }</span>
+
+    private String getFileExtension(String filename) {
+<span class="nc bnc" id="L198" title="All 6 branches missed.">        if (filename == null || filename.isBlank() || !filename.contains(&quot;.&quot;)) {</span>
+<span class="nc" id="L199">            return null;</span>
+        }
+<span class="nc" id="L201">        int dotIndex = filename.lastIndexOf('.');</span>
+<span class="nc bnc" id="L202" title="All 4 branches missed.">        if (dotIndex &lt; 0 || dotIndex == filename.length() - 1) {</span>
+<span class="nc" id="L203">            return null;</span>
+        }
+<span class="nc" id="L205">        return filename.substring(dotIndex + 1).toLowerCase(Locale.ROOT);</span>
+    }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

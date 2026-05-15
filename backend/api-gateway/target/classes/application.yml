@@ -1,0 +1,139 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: api-gateway
+  codec:
+    max-in-memory-size: 20MB
+  cloud:
+    gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials, RETAIN_UNIQUE
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - http://localhost:5173
+              - http://127.0.0.1:5173
+              - http://localhost:3000
+              - http://127.0.0.1:3000
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - PATCH
+              - DELETE
+              - OPTIONS
+            allowedHeaders:
+              - Authorization
+              - Content-Type
+              - Accept
+              - Origin
+              - X-Requested-With
+            allowCredentials: true
+            exposedHeaders:
+              - Authorization
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: admin-auth-dashboard
+          uri: ${AUTH_SERVICE_URI:lb://AUTH-SERVICE}
+          predicates:
+            - Path=/api/v1/admin/dashboard
+        - id: admin-auth-users
+          uri: ${AUTH_SERVICE_URI:lb://AUTH-SERVICE}
+          predicates:
+            - Path=/api/v1/admin/users,/api/v1/admin/users/**
+        - id: admin-restaurant-service
+          uri: ${RESTAURANT_SERVICE_URI:lb://RESTAURANT-SERVICE}
+          predicates:
+            - Path=/api/v1/admin/restaurants,/api/v1/admin/restaurants/**,/api/v1/admin/owners,/api/v1/admin/owners/**
+        - id: admin-order-service
+          uri: ${ORDER_SERVICE_URI:lb://ORDER-SERVICE}
+          predicates:
+            - Path=/api/v1/admin/orders,/api/v1/admin/orders/**
+        - id: auth-service
+          uri: ${AUTH_SERVICE_URI:lb://AUTH-SERVICE}
+          predicates:
+            - Path=/api/v1/auth/**
+        - id: restaurant-service
+          uri: lb://RESTAURANT-SERVICE
+          predicates:
+            - Path=/api/v1/restaurants/**
+        - id: restaurant-owner-service
+          uri: lb://RESTAURANT-SERVICE
+          predicates:
+            - Path=/api/v1/restaurant-owner/**
+        - id: menu-service
+          uri: lb://MENU-SERVICE
+          predicates:
+            - Path=/api/v1/menu/**
+        - id: cart-service
+          uri: ${CART_SERVICE_URI:lb://CART-SERVICE}
+          predicates:
+            - Path=/api/v1/cart/**
+        - id: order-service
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/api/v1/orders/**
+        - id: payment-service
+          uri: lb://PAYMENT-SERVICE
+          predicates:
+            - Path=/api/v1/payments/**
+        - id: delivery-service
+          uri: lb://DELIVERY-SERVICE
+          predicates:
+            - Path=/api/v1/agents,/api/v1/agents/**
+        - id: review-service
+          uri: lb://REVIEW-SERVICE
+          predicates:
+            - Path=/api/v1/reviews/**
+        - id: tracking-service
+          uri: ${TRACKING_SERVICE_URI:lb://TRACKING-SERVICE}
+          predicates:
+            - Path=/api/v1/tracking/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
+
+security:
+  jwt:
+    secret: ${JWT_SECRET:UVVpY2tCaXRlU3VwZXJTZWNyZXRLZXlGb3JKV1RTaWduaW5nMTIzNDU2Nzg5MA==}
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    urls:
+      - name: Auth Service
+        url: /auth-service/v3/api-docs
+      - name: Restaurant Service
+        url: /restaurant-service/v3/api-docs
+      - name: Menu Service
+        url: /menu-service/v3/api-docs
+      - name: Cart Service
+        url: /cart-service/v3/api-docs
+      - name: Order Service
+        url: /order-service/v3/api-docs
+      - name: Payment Service
+        url: /payment-service/v3/api-docs
+      - name: Delivery Service
+        url: /delivery-service/v3/api-docs
+      - name: Review Service
+        url: /review-service/v3/api-docs
+      - name: Tracking Service
+        url: /tracking-service/v3/api-docs

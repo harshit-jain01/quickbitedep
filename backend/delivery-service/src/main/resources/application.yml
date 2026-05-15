@@ -1,0 +1,26 @@
+server:
+  port: 8087
+
+spring:
+  application:
+    name: delivery-service
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}}
+    consumer:
+      group-id: ${KAFKA_DELIVERY_GROUP_ID:delivery-service-order-events-group}
+      auto-offset-reset: latest
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+app:
+  kafka:
+    order-events-topic: ${ORDER_EVENTS_TOPIC:order-events}

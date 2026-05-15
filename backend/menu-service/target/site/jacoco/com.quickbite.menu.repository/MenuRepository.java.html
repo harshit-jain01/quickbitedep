@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MenuRepository.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">menu-service</a> &gt; <a href="index.source.html" class="el_package">com.quickbite.menu.repository</a> &gt; <span class="el_source">MenuRepository.java</span></div><h1>MenuRepository.java</h1><pre class="source lang-java linenums">package com.quickbite.menu.repository;
+
+import com.quickbite.menu.model.MenuItem;
+import java.util.List;
+import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
+
+@Repository
+<span class="nc" id="L11">public class MenuRepository {</span>
+
+<span class="nc" id="L13">    private static final Logger logger = LoggerFactory.getLogger(MenuRepository.class);</span>
+
+<span class="nc" id="L15">    private final Map&lt;Long, List&lt;MenuItem&gt;&gt; menuByRestaurant = Map.of(</span>
+<span class="nc" id="L16">            1L, List.of(</span>
+<span class="nc" id="L17">                    new MenuItem(101L, 1L, &quot;Royal North Indian Thali&quot;, &quot;Paneer, dal makhani, naan, pulao and dessert.&quot;, &quot;Recommended&quot;, 289, true, true, &quot;https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&amp;fit=crop&amp;w=700&amp;q=80&quot;),</span>
+<span class="nc" id="L18">                    new MenuItem(102L, 1L, &quot;Butter Chicken Bowl&quot;, &quot;Creamy tomato gravy with smoked tandoori chicken.&quot;, &quot;Recommended&quot;, 325, false, true, &quot;https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&amp;fit=crop&amp;w=700&amp;q=80&quot;),</span>
+<span class="nc" id="L19">                    new MenuItem(103L, 1L, &quot;Tandoori Paneer Tikka&quot;, &quot;Charred cottage cheese skewers with mint chutney.&quot;, &quot;Starters&quot;, 249, true, false, &quot;https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8?auto=format&amp;fit=crop&amp;w=700&amp;q=80&quot;)</span>
+            ),
+<span class="nc" id="L21">            2L, List.of(</span>
+<span class="nc" id="L22">                    new MenuItem(201L, 2L, &quot;Hyderabadi Chicken Biryani&quot;, &quot;Layered dum biryani with saffron and raita.&quot;, &quot;Biryani&quot;, 349, false, true, &quot;https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?auto=format&amp;fit=crop&amp;w=700&amp;q=80&quot;),</span>
+<span class="nc" id="L23">                    new MenuItem(202L, 2L, &quot;Paneer Tikka Biryani&quot;, &quot;Rich paneer biryani with masala onions.&quot;, &quot;Biryani&quot;, 309, true, true, &quot;https://images.unsplash.com/photo-1642821373181-696a54913e93?auto=format&amp;fit=crop&amp;w=700&amp;q=80&quot;),</span>
+<span class="nc" id="L24">                    new MenuItem(203L, 2L, &quot;Mutton Seekh Kebab&quot;, &quot;Juicy kebabs with rumali roti.&quot;, &quot;Sides&quot;, 369, false, false, &quot;https://images.unsplash.com/photo-1529006557810-274b9b2fc783?auto=format&amp;fit=crop&amp;w=700&amp;q=80&quot;)</span>
+            ),
+<span class="nc" id="L26">            3L, List.of(</span>
+<span class="nc" id="L27">                    new MenuItem(301L, 3L, &quot;Masala Dosa&quot;, &quot;Classic dosa with potato filling and chutneys.&quot;, &quot;Breakfast&quot;, 159, true, true, &quot;https://images.unsplash.com/photo-1668236543090-82eba5ee5976?auto=format&amp;fit=crop&amp;w=700&amp;q=80&quot;),</span>
+<span class="nc" id="L28">                    new MenuItem(302L, 3L, &quot;Podi Idli&quot;, &quot;Mini idlis tossed in spicy gunpowder.&quot;, &quot;Breakfast&quot;, 129, true, false, &quot;https://images.unsplash.com/photo-1626074353765-517a681e40be?auto=format&amp;fit=crop&amp;w=700&amp;q=80&quot;),</span>
+<span class="nc" id="L29">                    new MenuItem(303L, 3L, &quot;Filter Coffee&quot;, &quot;Strong South Indian filter coffee.&quot;, &quot;Beverages&quot;, 79, true, false, &quot;https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&amp;fit=crop&amp;w=700&amp;q=80&quot;)</span>
+            ),
+<span class="nc" id="L31">            4L, List.of(</span>
+<span class="nc" id="L32">                    new MenuItem(401L, 4L, &quot;Farmhouse Pizza&quot;, &quot;Bell peppers, onions, olives and mozzarella.&quot;, &quot;Pizzas&quot;, 379, true, true, &quot;https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&amp;fit=crop&amp;w=700&amp;q=80&quot;),</span>
+<span class="nc" id="L33">                    new MenuItem(402L, 4L, &quot;Pepperoni Blast&quot;, &quot;Pepperoni, cheese and roasted garlic.&quot;, &quot;Pizzas&quot;, 429, false, true, &quot;https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&amp;fit=crop&amp;w=700&amp;q=80&quot;),</span>
+<span class="nc" id="L34">                    new MenuItem(403L, 4L, &quot;Creamy Alfredo Pasta&quot;, &quot;Penne pasta in parmesan cream sauce.&quot;, &quot;Pasta&quot;, 299, true, false, &quot;https://images.unsplash.com/photo-1645112411341-6c4fd023714a?auto=format&amp;fit=crop&amp;w=700&amp;q=80&quot;)</span>
+            ),
+<span class="nc" id="L36">            5L, List.of(</span>
+<span class="nc" id="L37">                    new MenuItem(501L, 5L, &quot;Classic Smash Burger&quot;, &quot;Double patty burger with cheddar and onions.&quot;, &quot;Burgers&quot;, 249, false, true, &quot;https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&amp;fit=crop&amp;w=700&amp;q=80&quot;),</span>
+<span class="nc" id="L38">                    new MenuItem(502L, 5L, &quot;Crispy Veg Burger&quot;, &quot;Crispy veg patty with chipotle mayo.&quot;, &quot;Burgers&quot;, 199, true, false, &quot;https://images.unsplash.com/photo-1525059696034-4967a8e1dca2?auto=format&amp;fit=crop&amp;w=700&amp;q=80&quot;),</span>
+<span class="nc" id="L39">                    new MenuItem(503L, 5L, &quot;Peri Peri Fries&quot;, &quot;Seasoned fries with spicy dusting.&quot;, &quot;Sides&quot;, 139, true, false, &quot;https://images.unsplash.com/photo-1576107232684-1279f390859f?auto=format&amp;fit=crop&amp;w=700&amp;q=80&quot;)</span>
+            ),
+<span class="nc" id="L41">            6L, List.of(</span>
+<span class="nc" id="L42">                    new MenuItem(601L, 6L, &quot;Chocolate Truffle Pastry&quot;, &quot;Dense chocolate pastry with ganache.&quot;, &quot;Desserts&quot;, 149, true, true, &quot;https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&amp;fit=crop&amp;w=700&amp;q=80&quot;),</span>
+<span class="nc" id="L43">                    new MenuItem(602L, 6L, &quot;Belgian Waffle&quot;, &quot;Warm waffle with maple and vanilla ice cream.&quot;, &quot;Desserts&quot;, 219, true, false, &quot;https://images.unsplash.com/photo-1562376552-0d160a2f238d?auto=format&amp;fit=crop&amp;w=700&amp;q=80&quot;),</span>
+<span class="nc" id="L44">                    new MenuItem(603L, 6L, &quot;Nutella Brownie Tub&quot;, &quot;Fudgy brownie topped with hazelnut spread.&quot;, &quot;Desserts&quot;, 179, true, false, &quot;https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&amp;fit=crop&amp;w=700&amp;q=80&quot;)</span>
+            )
+    );
+
+    public List&lt;MenuItem&gt; findByRestaurantId(Long restaurantId) {
+<span class="nc" id="L49">        logger.debug(&quot;Repository static menu lookup for restaurantId={}&quot;, restaurantId);</span>
+<span class="nc" id="L50">        return menuByRestaurant.getOrDefault(restaurantId, List.of());</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

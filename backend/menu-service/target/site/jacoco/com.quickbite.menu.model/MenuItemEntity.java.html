@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MenuItemEntity.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">menu-service</a> &gt; <a href="index.source.html" class="el_package">com.quickbite.menu.model</a> &gt; <span class="el_source">MenuItemEntity.java</span></div><h1>MenuItemEntity.java</h1><pre class="source lang-java linenums">package com.quickbite.menu.model;
+
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = &quot;menu_items&quot;, indexes = {
+    @Index(name = &quot;idx_restaurant_id&quot;, columnList = &quot;restaurant_id&quot;),
+    @Index(name = &quot;idx_category_id&quot;, columnList = &quot;category_id&quot;),
+    @Index(name = &quot;idx_availability&quot;, columnList = &quot;is_available&quot;)
+})
+public class MenuItemEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = &quot;restaurant_id&quot;, nullable = false)
+    private Long restaurantId;
+
+    @Column(name = &quot;category_id&quot;, nullable = false)
+    private Long categoryId;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(columnDefinition = &quot;TEXT&quot;)
+    private String description;
+
+    @Column(nullable = false)
+    private Double price;
+
+    @Column(columnDefinition = &quot;LONGTEXT&quot;)
+    private String imageUrl;
+
+<span class="pc" id="L36">    @Column(name = &quot;is_available&quot;)</span>
+<span class="pc" id="L37">    private Boolean isAvailable = true;</span>
+
+<span class="pc" id="L39">    @Column(name = &quot;is_vegetarian&quot;)</span>
+<span class="pc" id="L40">    private Boolean isVegetarian = false;</span>
+
+<span class="pc" id="L42">    @Column(name = &quot;is_bestseller&quot;)</span>
+<span class="pc" id="L43">    private Boolean isBestseller = false;</span>
+
+    @Column
+    private Integer calories;
+
+    @Column
+    private String allergens;
+
+    @Column(name = &quot;preparation_time&quot;)
+    private Integer preparationTime;
+
+<span class="pc" id="L54">    @Column(name = &quot;created_at&quot;, updatable = false)</span>
+<span class="pc" id="L55">    private LocalDateTime createdAt = LocalDateTime.now();</span>
+
+<span class="pc" id="L57">    @Column(name = &quot;updated_at&quot;)</span>
+<span class="pc" id="L58">    private LocalDateTime updatedAt = LocalDateTime.now();</span>
+
+    // Constructors
+<span class="fc" id="L61">    public MenuItemEntity() {}</span>
+
+<span class="nc" id="L63">    public MenuItemEntity(Long restaurantId, Long categoryId, String name, Double price) {</span>
+<span class="nc" id="L64">        this.restaurantId = restaurantId;</span>
+<span class="nc" id="L65">        this.categoryId = categoryId;</span>
+<span class="nc" id="L66">        this.name = name;</span>
+<span class="nc" id="L67">        this.price = price;</span>
+<span class="nc" id="L68">    }</span>
+
+    // Getters and Setters
+    public Long getId() {
+<span class="fc" id="L72">        return id;</span>
+    }
+
+    public void setId(Long id) {
+<span class="fc" id="L76">        this.id = id;</span>
+<span class="fc" id="L77">    }</span>
+
+    public Long getRestaurantId() {
+<span class="fc" id="L80">        return restaurantId;</span>
+    }
+
+    public void setRestaurantId(Long restaurantId) {
+<span class="fc" id="L84">        this.restaurantId = restaurantId;</span>
+<span class="fc" id="L85">    }</span>
+
+    public Long getCategoryId() {
+<span class="nc" id="L88">        return categoryId;</span>
+    }
+
+    public void setCategoryId(Long categoryId) {
+<span class="fc" id="L92">        this.categoryId = categoryId;</span>
+<span class="fc" id="L93">    }</span>
+
+    public String getName() {
+<span class="fc" id="L96">        return name;</span>
+    }
+
+    public void setName(String name) {
+<span class="fc" id="L100">        this.name = name;</span>
+<span class="fc" id="L101">    }</span>
+
+    public String getDescription() {
+<span class="fc" id="L104">        return description;</span>
+    }
+
+    public void setDescription(String description) {
+<span class="fc" id="L108">        this.description = description;</span>
+<span class="fc" id="L109">    }</span>
+
+    public Double getPrice() {
+<span class="fc" id="L112">        return price;</span>
+    }
+
+    public void setPrice(Double price) {
+<span class="fc" id="L116">        this.price = price;</span>
+<span class="fc" id="L117">    }</span>
+
+    public String getImageUrl() {
+<span class="fc" id="L120">        return imageUrl;</span>
+    }
+
+    public void setImageUrl(String imageUrl) {
+<span class="fc" id="L124">        this.imageUrl = imageUrl;</span>
+<span class="fc" id="L125">    }</span>
+
+    public Boolean getIsAvailable() {
+<span class="fc" id="L128">        return isAvailable;</span>
+    }
+
+    public void setIsAvailable(Boolean isAvailable) {
+<span class="fc" id="L132">        this.isAvailable = isAvailable;</span>
+<span class="fc" id="L133">    }</span>
+
+    public Boolean getIsVegetarian() {
+<span class="fc" id="L136">        return isVegetarian;</span>
+    }
+
+    public void setIsVegetarian(Boolean isVegetarian) {
+<span class="fc" id="L140">        this.isVegetarian = isVegetarian;</span>
+<span class="fc" id="L141">    }</span>
+
+    public Boolean getIsBestseller() {
+<span class="fc" id="L144">        return isBestseller;</span>
+    }
+
+    public void setIsBestseller(Boolean isBestseller) {
+<span class="fc" id="L148">        this.isBestseller = isBestseller;</span>
+<span class="fc" id="L149">    }</span>
+
+    public Integer getCalories() {
+<span class="nc" id="L152">        return calories;</span>
+    }
+
+    public void setCalories(Integer calories) {
+<span class="nc" id="L156">        this.calories = calories;</span>
+<span class="nc" id="L157">    }</span>
+
+    public String getAllergens() {
+<span class="nc" id="L160">        return allergens;</span>
+    }
+
+    public void setAllergens(String allergens) {
+<span class="nc" id="L164">        this.allergens = allergens;</span>
+<span class="nc" id="L165">    }</span>
+
+    public Integer getPreparationTime() {
+<span class="nc" id="L168">        return preparationTime;</span>
+    }
+
+    public void setPreparationTime(Integer preparationTime) {
+<span class="nc" id="L172">        this.preparationTime = preparationTime;</span>
+<span class="nc" id="L173">    }</span>
+
+    public LocalDateTime getCreatedAt() {
+<span class="fc" id="L176">        return createdAt;</span>
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+<span class="fc" id="L180">        this.createdAt = createdAt;</span>
+<span class="fc" id="L181">    }</span>
+
+    public LocalDateTime getUpdatedAt() {
+<span class="fc" id="L184">        return updatedAt;</span>
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+<span class="fc" id="L188">        this.updatedAt = updatedAt;</span>
+<span class="fc" id="L189">    }</span>
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

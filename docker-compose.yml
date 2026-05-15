@@ -1,0 +1,281 @@
+name: quickbite
+
+x-backend-common: &backend-common
+  restart: unless-stopped
+  environment:
+    EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+    JWT_SECRET: UVVpY2tCaXRlU3VwZXJTZWNyZXRLZXlGb3JKV1RTaWduaW5nMTIzNDU2Nzg5MA==
+  depends_on:
+    eureka-server:
+      condition: service_started
+
+x-mysql-common: &mysql-common
+  SPRING_DATASOURCE_USERNAME: root
+  SPRING_DATASOURCE_PASSWORD: abcd
+
+services:
+  mysql:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: abcd
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -pabcd --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+
+  kafka:
+    image: bitnami/kafka:3.7
+    restart: unless-stopped
+    environment:
+      KAFKA_CFG_NODE_ID: 1
+      KAFKA_CFG_PROCESS_ROLES: broker,controller
+      KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_CFG_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093
+      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_CFG_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE: "true"
+      ALLOW_PLAINTEXT_LISTENER: "yes"
+    ports:
+      - "9092:9092"
+    volumes:
+      - kafka-data:/bitnami/kafka
+    healthcheck:
+      test: ["CMD-SHELL", "kafka-topics.sh --bootstrap-server localhost:9092 --list >/dev/null 2>&1"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+
+  eureka-server:
+    build:
+      context: .
+      dockerfile: OnlineFoodDeliveryPlatform-Backend-main/eureka-server/Dockerfile
+    image: quickbite/eureka-server:local
+    restart: unless-stopped
+    environment:
+      EUREKA_INSTANCE_HOSTNAME: eureka-server
+    ports:
+      - "8761:8761"
+
+  api-gateway:
+    <<: *backend-common
+    build:
+      context: .
+      dockerfile: OnlineFoodDeliveryPlatform-Backend-main/api-gateway/Dockerfile
+    image: quickbite/api-gateway:local
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      AUTH_SERVICE_URI: lb://AUTH-SERVICE
+      RESTAURANT_SERVICE_URI: lb://RESTAURANT-SERVICE
+      ORDER_SERVICE_URI: lb://ORDER-SERVICE
+      CART_SERVICE_URI: lb://CART-SERVICE
+      TRACKING_SERVICE_URI: lb://TRACKING-SERVICE
+      JWT_SECRET: UVVpY2tCaXRlU3VwZXJTZWNyZXRLZXlGb3JKV1RTaWduaW5nMTIzNDU2Nzg5MA==
+    ports:
+      - "9090:9090"
+
+  auth-service:
+    <<: *backend-common
+    build:
+      context: .
+      dockerfile: OnlineFoodDeliveryPlatform-Backend-main/auth-service/Dockerfile
+    image: quickbite/auth-service:local
+    environment:
+      <<: *mysql-common
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: quickbite_auth
+      MYSQL_USERNAME: root
+      MYSQL_PASSWORD: abcd
+      GOOGLE_CLIENT_ID: ""
+      GOOGLE_CLIENT_SECRET: ""
+      APP_OAUTH2_REDIRECT_URI: http://localhost:3000/oauth/callback
+      JWT_SECRET: UVVpY2tCaXRlU3VwZXJTZWNyZXRLZXlGb3JKV1RTaWduaW5nMTIzNDU2Nzg5MA==
+    ports:
+      - "8081:8081"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+
+  restaurant-service:
+    <<: *backend-common
+    build:
+      context: .
+      dockerfile: OnlineFoodDeliveryPlatform-Backend-main/restaurant-service/Dockerfile
+    image: quickbite/restaurant-service:local
+    environment:
+      <<: *mysql-common
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/quickbite_restaurant?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&createDatabaseIfNotExist=true
+      CLOUDINARY_ENABLED: "false"
+      JWT_SECRET: UVVpY2tCaXRlU3VwZXJTZWNyZXRLZXlGb3JKV1RTaWduaW5nMTIzNDU2Nzg5MA==
+    ports:
+      - "8082:8082"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+
+  menu-service:
+    <<: *backend-common
+    build:
+      context: .
+      dockerfile: OnlineFoodDeliveryPlatform-Backend-main/menu-service/Dockerfile
+    image: quickbite/menu-service:local
+    environment:
+      <<: *mysql-common
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/quickbite_menu?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&createDatabaseIfNotExist=true
+      CLOUDINARY_ENABLED: "false"
+      JWT_SECRET: UVVpY2tCaXRlU3VwZXJTZWNyZXRLZXlGb3JKV1RTaWduaW5nMTIzNDU2Nzg5MA==
+    ports:
+      - "9093:9093"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+
+  cart-service:
+    <<: *backend-common
+    build:
+      context: .
+      dockerfile: OnlineFoodDeliveryPlatform-Backend-main/cart-service/Dockerfile
+    image: quickbite/cart-service:local
+    environment:
+      <<: *mysql-common
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/quickbite_cart?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&createDatabaseIfNotExist=true
+      JWT_SECRET: UVVpY2tCaXRlU3VwZXJTZWNyZXRLZXlGb3JKV1RTaWduaW5nMTIzNDU2Nzg5MA==
+    ports:
+      - "8084:8084"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+
+  order-service:
+    <<: *backend-common
+    build:
+      context: .
+      dockerfile: OnlineFoodDeliveryPlatform-Backend-main/order-service/Dockerfile
+    image: quickbite/order-service:local
+    environment:
+      <<: *mysql-common
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      ORDER_DB_URL: jdbc:mysql://mysql:3306/quickbite_order?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      ORDER_DB_USERNAME: root
+      ORDER_DB_PASSWORD: abcd
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      JWT_SECRET: UVVpY2tCaXRlU3VwZXJTZWNyZXRLZXlGb3JKV1RTaWduaW5nMTIzNDU2Nzg5MA==
+    ports:
+      - "8085:8085"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+
+  payment-service:
+    <<: *backend-common
+    build:
+      context: .
+      dockerfile: OnlineFoodDeliveryPlatform-Backend-main/payment-service/Dockerfile
+    image: quickbite/payment-service:local
+    environment:
+      <<: *mysql-common
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/quickbite_payment?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&createDatabaseIfNotExist=true
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      RAZORPAY_KEY_ID: ""
+      RAZORPAY_KEY_SECRET: ""
+      JWT_SECRET: UVVpY2tCaXRlU3VwZXJTZWNyZXRLZXlGb3JKV1RTaWduaW5nMTIzNDU2Nzg5MA==
+    ports:
+      - "8086:8086"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+
+  delivery-service:
+    <<: *backend-common
+    build:
+      context: .
+      dockerfile: OnlineFoodDeliveryPlatform-Backend-main/delivery-service/Dockerfile
+    image: quickbite/delivery-service:local
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      JWT_SECRET: UVVpY2tCaXRlU3VwZXJTZWNyZXRLZXlGb3JKV1RTaWduaW5nMTIzNDU2Nzg5MA==
+    ports:
+      - "8087:8087"
+    depends_on:
+      kafka:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+
+  review-service:
+    <<: *backend-common
+    build:
+      context: .
+      dockerfile: OnlineFoodDeliveryPlatform-Backend-main/review-service/Dockerfile
+    image: quickbite/review-service:local
+    environment:
+      <<: *mysql-common
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/quickbite_review?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&createDatabaseIfNotExist=true
+      JWT_SECRET: UVVpY2tCaXRlU3VwZXJTZWNyZXRLZXlGb3JKV1RTaWduaW5nMTIzNDU2Nzg5MA==
+    ports:
+      - "8088:8088"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+
+  tracking-service:
+    <<: *backend-common
+    build:
+      context: .
+      dockerfile: OnlineFoodDeliveryPlatform-Backend-main/tracking-service/Dockerfile
+    image: quickbite/tracking-service:local
+    ports:
+      - "8089:8089"
+
+  frontend:
+    build:
+      context: .
+      dockerfile: OnlineFoodDeliveryPlatform-Frontend-main/Dockerfile
+      args:
+        VITE_API_BASE_URL: http://localhost:9090
+        VITE_AUTH_API_BASE_URL: http://localhost:9090
+        VITE_ADMIN_API_BASE_URL: http://localhost:9090
+        VITE_OAUTH_BASE_URL: http://localhost:9090
+    image: quickbite/frontend:local
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      api-gateway:
+        condition: service_started
+
+volumes:
+  mysql-data:
+  kafka-data:

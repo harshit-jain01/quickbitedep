@@ -1,0 +1,139 @@
+name: QuickBite CI/CD
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  BACKEND_DIR: OnlineFoodDeliveryPlatform-Backend-main
+  FRONTEND_DIR: OnlineFoodDeliveryPlatform-Frontend-main
+  REGISTRY: ghcr.io
+
+jobs:
+  backend-tests:
+    name: Backend tests (${{ matrix.service }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        service:
+          - eureka-server
+          - api-gateway
+          - auth-service
+          - restaurant-service
+          - menu-service
+          - cart-service
+          - payment-service
+          - delivery-service
+          - order-service
+          - review-service
+          - tracking-service
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+          cache: maven
+
+      - name: Test ${{ matrix.service }}
+        run: mvn -B -ntp -f "${BACKEND_DIR}/${{ matrix.service }}/pom.xml" test
+
+  frontend-tests:
+    name: Frontend tests and build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: ${{ env.FRONTEND_DIR }}/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ${{ env.FRONTEND_DIR }}
+        run: npm ci
+
+      - name: Run tests
+        working-directory: ${{ env.FRONTEND_DIR }}
+        run: npm test
+
+      - name: Build frontend
+        working-directory: ${{ env.FRONTEND_DIR }}
+        run: npm run build
+
+  docker-build-and-publish:
+    name: Docker build and publish (${{ matrix.image }})
+    runs-on: ubuntu-latest
+    needs: [backend-tests, frontend-tests]
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - image: eureka-server
+            dockerfile: OnlineFoodDeliveryPlatform-Backend-main/eureka-server/Dockerfile
+          - image: api-gateway
+            dockerfile: OnlineFoodDeliveryPlatform-Backend-main/api-gateway/Dockerfile
+          - image: auth-service
+            dockerfile: OnlineFoodDeliveryPlatform-Backend-main/auth-service/Dockerfile
+          - image: restaurant-service
+            dockerfile: OnlineFoodDeliveryPlatform-Backend-main/restaurant-service/Dockerfile
+          - image: menu-service
+            dockerfile: OnlineFoodDeliveryPlatform-Backend-main/menu-service/Dockerfile
+          - image: cart-service
+            dockerfile: OnlineFoodDeliveryPlatform-Backend-main/cart-service/Dockerfile
+          - image: payment-service
+            dockerfile: OnlineFoodDeliveryPlatform-Backend-main/payment-service/Dockerfile
+          - image: delivery-service
+            dockerfile: OnlineFoodDeliveryPlatform-Backend-main/delivery-service/Dockerfile
+          - image: order-service
+            dockerfile: OnlineFoodDeliveryPlatform-Backend-main/order-service/Dockerfile
+          - image: review-service
+            dockerfile: OnlineFoodDeliveryPlatform-Backend-main/review-service/Dockerfile
+          - image: tracking-service
+            dockerfile: OnlineFoodDeliveryPlatform-Backend-main/tracking-service/Dockerfile
+          - image: frontend
+            dockerfile: OnlineFoodDeliveryPlatform-Frontend-main/Dockerfile
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Prepare image name
+        id: image
+        run: echo "name=${REGISTRY}/${GITHUB_REPOSITORY,,}/${{ matrix.image }}" >> "$GITHUB_OUTPUT"
+
+      - name: Log in to GitHub Container Registry
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and publish image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ${{ matrix.dockerfile }}
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: |
+            ${{ steps.image.outputs.name }}:${{ github.sha }}
+            ${{ steps.image.outputs.name }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max

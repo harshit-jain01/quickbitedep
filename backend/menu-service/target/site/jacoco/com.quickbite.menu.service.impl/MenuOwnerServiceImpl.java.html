@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MenuOwnerServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">menu-service</a> &gt; <a href="index.source.html" class="el_package">com.quickbite.menu.service.impl</a> &gt; <span class="el_source">MenuOwnerServiceImpl.java</span></div><h1>MenuOwnerServiceImpl.java</h1><pre class="source lang-java linenums">package com.quickbite.menu.service.impl;
+
+import com.quickbite.menu.dto.CreateMenuItemRequest;
+import com.quickbite.menu.dto.MenuItemWithAvailabilityResponse;
+import com.quickbite.menu.model.MenuItemEntity;
+import com.quickbite.menu.repository.MenuItemRepository;
+import com.quickbite.menu.service.CloudinaryImageService;
+import com.quickbite.menu.service.MenuOwnerService;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+@Service
+public class MenuOwnerServiceImpl implements MenuOwnerService {
+
+<span class="fc" id="L24">    private static final Logger logger = LoggerFactory.getLogger(MenuOwnerServiceImpl.class);</span>
+
+    private final MenuItemRepository menuItemRepository;
+    private final CloudinaryImageService cloudinaryImageService;
+
+<span class="fc" id="L29">    public MenuOwnerServiceImpl(MenuItemRepository menuItemRepository, CloudinaryImageService cloudinaryImageService) {</span>
+<span class="fc" id="L30">        this.menuItemRepository = menuItemRepository;</span>
+<span class="fc" id="L31">        this.cloudinaryImageService = cloudinaryImageService;</span>
+<span class="fc" id="L32">    }</span>
+
+    @Override
+    public MenuItemWithAvailabilityResponse addMenuItem(UUID ownerId, CreateMenuItemRequest request, MultipartFile imageFile) {
+<span class="fc" id="L36">        logger.info(&quot;Adding menu item for owner={} restaurantId={} itemName={}&quot;, ownerId, request.restaurantId(), request.itemName());</span>
+        try {
+<span class="pc bpc" id="L38" title="2 of 4 branches missed.">            if (request.itemName() == null || request.itemName().trim().isEmpty()) {</span>
+<span class="nc" id="L39">                throw new IllegalArgumentException(&quot;Item name is required&quot;);</span>
+            }
+<span class="pc bpc" id="L41" title="2 of 4 branches missed.">            if (request.price() == null || request.price() &lt;= 0) {</span>
+<span class="nc" id="L42">                throw new IllegalArgumentException(&quot;Price must be greater than 0&quot;);</span>
+            }
+<span class="pc bpc" id="L44" title="1 of 2 branches missed.">            if (request.restaurantId() == null) {</span>
+<span class="nc" id="L45">                throw new IllegalArgumentException(&quot;Restaurant ID is required&quot;);</span>
+            }
+<span class="pc bpc" id="L47" title="1 of 4 branches missed.">            if (imageFile == null || imageFile.isEmpty()) {</span>
+<span class="fc" id="L48">                throw new IllegalArgumentException(&quot;Menu item image is required&quot;);</span>
+            }
+
+<span class="fc" id="L51">            String imageUrl = cloudinaryImageService.uploadMenuItemImage(imageFile, request.restaurantId());</span>
+
+<span class="fc" id="L53">            MenuItemEntity item = new MenuItemEntity();</span>
+<span class="fc" id="L54">            item.setRestaurantId(request.restaurantId());</span>
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">            item.setCategoryId(request.categoryId() != null ? request.categoryId() : 1L);</span>
+<span class="fc" id="L56">            item.setName(request.itemName().trim());</span>
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">            item.setDescription(request.description() != null ? request.description() : &quot;&quot;);</span>
+<span class="fc" id="L58">            item.setPrice(request.price());</span>
+<span class="fc" id="L59">            item.setImageUrl(imageUrl);</span>
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">            item.setIsVegetarian(request.vegetarian() != null ? request.vegetarian() : false);</span>
+<span class="pc bpc" id="L61" title="1 of 2 branches missed.">            item.setIsBestseller(request.bestseller() != null ? request.bestseller() : false);</span>
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">            item.setIsAvailable(request.isAvailable() != null ? request.isAvailable() : true);</span>
+<span class="fc" id="L63">            item.setCreatedAt(LocalDateTime.now());</span>
+<span class="fc" id="L64">            item.setUpdatedAt(LocalDateTime.now());</span>
+
+<span class="fc" id="L66">            MenuItemEntity saved = menuItemRepository.save(item);</span>
+<span class="fc" id="L67">            return convertToResponse(saved);</span>
+<span class="fc" id="L68">        } catch (Exception e) {</span>
+<span class="pc bpc" id="L69" title="3 of 4 branches missed.">            if (e instanceof IllegalArgumentException || e instanceof IllegalStateException) {</span>
+<span class="fc" id="L70">                throw (RuntimeException) e;</span>
+            }
+<span class="nc" id="L72">            logger.error(&quot;Error adding menu item for owner={}&quot;, ownerId, e);</span>
+<span class="nc" id="L73">            throw new RuntimeException(&quot;Failed to add menu item: &quot; + e.getMessage(), e);</span>
+        }
+    }
+
+    @Override
+    public MenuItemWithAvailabilityResponse updateMenuItem(Long itemId, UUID ownerId, CreateMenuItemRequest request, MultipartFile imageFile) {
+<span class="fc" id="L79">        logger.info(&quot;Updating menu item for owner={} itemId={}&quot;, ownerId, itemId);</span>
+        try {
+<span class="pc bpc" id="L81" title="2 of 4 branches missed.">            if (itemId == null || itemId &lt;= 0) {</span>
+<span class="nc" id="L82">                throw new IllegalArgumentException(&quot;Invalid item ID&quot;);</span>
+            }
+<span class="pc bpc" id="L84" title="2 of 4 branches missed.">            if (request.itemName() == null || request.itemName().trim().isEmpty()) {</span>
+<span class="nc" id="L85">                throw new IllegalArgumentException(&quot;Item name is required&quot;);</span>
+            }
+<span class="pc bpc" id="L87" title="2 of 4 branches missed.">            if (request.price() == null || request.price() &lt;= 0) {</span>
+<span class="nc" id="L88">                throw new IllegalArgumentException(&quot;Price must be greater than 0&quot;);</span>
+            }
+
+<span class="fc" id="L91">            MenuItemEntity existing = menuItemRepository.findById(itemId)</span>
+<span class="pc" id="L92">                    .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Menu item not found&quot;));</span>
+
+<span class="nc bnc" id="L94" title="All 2 branches missed.">            if (request.categoryId() != null) {</span>
+<span class="nc" id="L95">                existing.setCategoryId(request.categoryId());</span>
+            }
+<span class="nc" id="L97">            existing.setName(request.itemName().trim());</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">            existing.setDescription(request.description() != null ? request.description() : &quot;&quot;);</span>
+<span class="nc" id="L99">            existing.setPrice(request.price());</span>
+<span class="nc bnc" id="L100" title="All 4 branches missed.">            if (imageFile != null &amp;&amp; !imageFile.isEmpty()) {</span>
+<span class="nc" id="L101">                String imageUrl = cloudinaryImageService.uploadMenuItemImage(imageFile, existing.getRestaurantId());</span>
+<span class="nc" id="L102">                existing.setImageUrl(imageUrl);</span>
+            }
+<span class="nc bnc" id="L104" title="All 2 branches missed.">            existing.setIsVegetarian(request.vegetarian() != null ? request.vegetarian() : existing.getIsVegetarian());</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">            existing.setIsBestseller(request.bestseller() != null ? request.bestseller() : existing.getIsBestseller());</span>
+<span class="nc bnc" id="L106" title="All 2 branches missed.">            if (request.isAvailable() != null) {</span>
+<span class="nc" id="L107">                existing.setIsAvailable(request.isAvailable());</span>
+            }
+<span class="nc" id="L109">            existing.setUpdatedAt(LocalDateTime.now());</span>
+
+<span class="nc" id="L111">            MenuItemEntity updated = menuItemRepository.save(existing);</span>
+<span class="nc" id="L112">            return convertToResponse(updated);</span>
+<span class="fc" id="L113">        } catch (Exception e) {</span>
+<span class="pc bpc" id="L114" title="3 of 4 branches missed.">            if (e instanceof IllegalArgumentException || e instanceof IllegalStateException) {</span>
+<span class="fc" id="L115">                throw (RuntimeException) e;</span>
+            }
+<span class="nc" id="L117">            logger.error(&quot;Error updating menu item owner={} itemId={}&quot;, ownerId, itemId, e);</span>
+<span class="nc" id="L118">            throw new RuntimeException(&quot;Failed to update menu item: &quot; + e.getMessage(), e);</span>
+        }
+    }
+
+    @Override
+    public void deleteMenuItem(Long itemId, UUID ownerId) {
+<span class="fc" id="L124">        logger.warn(&quot;Deleting menu item for owner={} itemId={}&quot;, ownerId, itemId);</span>
+<span class="pc bpc" id="L125" title="1 of 2 branches missed.">        if (menuItemRepository.existsById(itemId)) {</span>
+<span class="nc" id="L126">            menuItemRepository.deleteById(itemId);</span>
+        } else {
+<span class="fc" id="L128">            throw new IllegalArgumentException(&quot;Menu item not found&quot;);</span>
+        }
+<span class="nc" id="L130">    }</span>
+
+    @Override
+    public MenuItemWithAvailabilityResponse toggleAvailability(Long itemId, UUID ownerId, boolean available) {
+<span class="fc" id="L134">        logger.info(&quot;Toggling availability owner={} itemId={} available={}&quot;, ownerId, itemId, available);</span>
+<span class="fc" id="L135">        MenuItemEntity existing = menuItemRepository.findById(itemId)</span>
+<span class="pc" id="L136">                .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Menu item not found&quot;));</span>
+
+<span class="fc" id="L138">        existing.setIsAvailable(available);</span>
+<span class="fc" id="L139">        existing.setUpdatedAt(LocalDateTime.now());</span>
+
+<span class="fc" id="L141">        MenuItemEntity updated = menuItemRepository.save(existing);</span>
+<span class="fc" id="L142">        return convertToResponse(updated);</span>
+    }
+
+    @Override
+    public List&lt;MenuItemWithAvailabilityResponse&gt; getMenuItems(Long restaurantId) {
+<span class="nc" id="L147">        return menuItemRepository.findByRestaurantId(restaurantId).stream()</span>
+<span class="nc" id="L148">                .map(this::convertToResponse)</span>
+<span class="nc" id="L149">                .collect(Collectors.toList());</span>
+    }
+
+    @Override
+    public List&lt;MenuItemWithAvailabilityResponse&gt; searchMenuItems(Long restaurantId, String search) {
+<span class="nc" id="L154">        return menuItemRepository.searchByName(restaurantId, search).stream()</span>
+<span class="nc" id="L155">                .map(this::convertToResponse)</span>
+<span class="nc" id="L156">                .collect(Collectors.toList());</span>
+    }
+
+    @Override
+    public Map&lt;String, Object&gt; createCategory(UUID ownerId, Map&lt;String, String&gt; request) {
+<span class="nc" id="L161">        Map&lt;String, Object&gt; response = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L162">        response.put(&quot;categoryId&quot;, UUID.randomUUID());</span>
+<span class="nc" id="L163">        response.put(&quot;categoryName&quot;, request.getOrDefault(&quot;categoryName&quot;, &quot;New Category&quot;));</span>
+<span class="nc" id="L164">        response.put(&quot;description&quot;, request.getOrDefault(&quot;description&quot;, &quot;&quot;));</span>
+<span class="nc" id="L165">        response.put(&quot;ownerId&quot;, ownerId);</span>
+<span class="nc" id="L166">        return response;</span>
+    }
+
+    @Override
+    public List&lt;Map&lt;String, Object&gt;&gt; getCategories(Long restaurantId, UUID ownerId) {
+<span class="nc" id="L171">        List&lt;Map&lt;String, Object&gt;&gt; categories = new ArrayList&lt;&gt;();</span>
+
+<span class="nc" id="L173">        String[] categoryNames = {&quot;Starters&quot;, &quot;Main Course&quot;, &quot;Desserts&quot;, &quot;Beverages&quot;, &quot;Recommended&quot;};</span>
+<span class="nc" id="L174">        long categoryId = 1L;</span>
+<span class="nc bnc" id="L175" title="All 2 branches missed.">        for (String categoryName : categoryNames) {</span>
+<span class="nc" id="L176">            Map&lt;String, Object&gt; category = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L177">            category.put(&quot;categoryId&quot;, categoryId);</span>
+<span class="nc" id="L178">            category.put(&quot;categoryName&quot;, categoryName);</span>
+<span class="nc" id="L179">            category.put(&quot;restaurantId&quot;, restaurantId);</span>
+
+<span class="nc" id="L181">            List&lt;MenuItemEntity&gt; items = menuItemRepository.findByRestaurantIdAndCategoryId(restaurantId, categoryId);</span>
+<span class="nc" id="L182">            List&lt;Map&lt;String, Object&gt;&gt; itemsList = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L183" title="All 2 branches missed.">            for (MenuItemEntity item : items) {</span>
+<span class="nc" id="L184">                Map&lt;String, Object&gt; itemMap = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L185">                itemMap.put(&quot;itemId&quot;, item.getId());</span>
+<span class="nc" id="L186">                itemMap.put(&quot;itemName&quot;, item.getName());</span>
+<span class="nc" id="L187">                itemMap.put(&quot;description&quot;, item.getDescription());</span>
+<span class="nc" id="L188">                itemMap.put(&quot;price&quot;, item.getPrice());</span>
+<span class="nc" id="L189">                itemMap.put(&quot;imageUrl&quot;, item.getImageUrl());</span>
+<span class="nc" id="L190">                itemMap.put(&quot;isAvailable&quot;, item.getIsAvailable());</span>
+<span class="nc" id="L191">                itemsList.add(itemMap);</span>
+<span class="nc" id="L192">            }</span>
+<span class="nc" id="L193">            category.put(&quot;items&quot;, itemsList);</span>
+
+<span class="nc" id="L195">            categories.add(category);</span>
+<span class="nc" id="L196">            categoryId++;</span>
+        }
+<span class="nc" id="L198">        return categories;</span>
+    }
+
+    private MenuItemWithAvailabilityResponse convertToResponse(MenuItemEntity item) {
+<span class="pc bpc" id="L202" title="1 of 2 branches missed.">        long createdTime = item.getCreatedAt() != null ? item.getCreatedAt().toString().hashCode() : 0;</span>
+<span class="pc bpc" id="L203" title="1 of 2 branches missed.">        long updatedTime = item.getUpdatedAt() != null ? item.getUpdatedAt().toString().hashCode() : 0;</span>
+
+<span class="fc" id="L205">        return new MenuItemWithAvailabilityResponse(</span>
+<span class="fc" id="L206">                item.getId(),</span>
+<span class="fc" id="L207">                item.getRestaurantId(),</span>
+<span class="fc" id="L208">                item.getName(),</span>
+<span class="fc" id="L209">                item.getDescription(),</span>
+                &quot;Category&quot;,
+<span class="fc" id="L211">                item.getPrice(),</span>
+<span class="pc bpc" id="L212" title="1 of 2 branches missed.">                item.getIsVegetarian() != null ? item.getIsVegetarian() : false,</span>
+<span class="pc bpc" id="L213" title="1 of 2 branches missed.">                item.getIsBestseller() != null ? item.getIsBestseller() : false,</span>
+<span class="fc" id="L214">                item.getImageUrl(),</span>
+<span class="pc bpc" id="L215" title="1 of 2 branches missed.">                item.getIsAvailable() != null ? item.getIsAvailable() : true,</span>
+                createdTime,
+                updatedTime
+        );
+    }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

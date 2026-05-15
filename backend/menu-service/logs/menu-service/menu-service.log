@@ -1,0 +1,585 @@
+2026-04-20 13:00:32.333 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Starting MenuOwnerControllerTest using Java 21.0.9 with PID 6112 (started by jhars in C:\Users\jhars\Desktop\QuickbiteBackend\menu-service)
+2026-04-20 13:00:32.336 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - No active profile set, falling back to 1 default profile: "default"
+2026-04-20 13:00:38.762 WARN  [menu-service] [main] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 3238b368-c3a5-48e7-aa06-0ae63daea6de
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-20 13:00:38.866 INFO  [menu-service] [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-20 13:00:39.420 INFO  [menu-service] [main] o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2026-04-20 13:00:39.420 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2026-04-20 13:00:39.422 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Completed initialization in 2 ms
+2026-04-20 13:00:39.497 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Started MenuOwnerControllerTest in 8.546 seconds (process running for 12.506)
+2026-04-20 13:00:40.407 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Add menu item request for owner=c65caac2-1f75-424b-8f84-ccb7f591504a restaurantId=1 itemName=Paneer Tikka
+2026-04-20 13:00:40.660 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Toggle menu item availability request for owner=59d6275e-97b5-42ae-972e-bf2438cc0e77 itemId=5 available=false
+2026-04-20 13:00:41.269 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=ecc08bb1-0b81-49ba-bfd5-ee46cec8a064 restaurantId=1 itemName=Paneer
+2026-04-20 13:00:41.311 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=982d1bd4-462e-4c17-86df-10e3cde66d50 restaurantId=1 itemName=Paneer
+2026-04-20 13:00:41.319 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Updating menu item for owner=4752998c-3d24-4790-95ae-351bb2cfb400 itemId=99
+2026-04-20 13:00:41.328 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Toggling availability owner=9c8e244b-41dd-4408-84d8-5c4b3af75dd0 itemId=5 available=false
+2026-04-20 13:00:41.340 WARN  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Deleting menu item for owner=e344f491-41b7-49b9-8f36-52f8a770f358 itemId=90
+2026-04-20 13:36:22.262 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Starting MenuOwnerControllerTest using Java 21.0.9 with PID 23152 (started by jhars in C:\Users\jhars\Desktop\QuickbiteBackend\menu-service)
+2026-04-20 13:36:22.266 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - No active profile set, falling back to 1 default profile: "default"
+2026-04-20 13:36:27.599 WARN  [menu-service] [main] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 1235d0cf-9855-4c87-8ef1-74eefe8779b3
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-20 13:36:27.677 INFO  [menu-service] [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-20 13:36:28.115 INFO  [menu-service] [main] o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2026-04-20 13:36:28.115 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2026-04-20 13:36:28.118 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2026-04-20 13:36:28.180 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Started MenuOwnerControllerTest in 7.163 seconds (process running for 10.134)
+2026-04-20 13:36:28.941 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Add menu item request for owner=f771b53a-eeac-4336-a25b-901cd14fd042 restaurantId=1 itemName=Paneer Tikka
+2026-04-20 13:36:29.130 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Toggle menu item availability request for owner=d4846446-3566-4a75-a4d4-93eeac2f2862 itemId=5 available=false
+2026-04-20 13:36:29.556 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=50a2bb83-66ad-479b-a2ae-87ec9e2dfdb2 restaurantId=1 itemName=Paneer
+2026-04-20 13:36:29.587 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=bdce70e6-1879-46e6-8323-f9a314bc7ab0 restaurantId=1 itemName=Paneer
+2026-04-20 13:36:29.594 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Updating menu item for owner=9c06258f-e9ad-4ec6-89c5-b0bcdc964446 itemId=99
+2026-04-20 13:36:29.603 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Toggling availability owner=4da93fd8-98bf-4a78-92b9-aafe68c2d23d itemId=5 available=false
+2026-04-20 13:36:29.612 WARN  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Deleting menu item for owner=3d35029f-6b94-4919-ba1b-52151802cac1 itemId=90
+2026-04-20 13:39:54.311 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Starting MenuOwnerControllerTest using Java 21.0.9 with PID 20076 (started by jhars in C:\Users\jhars\Desktop\QuickbiteBackend\menu-service)
+2026-04-20 13:39:54.314 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - No active profile set, falling back to 1 default profile: "default"
+2026-04-20 13:39:59.519 WARN  [menu-service] [main] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 7cb0b662-1fc1-430c-bdba-6caab26d3d51
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-20 13:39:59.592 INFO  [menu-service] [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-20 13:40:00.054 INFO  [menu-service] [main] o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2026-04-20 13:40:00.055 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2026-04-20 13:40:00.058 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Completed initialization in 3 ms
+2026-04-20 13:40:00.120 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Started MenuOwnerControllerTest in 7.136 seconds (process running for 10.261)
+2026-04-20 13:40:00.810 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Add menu item request for owner=66a0c8ec-a246-4e9b-9f2b-aa89ae868418 restaurantId=1 itemName=Paneer Tikka
+2026-04-20 13:40:00.989 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Toggle menu item availability request for owner=c89de970-88b5-46a0-b63b-40d464f3c732 itemId=5 available=false
+2026-04-20 13:40:01.388 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=9954d69d-8bec-4507-bdee-8aaac4deaf8e restaurantId=1 itemName=Paneer
+2026-04-20 13:40:01.414 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=b70002ef-41fc-44df-8a6b-d09052786f77 restaurantId=1 itemName=Paneer
+2026-04-20 13:40:01.422 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Updating menu item for owner=c6f6aa79-828e-4704-ba2b-001ba78c0b04 itemId=99
+2026-04-20 13:40:01.428 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Toggling availability owner=7058072c-e515-4129-818a-881465b326bf itemId=5 available=false
+2026-04-20 13:40:01.437 WARN  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Deleting menu item for owner=bbad3ea8-79ea-4f7b-8cae-66cd16a512cf itemId=90
+2026-04-20 13:43:46.384 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Starting MenuOwnerControllerTest using Java 21.0.9 with PID 17644 (started by jhars in C:\Users\jhars\Desktop\QuickbiteBackend\menu-service)
+2026-04-20 13:43:46.389 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - No active profile set, falling back to 1 default profile: "default"
+2026-04-20 13:43:51.146 WARN  [menu-service] [main] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: a16dd811-e432-4188-8f6e-279f04aa0f8e
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-20 13:43:51.211 INFO  [menu-service] [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-20 13:43:51.565 INFO  [menu-service] [main] o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2026-04-20 13:43:51.565 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2026-04-20 13:43:51.567 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Completed initialization in 2 ms
+2026-04-20 13:43:51.615 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Started MenuOwnerControllerTest in 6.527 seconds (process running for 9.491)
+2026-04-20 13:43:52.134 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Add menu item request for owner=9c604227-896a-4372-af2a-2d504eb553d5 restaurantId=1 itemName=Paneer Tikka
+2026-04-20 13:43:52.280 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Toggle menu item availability request for owner=858ab8a6-7e39-4629-98f4-6cc84c8b3fde itemId=5 available=false
+2026-04-20 13:43:52.680 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=9a4878bd-a768-49a6-a34b-8d4fba3583bb restaurantId=1 itemName=Paneer
+2026-04-20 13:43:52.714 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=7b8325f9-c7e0-43f4-8f9a-361aef9113da restaurantId=1 itemName=Paneer
+2026-04-20 13:43:52.723 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Updating menu item for owner=4440dcf8-23f7-46d4-8321-4c0b71d8fba6 itemId=99
+2026-04-20 13:43:52.732 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Toggling availability owner=9e8a494f-bd5c-4538-831c-e19573fd0a40 itemId=5 available=false
+2026-04-20 13:43:52.742 WARN  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Deleting menu item for owner=adc4f5df-6bed-4388-93fd-17d43d960a74 itemId=90
+2026-04-20 14:31:39.443 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Starting MenuOwnerControllerTest using Java 21.0.9 with PID 7132 (started by jhars in C:\Users\jhars\Desktop\QuickbiteBackend\menu-service)
+2026-04-20 14:31:39.446 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - No active profile set, falling back to 1 default profile: "default"
+2026-04-20 14:31:45.118 WARN  [menu-service] [main] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: a05c4514-e383-44f3-be59-85c828abe9a4
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-20 14:31:45.185 INFO  [menu-service] [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-20 14:31:45.628 INFO  [menu-service] [main] o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2026-04-20 14:31:45.628 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2026-04-20 14:31:45.630 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2026-04-20 14:31:45.687 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Started MenuOwnerControllerTest in 8.052 seconds (process running for 11.315)
+2026-04-20 14:31:46.357 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Add menu item request for owner=0234be3e-e03c-455a-99a9-3c1cd17e428d restaurantId=1 itemName=Paneer Tikka
+2026-04-20 14:31:46.520 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Toggle menu item availability request for owner=7acf5a7e-957f-4fd9-9859-de7b107361da itemId=5 available=false
+2026-04-20 14:31:46.978 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=e219794a-5bbd-49ba-a4ec-9dbfa78ed494 restaurantId=1 itemName=Paneer
+2026-04-20 14:31:47.017 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=b8a4b1f6-7b4a-4184-813d-07aba7304087 restaurantId=1 itemName=Paneer
+2026-04-20 14:31:47.028 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Updating menu item for owner=c8628db4-c13c-4c85-9ffa-338fbfd19c40 itemId=99
+2026-04-20 14:31:47.036 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Toggling availability owner=1b0ca54a-c3a4-4811-90df-95ccf6646b9d itemId=5 available=false
+2026-04-20 14:31:47.046 WARN  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Deleting menu item for owner=e20f7116-715c-4834-a8b1-f80f6807a0f0 itemId=90
+2026-04-20 14:34:44.092 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Starting MenuOwnerControllerTest using Java 21.0.9 with PID 19484 (started by jhars in C:\Users\jhars\Desktop\QuickbiteBackend\menu-service)
+2026-04-20 14:34:44.096 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - No active profile set, falling back to 1 default profile: "default"
+2026-04-20 14:34:50.045 WARN  [menu-service] [main] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 9ee209ad-5398-42a6-b39c-3eb66c9b89e9
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-20 14:34:50.211 INFO  [menu-service] [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-20 14:34:51.227 INFO  [menu-service] [main] o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2026-04-20 14:34:51.228 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2026-04-20 14:34:51.235 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Completed initialization in 6 ms
+2026-04-20 14:34:51.381 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Started MenuOwnerControllerTest in 8.701 seconds (process running for 12.382)
+2026-04-20 14:34:52.818 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Add menu item request for owner=50aef7c6-d467-4cfd-9980-b4cd38cb9239 restaurantId=1 itemName=Paneer Tikka
+2026-04-20 14:34:53.078 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Toggle menu item availability request for owner=7d2690e2-60b1-4c9d-89bd-0fa11d048b03 itemId=5 available=false
+2026-04-20 14:34:53.698 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=f4323857-ddf8-429f-ae71-280d6224f1e0 restaurantId=1 itemName=Paneer
+2026-04-20 14:34:53.741 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=784c30e9-df01-472f-a51f-e6fd5d360b1c restaurantId=1 itemName=Paneer
+2026-04-20 14:34:53.754 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Updating menu item for owner=ca32da9c-2b6e-481f-ad38-fb25903a13bd itemId=99
+2026-04-20 14:34:53.763 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Toggling availability owner=fd6e13d0-9750-45cc-8337-6ec25ba12b6e itemId=5 available=false
+2026-04-20 14:34:53.774 WARN  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Deleting menu item for owner=1e9f4e4a-1a4d-4c66-a7fb-280088f99a33 itemId=90
+2026-04-20 14:37:25.003 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Starting MenuOwnerControllerTest using Java 21.0.9 with PID 9412 (started by jhars in C:\Users\jhars\Desktop\QuickbiteBackend\menu-service)
+2026-04-20 14:37:25.006 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - No active profile set, falling back to 1 default profile: "default"
+2026-04-20 14:37:30.051 WARN  [menu-service] [main] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 43cca8fd-5ec3-420c-a344-6fb8b64c1c9a
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-20 14:37:30.103 INFO  [menu-service] [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-20 14:37:30.468 INFO  [menu-service] [main] o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2026-04-20 14:37:30.469 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2026-04-20 14:37:30.471 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Completed initialization in 2 ms
+2026-04-20 14:37:30.524 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Started MenuOwnerControllerTest in 6.855 seconds (process running for 10.529)
+2026-04-20 14:37:31.098 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Add menu item request for owner=d002ce31-6f21-48b3-ad9a-d32ca67953f3 restaurantId=1 itemName=Paneer Tikka
+2026-04-20 14:37:31.261 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Toggle menu item availability request for owner=30e0ca96-4425-45b0-8992-1d20866c6a07 itemId=5 available=false
+2026-04-20 14:37:31.674 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=4fc9c4de-42fb-4fe7-a20f-02f00cb08760 restaurantId=1 itemName=Paneer
+2026-04-20 14:37:31.697 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=0aea92cd-f8c8-4d2e-abbe-b3c483d5428c restaurantId=1 itemName=Paneer
+2026-04-20 14:37:31.704 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Updating menu item for owner=e6d47575-ac9f-4459-9a07-b67c9c6a39f0 itemId=99
+2026-04-20 14:37:31.711 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Toggling availability owner=0ec57e3a-0354-4aba-abdb-2b30fa01c516 itemId=5 available=false
+2026-04-20 14:37:31.719 WARN  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Deleting menu item for owner=a2339e30-b70d-43ca-b877-f6355fbe7db1 itemId=90
+2026-04-20 15:16:31.677 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Starting MenuOwnerControllerTest using Java 21.0.9 with PID 20512 (started by jhars in C:\Users\jhars\Desktop\QuickbiteBackend\menu-service)
+2026-04-20 15:16:31.682 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - No active profile set, falling back to 1 default profile: "default"
+2026-04-20 15:16:36.839 WARN  [menu-service] [main] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: f34b4445-c155-42a8-acd7-c401da076a14
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-20 15:16:36.901 INFO  [menu-service] [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-20 15:16:37.287 INFO  [menu-service] [main] o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2026-04-20 15:16:37.287 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2026-04-20 15:16:37.290 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Completed initialization in 3 ms
+2026-04-20 15:16:37.344 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Started MenuOwnerControllerTest in 7.106 seconds (process running for 9.602)
+2026-04-20 15:16:37.919 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Add menu item request for owner=eb0e009b-25a4-4e5b-bd85-30e9050796a8 restaurantId=1 itemName=Paneer Tikka
+2026-04-20 15:16:38.061 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Toggle menu item availability request for owner=781f93c9-e2f8-4869-bb83-f2e1c4bac1ee itemId=5 available=false
+2026-04-20 15:16:38.445 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=d2431ba8-e6c7-4a4c-abcd-36bb5ea521f0 restaurantId=1 itemName=Paneer
+2026-04-20 15:16:38.469 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=2c0d6755-949f-4732-bfd8-e81c8479c3c3 restaurantId=1 itemName=Paneer
+2026-04-20 15:16:38.475 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Updating menu item for owner=fcfd5417-5a0e-4860-9ce9-17a6e033a3c8 itemId=99
+2026-04-20 15:16:38.482 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Toggling availability owner=fcf7c4d6-b90a-4f3f-b4df-c96c9a192e98 itemId=5 available=false
+2026-04-20 15:16:38.489 WARN  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Deleting menu item for owner=02ffa15f-09d4-45ad-91b8-025090b61983 itemId=90
+2026-04-20 15:21:52.903 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Starting MenuOwnerControllerTest using Java 21.0.9 with PID 7380 (started by jhars in C:\Users\jhars\Desktop\QuickbiteBackend\menu-service)
+2026-04-20 15:21:52.908 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - No active profile set, falling back to 1 default profile: "default"
+2026-04-20 15:21:58.137 WARN  [menu-service] [main] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 455958e8-3c18-4403-b05a-e7b10eaf9fd7
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-20 15:21:58.202 INFO  [menu-service] [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-20 15:21:58.582 INFO  [menu-service] [main] o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2026-04-20 15:21:58.582 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2026-04-20 15:21:58.585 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Completed initialization in 3 ms
+2026-04-20 15:21:58.634 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Started MenuOwnerControllerTest in 7.264 seconds (process running for 11.053)
+2026-04-20 15:21:59.167 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Add menu item request for owner=56d203c7-a983-42ae-ba19-24733d5b23a6 restaurantId=1 itemName=Paneer Tikka
+2026-04-20 15:21:59.310 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Toggle menu item availability request for owner=2e7e55cd-2607-480a-a2f1-17fc034ce3db itemId=5 available=false
+2026-04-20 15:21:59.707 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=3606a1a6-a79f-4bc7-9a08-6e897535d862 restaurantId=1 itemName=Paneer
+2026-04-20 15:21:59.732 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=d6c0cfce-084f-4dd2-b19e-872589fbed2b restaurantId=1 itemName=Paneer
+2026-04-20 15:21:59.741 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Updating menu item for owner=32f95eaa-8e3b-4de0-abd3-9ada6d50eb80 itemId=99
+2026-04-20 15:21:59.749 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Toggling availability owner=bbc7f387-7aa4-4cae-a1eb-697de9c2ece2 itemId=5 available=false
+2026-04-20 15:21:59.759 WARN  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Deleting menu item for owner=e385098d-80d4-4e45-99e5-0175083b81f6 itemId=90
+2026-04-20 15:27:11.119 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Starting MenuOwnerControllerTest using Java 21.0.9 with PID 21308 (started by jhars in C:\Users\jhars\Desktop\QuickbiteBackend\menu-service)
+2026-04-20 15:27:11.123 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - No active profile set, falling back to 1 default profile: "default"
+2026-04-20 15:27:16.199 WARN  [menu-service] [main] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: c1bee1bf-bfc7-4745-be3c-3cf201431b24
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-20 15:27:16.263 INFO  [menu-service] [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-20 15:27:16.613 INFO  [menu-service] [main] o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2026-04-20 15:27:16.613 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2026-04-20 15:27:16.624 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Completed initialization in 11 ms
+2026-04-20 15:27:16.675 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Started MenuOwnerControllerTest in 7.038 seconds (process running for 10.739)
+2026-04-20 15:27:17.197 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Add menu item request for owner=fe4fe94f-ad9b-4475-8e76-0454f6c31ec6 restaurantId=1 itemName=Paneer Tikka
+2026-04-20 15:27:17.349 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Toggle menu item availability request for owner=c4d11a57-431c-4eb6-8dbb-b20738884b71 itemId=5 available=false
+2026-04-20 15:27:17.742 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=9e065502-8192-4099-ae5e-2f47f8d54ced restaurantId=1 itemName=Paneer
+2026-04-20 15:27:17.769 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=79474579-cd4c-4823-8f4b-561c7ba9c400 restaurantId=1 itemName=Paneer
+2026-04-20 15:27:17.777 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Updating menu item for owner=85bc3f51-d345-4c5e-b6e5-956d6834f9f2 itemId=99
+2026-04-20 15:27:17.786 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Toggling availability owner=eeee85e7-20da-4a28-b07b-bbd034e2cc35 itemId=5 available=false
+2026-04-20 15:27:17.795 WARN  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Deleting menu item for owner=6c072f73-7347-4cab-b10f-000763de253f itemId=90
+2026-04-20 16:31:51.862 INFO  [menu-service] [main] c.q.m.controller.MenuControllerTest - Starting MenuControllerTest using Java 21.0.9 with PID 22972 (started by jhars in C:\Users\jhars\Desktop\QuickbiteBackend\menu-service)
+2026-04-20 16:31:51.866 INFO  [menu-service] [main] c.q.m.controller.MenuControllerTest - No active profile set, falling back to 1 default profile: "default"
+2026-04-20 16:32:01.365 WARN  [menu-service] [main] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: a924d752-e672-4a90-b0f2-b92f9a9af96f
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-20 16:32:01.516 INFO  [menu-service] [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-20 16:32:02.394 INFO  [menu-service] [main] o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2026-04-20 16:32:02.395 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2026-04-20 16:32:02.400 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Completed initialization in 5 ms
+2026-04-20 16:32:02.499 INFO  [menu-service] [main] c.q.m.controller.MenuControllerTest - Started MenuControllerTest in 13.025 seconds (process running for 18.624)
+2026-04-20 16:32:04.277 INFO  [menu-service] [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.quickbite.menu.controller.MenuOwnerControllerTest]: MenuOwnerControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-04-20 16:32:04.548 INFO  [menu-service] [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.quickbite.menu.MenuServiceApplication for test class com.quickbite.menu.controller.MenuOwnerControllerTest
+2026-04-20 16:32:05.390 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Starting MenuOwnerControllerTest using Java 21.0.9 with PID 22972 (started by jhars in C:\Users\jhars\Desktop\QuickbiteBackend\menu-service)
+2026-04-20 16:32:05.393 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - No active profile set, falling back to 1 default profile: "default"
+2026-04-20 16:32:07.293 WARN  [menu-service] [main] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: de7298b3-5302-4105-9a36-12b7ed9b9151
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-20 16:32:07.298 INFO  [menu-service] [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-20 16:32:07.380 INFO  [menu-service] [main] o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2026-04-20 16:32:07.382 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2026-04-20 16:32:07.389 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Completed initialization in 6 ms
+2026-04-20 16:32:07.449 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Started MenuOwnerControllerTest in 2.879 seconds (process running for 23.574)
+2026-04-20 16:32:07.621 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Add menu item request for owner=d23a86d5-95ce-4fb5-be39-fd4e15075772 restaurantId=1 itemName=Paneer Tikka
+2026-04-20 16:32:07.759 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Toggle menu item availability request for owner=d2f4ad91-f5d9-43d1-99f9-87fb074466bb itemId=5 available=false
+2026-04-20 16:32:08.694 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=f536f800-9a72-45c6-8813-3c622f8b05de restaurantId=1 itemName=Paneer
+2026-04-20 16:32:08.749 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=85e20671-b085-4882-aedb-4e3684a57d2d restaurantId=1 itemName=Paneer
+2026-04-20 16:32:08.776 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Updating menu item for owner=28367402-4de3-4d0b-9f8a-65565373932e itemId=99
+2026-04-20 16:32:08.805 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Toggling availability owner=ff1be0b4-6927-4a10-a405-b803f3143445 itemId=5 available=false
+2026-04-20 16:32:08.844 WARN  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Deleting menu item for owner=6115c8b3-7e43-403a-843c-d03e13d730d9 itemId=90
+2026-04-20 16:52:15.473 INFO  [menu-service] [main] c.q.m.controller.MenuControllerTest - Starting MenuControllerTest using Java 21.0.9 with PID 18788 (started by jhars in C:\Users\jhars\Desktop\QuickbiteBackend\menu-service)
+2026-04-20 16:52:15.477 INFO  [menu-service] [main] c.q.m.controller.MenuControllerTest - No active profile set, falling back to 1 default profile: "default"
+2026-04-20 16:52:25.904 WARN  [menu-service] [main] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 291504a4-25d9-4efe-9616-9dfc21094a48
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-20 16:52:26.147 INFO  [menu-service] [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-20 16:52:27.197 INFO  [menu-service] [main] o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2026-04-20 16:52:27.198 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2026-04-20 16:52:27.260 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Completed initialization in 62 ms
+2026-04-20 16:52:27.361 INFO  [menu-service] [main] c.q.m.controller.MenuControllerTest - Started MenuControllerTest in 14.952 seconds (process running for 20.385)
+2026-04-20 16:52:28.428 INFO  [menu-service] [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.quickbite.menu.controller.MenuOwnerControllerTest]: MenuOwnerControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-04-20 16:52:28.481 INFO  [menu-service] [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.quickbite.menu.MenuServiceApplication for test class com.quickbite.menu.controller.MenuOwnerControllerTest
+2026-04-20 16:52:29.056 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Starting MenuOwnerControllerTest using Java 21.0.9 with PID 18788 (started by jhars in C:\Users\jhars\Desktop\QuickbiteBackend\menu-service)
+2026-04-20 16:52:29.057 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - No active profile set, falling back to 1 default profile: "default"
+2026-04-20 16:52:30.006 WARN  [menu-service] [main] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 5b7bfcaf-20ad-4d2c-b21d-5e66753f2afe
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-20 16:52:30.009 INFO  [menu-service] [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-20 16:52:30.035 INFO  [menu-service] [main] o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2026-04-20 16:52:30.036 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2026-04-20 16:52:30.037 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2026-04-20 16:52:30.050 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Started MenuOwnerControllerTest in 1.562 seconds (process running for 23.074)
+2026-04-20 16:52:30.122 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Add menu item request for owner=f84560e8-aba8-4957-b946-562246ca2dd5 restaurantId=1 itemName=Paneer Tikka
+2026-04-20 16:52:30.200 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Toggle menu item availability request for owner=33d3f310-90cd-4a56-8d2b-559e11c79a91 itemId=5 available=false
+2026-04-20 16:52:30.704 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=d6698f3b-7a76-4262-bb86-b54502d017c7 restaurantId=1 itemName=Paneer
+2026-04-20 16:52:30.727 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=edf5a364-34e6-4e29-91fe-396ac70ebbad restaurantId=1 itemName=Paneer
+2026-04-20 16:52:30.735 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Updating menu item for owner=abcf935f-84a2-45e0-91fb-442914b8d5c7 itemId=99
+2026-04-20 16:52:30.749 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Toggling availability owner=918c2f10-3018-4c0c-9d83-2186514dfc06 itemId=5 available=false
+2026-04-20 16:52:30.760 WARN  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Deleting menu item for owner=a09b1315-8f9c-4444-a4ed-4b4173b915da itemId=90
+2026-04-20 16:57:07.041 INFO  [menu-service] [main] c.q.m.controller.MenuControllerTest - Starting MenuControllerTest using Java 21.0.9 with PID 20184 (started by jhars in C:\Users\jhars\Desktop\QuickbiteBackend\menu-service)
+2026-04-20 16:57:07.043 INFO  [menu-service] [main] c.q.m.controller.MenuControllerTest - No active profile set, falling back to 1 default profile: "default"
+2026-04-20 16:57:11.590 WARN  [menu-service] [main] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 081ed068-32c3-4714-896e-6dd8167266ae
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-20 16:57:11.644 INFO  [menu-service] [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-20 16:57:11.980 INFO  [menu-service] [main] o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2026-04-20 16:57:11.980 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2026-04-20 16:57:11.981 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2026-04-20 16:57:12.029 INFO  [menu-service] [main] c.q.m.controller.MenuControllerTest - Started MenuControllerTest in 6.316 seconds (process running for 9.618)
+2026-04-20 16:57:12.655 INFO  [menu-service] [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.quickbite.menu.controller.MenuOwnerControllerTest]: MenuOwnerControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-04-20 16:57:12.671 INFO  [menu-service] [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.quickbite.menu.MenuServiceApplication for test class com.quickbite.menu.controller.MenuOwnerControllerTest
+2026-04-20 16:57:12.757 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Starting MenuOwnerControllerTest using Java 21.0.9 with PID 20184 (started by jhars in C:\Users\jhars\Desktop\QuickbiteBackend\menu-service)
+2026-04-20 16:57:12.757 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - No active profile set, falling back to 1 default profile: "default"
+2026-04-20 16:57:13.225 WARN  [menu-service] [main] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 55663be0-2ab9-4a40-a1fe-7dc3306e4f41
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-20 16:57:13.227 INFO  [menu-service] [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-20 16:57:13.250 INFO  [menu-service] [main] o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2026-04-20 16:57:13.250 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2026-04-20 16:57:13.251 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2026-04-20 16:57:13.262 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Started MenuOwnerControllerTest in 0.587 seconds (process running for 10.85)
+2026-04-20 16:57:13.335 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Add menu item request for owner=dd3b7980-c92b-4e42-ab95-fabea346113e restaurantId=1 itemName=Paneer Tikka
+2026-04-20 16:57:13.398 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Toggle menu item availability request for owner=2e619792-194c-4027-b02c-bd34de85e58d itemId=5 available=false
+2026-04-20 16:57:13.837 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=ea6db28e-a597-4c26-8cd9-c85c50c9632c restaurantId=1 itemName=Paneer
+2026-04-20 16:57:13.863 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=96fbf3a8-02e5-4adb-b21f-c3fc9373da50 restaurantId=1 itemName=Paneer
+2026-04-20 16:57:13.870 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Updating menu item for owner=63437dc5-0388-4a8d-bf10-4bd8882fbbfa itemId=99
+2026-04-20 16:57:13.877 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Toggling availability owner=2eb3667b-682b-4d1e-b76a-af40138766a4 itemId=5 available=false
+2026-04-20 16:57:13.885 WARN  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Deleting menu item for owner=71461302-4f43-4a40-8308-38741d27f05f itemId=90
+2026-04-20 17:01:49.699 INFO  [menu-service] [main] c.q.m.controller.MenuControllerTest - Starting MenuControllerTest using Java 21.0.9 with PID 15096 (started by jhars in C:\Users\jhars\Desktop\QuickbiteBackend\menu-service)
+2026-04-20 17:01:49.703 INFO  [menu-service] [main] c.q.m.controller.MenuControllerTest - No active profile set, falling back to 1 default profile: "default"
+2026-04-20 17:01:55.189 WARN  [menu-service] [main] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 420ba712-4a38-43fa-ba00-d9ed7898e3f2
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-20 17:01:55.253 INFO  [menu-service] [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-20 17:01:55.702 INFO  [menu-service] [main] o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2026-04-20 17:01:55.702 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2026-04-20 17:01:55.705 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Completed initialization in 3 ms
+2026-04-20 17:01:55.763 INFO  [menu-service] [main] c.q.m.controller.MenuControllerTest - Started MenuControllerTest in 7.442 seconds (process running for 10.841)
+2026-04-20 17:01:56.668 INFO  [menu-service] [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.quickbite.menu.controller.MenuOwnerControllerTest]: MenuOwnerControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-04-20 17:01:56.686 INFO  [menu-service] [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.quickbite.menu.MenuServiceApplication for test class com.quickbite.menu.controller.MenuOwnerControllerTest
+2026-04-20 17:01:56.781 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Starting MenuOwnerControllerTest using Java 21.0.9 with PID 15096 (started by jhars in C:\Users\jhars\Desktop\QuickbiteBackend\menu-service)
+2026-04-20 17:01:56.782 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - No active profile set, falling back to 1 default profile: "default"
+2026-04-20 17:01:57.320 WARN  [menu-service] [main] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 9c39f0d5-d9c5-442b-ad2f-1f16ff866841
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-20 17:01:57.322 INFO  [menu-service] [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-20 17:01:57.342 INFO  [menu-service] [main] o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2026-04-20 17:01:57.342 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2026-04-20 17:01:57.343 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2026-04-20 17:01:57.356 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Started MenuOwnerControllerTest in 0.666 seconds (process running for 12.434)
+2026-04-20 17:01:57.442 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Add menu item request for owner=61cefd27-5660-42c0-b2dc-b54f25d406a2 restaurantId=1 itemName=Paneer Tikka
+2026-04-20 17:01:57.522 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Toggle menu item availability request for owner=87d0e681-f16e-4b9c-8e35-b2ffec8fe899 itemId=5 available=false
+2026-04-20 17:01:58.071 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=6eca074d-7218-4890-b7ea-0346393a768c restaurantId=1 itemName=Paneer
+2026-04-20 17:01:58.108 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=60b58b73-8906-43e4-ab6a-b6dae3b23c20 restaurantId=1 itemName=Paneer
+2026-04-20 17:01:58.117 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Updating menu item for owner=365e77f5-9ebf-4881-bc03-dfc7d7161cf7 itemId=99
+2026-04-20 17:01:58.126 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Toggling availability owner=589b0a6d-90d5-41fd-ba0f-b0712b66bd85 itemId=5 available=false
+2026-04-20 17:01:58.135 WARN  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Deleting menu item for owner=347543ad-c174-4023-8609-760c46639208 itemId=90
+2026-04-20 18:05:11.169 INFO  [menu-service] [main] c.q.m.controller.MenuControllerTest - Starting MenuControllerTest using Java 21.0.9 with PID 12380 (started by jhars in C:\Users\jhars\Desktop\QuickbiteBackend\menu-service)
+2026-04-20 18:05:11.198 INFO  [menu-service] [main] c.q.m.controller.MenuControllerTest - No active profile set, falling back to 1 default profile: "default"
+2026-04-20 18:05:25.593 WARN  [menu-service] [main] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: bd276199-4325-437f-91fc-3904da2a55c5
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-20 18:05:25.715 INFO  [menu-service] [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-20 18:05:27.880 INFO  [menu-service] [main] o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2026-04-20 18:05:27.881 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2026-04-20 18:05:27.884 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Completed initialization in 3 ms
+2026-04-20 18:05:28.258 INFO  [menu-service] [main] c.q.m.controller.MenuControllerTest - Started MenuControllerTest in 23.95 seconds (process running for 37.316)
+2026-04-20 18:05:31.261 INFO  [menu-service] [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.quickbite.menu.controller.MenuOwnerControllerTest]: MenuOwnerControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-04-20 18:05:31.303 INFO  [menu-service] [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.quickbite.menu.MenuServiceApplication for test class com.quickbite.menu.controller.MenuOwnerControllerTest
+2026-04-20 18:05:32.192 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Starting MenuOwnerControllerTest using Java 21.0.9 with PID 12380 (started by jhars in C:\Users\jhars\Desktop\QuickbiteBackend\menu-service)
+2026-04-20 18:05:32.194 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - No active profile set, falling back to 1 default profile: "default"
+2026-04-20 18:05:34.326 WARN  [menu-service] [main] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 55aa71ff-8bd1-4b66-81e9-0fa5ab26ebc6
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-20 18:05:34.329 INFO  [menu-service] [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-20 18:05:34.431 INFO  [menu-service] [main] o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2026-04-20 18:05:34.437 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2026-04-20 18:05:34.458 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Completed initialization in 7 ms
+2026-04-20 18:05:34.530 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Started MenuOwnerControllerTest in 3.156 seconds (process running for 43.589)
+2026-04-20 18:05:34.894 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Add menu item request for owner=8cc1dacb-453a-48f1-a27e-b00f65c1ec5a restaurantId=1 itemName=Paneer Tikka
+2026-04-20 18:05:35.161 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Toggle menu item availability request for owner=54107f59-0641-4b1a-8811-ad6774de3358 itemId=5 available=false
+2026-04-20 18:05:36.710 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=77cdb34b-c829-4f53-9ac6-34bba7e4dafe restaurantId=1 itemName=Paneer
+2026-04-20 18:05:36.864 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=494dd7d0-e868-4982-b4bb-f6b060422b24 restaurantId=1 itemName=Paneer
+2026-04-20 18:05:36.879 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Updating menu item for owner=54f55916-ef70-4993-8f93-4df67c902b0b itemId=99
+2026-04-20 18:05:36.894 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Toggling availability owner=5014dfa3-1d99-46f6-8ff2-b7beab619b39 itemId=5 available=false
+2026-04-20 18:05:36.910 WARN  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Deleting menu item for owner=176c01c3-5412-4f37-a6eb-304a3895c342 itemId=90
+2026-04-20 18:21:55.761 INFO  [menu-service] [main] c.q.m.controller.MenuControllerTest - Starting MenuControllerTest using Java 21.0.9 with PID 9716 (started by jhars in C:\Users\jhars\Desktop\QuickbiteBackend\menu-service)
+2026-04-20 18:21:55.766 INFO  [menu-service] [main] c.q.m.controller.MenuControllerTest - No active profile set, falling back to 1 default profile: "default"
+2026-04-20 18:22:01.583 WARN  [menu-service] [main] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 0e478748-c069-4ced-84c7-0f3c8177fca5
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-20 18:22:01.682 INFO  [menu-service] [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-20 18:22:02.266 INFO  [menu-service] [main] o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2026-04-20 18:22:02.266 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2026-04-20 18:22:02.266 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2026-04-20 18:22:02.346 INFO  [menu-service] [main] c.q.m.controller.MenuControllerTest - Started MenuControllerTest in 7.758 seconds (process running for 11.21)
+2026-04-20 18:22:03.530 INFO  [menu-service] [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.quickbite.menu.controller.MenuOwnerControllerTest]: MenuOwnerControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-04-20 18:22:03.544 INFO  [menu-service] [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.quickbite.menu.MenuServiceApplication for test class com.quickbite.menu.controller.MenuOwnerControllerTest
+2026-04-20 18:22:03.626 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Starting MenuOwnerControllerTest using Java 21.0.9 with PID 9716 (started by jhars in C:\Users\jhars\Desktop\QuickbiteBackend\menu-service)
+2026-04-20 18:22:03.626 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - No active profile set, falling back to 1 default profile: "default"
+2026-04-20 18:22:04.105 WARN  [menu-service] [main] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: dc13c08e-78da-4515-b76d-983730f8abd9
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-20 18:22:04.105 INFO  [menu-service] [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-20 18:22:04.128 INFO  [menu-service] [main] o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2026-04-20 18:22:04.128 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2026-04-20 18:22:04.128 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2026-04-20 18:22:04.136 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Started MenuOwnerControllerTest in 0.592 seconds (process running for 12.996)
+2026-04-20 18:22:04.232 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Add menu item request for owner=ac978906-925b-4e23-a25d-04d4b04641cc restaurantId=1 itemName=Paneer Tikka
+2026-04-20 18:22:04.328 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Toggle menu item availability request for owner=91e99462-37c4-4566-a4ae-c49222dfaa69 itemId=5 available=false
+2026-04-20 18:22:04.790 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=d52340d6-d4ac-414e-8f58-08448181ad9d restaurantId=1 itemName=Paneer
+2026-04-20 18:22:04.822 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=f2365fbc-42fd-44ec-b7c5-b87d3d19f3c8 restaurantId=1 itemName=Paneer
+2026-04-20 18:22:04.829 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Updating menu item for owner=d2727e7f-847e-4de3-800c-3b30d5dccb98 itemId=99
+2026-04-20 18:22:04.838 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Toggling availability owner=e23247fb-13b7-4fa6-a3f3-db92e502d258 itemId=5 available=false
+2026-04-20 18:22:04.838 WARN  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Deleting menu item for owner=47199fc4-17d2-4be6-9184-7a97c7f94c78 itemId=90
+2026-04-20 18:28:04.817 INFO  [menu-service] [main] c.q.m.controller.MenuControllerTest - Starting MenuControllerTest using Java 21.0.9 with PID 10664 (started by jhars in C:\Users\jhars\Desktop\QuickbiteBackend\menu-service)
+2026-04-20 18:28:04.820 INFO  [menu-service] [main] c.q.m.controller.MenuControllerTest - No active profile set, falling back to 1 default profile: "default"
+2026-04-20 18:28:13.552 WARN  [menu-service] [main] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: e6784e47-05f0-4b40-8c18-3133ec28830d
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-20 18:28:13.694 INFO  [menu-service] [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-20 18:28:14.362 INFO  [menu-service] [main] o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2026-04-20 18:28:14.363 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2026-04-20 18:28:14.367 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Completed initialization in 4 ms
+2026-04-20 18:28:14.442 INFO  [menu-service] [main] c.q.m.controller.MenuControllerTest - Started MenuControllerTest in 10.928 seconds (process running for 14.865)
+2026-04-20 18:28:15.572 INFO  [menu-service] [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.quickbite.menu.controller.MenuOwnerControllerTest]: MenuOwnerControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-04-20 18:28:15.596 INFO  [menu-service] [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.quickbite.menu.MenuServiceApplication for test class com.quickbite.menu.controller.MenuOwnerControllerTest
+2026-04-20 18:28:15.717 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Starting MenuOwnerControllerTest using Java 21.0.9 with PID 10664 (started by jhars in C:\Users\jhars\Desktop\QuickbiteBackend\menu-service)
+2026-04-20 18:28:15.718 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - No active profile set, falling back to 1 default profile: "default"
+2026-04-20 18:28:16.567 WARN  [menu-service] [main] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 0761be70-a6d4-489c-a2a2-29fba2634aee
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-20 18:28:16.571 INFO  [menu-service] [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-20 18:28:16.601 INFO  [menu-service] [main] o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2026-04-20 18:28:16.601 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2026-04-20 18:28:16.602 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2026-04-20 18:28:16.615 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Started MenuOwnerControllerTest in 1.014 seconds (process running for 17.037)
+2026-04-20 18:28:16.737 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Add menu item request for owner=b2b88bdb-5a90-432c-972b-b6426a6f70bd restaurantId=1 itemName=Paneer Tikka
+2026-04-20 18:28:16.843 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Toggle menu item availability request for owner=85c8de38-71b8-480f-9a11-77156441b575 itemId=5 available=false
+2026-04-20 18:28:17.435 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=c3cc24ed-b2f4-4814-ac1c-9ff3477351c1 restaurantId=1 itemName=Paneer
+2026-04-20 18:28:17.472 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=3f5b54ed-46f7-4a35-9bf2-f130b06f1abb restaurantId=1 itemName=Paneer
+2026-04-20 18:28:17.479 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Updating menu item for owner=8325d49b-279b-4641-9995-a15fb2d3b915 itemId=99
+2026-04-20 18:28:17.486 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Toggling availability owner=afabba00-3273-44ac-a527-b247baa04c05 itemId=5 available=false
+2026-04-20 18:28:17.499 WARN  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Deleting menu item for owner=3d5e5a84-9211-41e6-8ce4-adb9d3749893 itemId=90
+2026-04-20 18:34:40.516 INFO  [menu-service] [main] c.q.m.controller.MenuControllerTest - Starting MenuControllerTest using Java 21.0.9 with PID 21816 (started by jhars in C:\Users\jhars\Desktop\QuickbiteBackend\menu-service)
+2026-04-20 18:34:40.520 INFO  [menu-service] [main] c.q.m.controller.MenuControllerTest - No active profile set, falling back to 1 default profile: "default"
+2026-04-20 18:34:48.271 WARN  [menu-service] [main] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 72618a16-0c07-4c4a-b514-3309e50ab2a6
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-20 18:34:48.377 INFO  [menu-service] [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-20 18:34:48.941 INFO  [menu-service] [main] o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2026-04-20 18:34:48.941 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2026-04-20 18:34:48.944 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Completed initialization in 2 ms
+2026-04-20 18:34:49.019 INFO  [menu-service] [main] c.q.m.controller.MenuControllerTest - Started MenuControllerTest in 10.818 seconds (process running for 14.375)
+2026-04-20 18:34:49.958 INFO  [menu-service] [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.quickbite.menu.controller.MenuOwnerControllerTest]: MenuOwnerControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-04-20 18:34:49.978 INFO  [menu-service] [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.quickbite.menu.MenuServiceApplication for test class com.quickbite.menu.controller.MenuOwnerControllerTest
+2026-04-20 18:34:50.089 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Starting MenuOwnerControllerTest using Java 21.0.9 with PID 21816 (started by jhars in C:\Users\jhars\Desktop\QuickbiteBackend\menu-service)
+2026-04-20 18:34:50.090 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - No active profile set, falling back to 1 default profile: "default"
+2026-04-20 18:34:50.625 WARN  [menu-service] [main] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: b683a031-662c-4f16-9161-24478d3f37e7
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-20 18:34:50.627 INFO  [menu-service] [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-20 18:34:50.645 INFO  [menu-service] [main] o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2026-04-20 18:34:50.645 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2026-04-20 18:34:50.646 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2026-04-20 18:34:50.655 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Started MenuOwnerControllerTest in 0.673 seconds (process running for 16.01)
+2026-04-20 18:34:50.730 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Add menu item request for owner=01ed7644-0286-4d7a-8e78-b8bb8e9f41b5 restaurantId=1 itemName=Paneer Tikka
+2026-04-20 18:34:50.791 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Toggle menu item availability request for owner=75bfb3ee-8f0c-43cd-9aa9-57ee7023a906 itemId=5 available=false
+2026-04-20 18:34:51.162 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=3fa2ae51-d21b-4b15-b6b2-bc73f81e849a restaurantId=1 itemName=Paneer
+2026-04-20 18:34:51.187 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=d4d9f956-d76a-4643-8eac-be8cb4b9392d restaurantId=1 itemName=Paneer
+2026-04-20 18:34:51.193 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Updating menu item for owner=5930b61a-f521-4d02-8f13-7c9ad90c422e itemId=99
+2026-04-20 18:34:51.199 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Toggling availability owner=208bc4be-2593-49ed-a3dc-ea5478a91b0f itemId=5 available=false
+2026-04-20 18:34:51.207 WARN  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Deleting menu item for owner=beb11658-d5df-4f26-93cd-f141e43ceea7 itemId=90
+2026-04-20 18:55:44.910 INFO  [menu-service] [main] c.q.m.controller.MenuControllerTest - Starting MenuControllerTest using Java 21.0.9 with PID 23120 (started by jhars in C:\Users\jhars\Desktop\QuickbiteBackend\menu-service)
+2026-04-20 18:55:44.913 INFO  [menu-service] [main] c.q.m.controller.MenuControllerTest - No active profile set, falling back to 1 default profile: "default"
+2026-04-20 18:55:54.080 WARN  [menu-service] [main] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 88663618-b5f4-45a1-a6e4-41e36deaea8c
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-20 18:55:54.171 INFO  [menu-service] [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-20 18:55:54.572 INFO  [menu-service] [main] o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2026-04-20 18:55:54.573 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2026-04-20 18:55:54.575 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Completed initialization in 2 ms
+2026-04-20 18:55:54.654 INFO  [menu-service] [main] c.q.m.controller.MenuControllerTest - Started MenuControllerTest in 11.656 seconds (process running for 14.526)
+2026-04-20 18:55:55.549 INFO  [menu-service] [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.quickbite.menu.controller.MenuOwnerControllerTest]: MenuOwnerControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-04-20 18:55:55.613 INFO  [menu-service] [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.quickbite.menu.MenuServiceApplication for test class com.quickbite.menu.controller.MenuOwnerControllerTest
+2026-04-20 18:55:55.910 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Starting MenuOwnerControllerTest using Java 21.0.9 with PID 23120 (started by jhars in C:\Users\jhars\Desktop\QuickbiteBackend\menu-service)
+2026-04-20 18:55:55.911 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - No active profile set, falling back to 1 default profile: "default"
+2026-04-20 18:55:57.092 WARN  [menu-service] [main] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: a8e5ea0b-dfb1-4220-84de-fa3f509978e3
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-20 18:55:57.100 INFO  [menu-service] [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-20 18:55:57.147 INFO  [menu-service] [main] o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2026-04-20 18:55:57.147 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2026-04-20 18:55:57.149 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2026-04-20 18:55:57.177 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Started MenuOwnerControllerTest in 1.559 seconds (process running for 17.048)
+2026-04-20 18:55:57.276 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Add menu item request for owner=40f47c2c-a8ae-4ee8-979a-5445616b8102 restaurantId=1 itemName=Paneer Tikka
+2026-04-20 18:55:57.358 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Toggle menu item availability request for owner=9002c18c-53ef-4512-82ea-099c4b8777e3 itemId=5 available=false
+2026-04-20 18:55:58.020 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=7b2b5a7b-a789-46b5-aca5-997808aaa4ce restaurantId=1 itemName=Paneer
+2026-04-20 18:55:58.046 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=c9fce422-d1b9-494d-8562-546929154b3e restaurantId=1 itemName=Paneer
+2026-04-20 18:55:58.057 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Updating menu item for owner=d1e0d434-126e-4aac-8892-a7fb21b576ec itemId=99
+2026-04-20 18:55:58.071 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Toggling availability owner=4ba14608-0500-402d-ac20-d427c3436b47 itemId=5 available=false
+2026-04-20 18:55:58.093 WARN  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Deleting menu item for owner=669b93c6-6bf5-4778-943f-181221917682 itemId=90
+2026-04-20 19:02:07.329 INFO  [menu-service] [main] c.q.m.controller.MenuControllerTest - Starting MenuControllerTest using Java 21.0.9 with PID 21268 (started by jhars in C:\Users\jhars\Desktop\QuickbiteBackend\menu-service)
+2026-04-20 19:02:07.335 INFO  [menu-service] [main] c.q.m.controller.MenuControllerTest - No active profile set, falling back to 1 default profile: "default"
+2026-04-20 19:02:14.178 WARN  [menu-service] [main] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: 48984528-ba0c-4a8e-9895-5b7e4c5cb38e
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-20 19:02:14.265 INFO  [menu-service] [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-20 19:02:14.837 INFO  [menu-service] [main] o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2026-04-20 19:02:14.837 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2026-04-20 19:02:14.840 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Completed initialization in 2 ms
+2026-04-20 19:02:14.922 INFO  [menu-service] [main] c.q.m.controller.MenuControllerTest - Started MenuControllerTest in 9.262 seconds (process running for 14.392)
+2026-04-20 19:02:15.910 INFO  [menu-service] [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.quickbite.menu.controller.MenuOwnerControllerTest]: MenuOwnerControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-04-20 19:02:15.927 INFO  [menu-service] [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.quickbite.menu.MenuServiceApplication for test class com.quickbite.menu.controller.MenuOwnerControllerTest
+2026-04-20 19:02:16.016 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Starting MenuOwnerControllerTest using Java 21.0.9 with PID 21268 (started by jhars in C:\Users\jhars\Desktop\QuickbiteBackend\menu-service)
+2026-04-20 19:02:16.017 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - No active profile set, falling back to 1 default profile: "default"
+2026-04-20 19:02:16.575 WARN  [menu-service] [main] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: e22d1001-0aaf-47eb-a4c9-6d9fc0f0e714
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-20 19:02:16.577 INFO  [menu-service] [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-20 19:02:16.613 INFO  [menu-service] [main] o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2026-04-20 19:02:16.613 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2026-04-20 19:02:16.614 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2026-04-20 19:02:16.624 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Started MenuOwnerControllerTest in 0.694 seconds (process running for 16.095)
+2026-04-20 19:02:16.724 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Add menu item request for owner=e04d9d91-c532-4e83-9c30-1d4e4e8ced5f restaurantId=1 itemName=Paneer Tikka
+2026-04-20 19:02:16.801 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Toggle menu item availability request for owner=3dbf0def-b5b4-469d-8467-d237b0112d46 itemId=5 available=false
+2026-04-20 19:02:17.258 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=9f762ccc-f1da-49f8-b222-2778454d3328 restaurantId=1 itemName=Paneer
+2026-04-20 19:02:17.295 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=cecd55e7-4153-45d8-87a9-8661937bf4d7 restaurantId=1 itemName=Paneer
+2026-04-20 19:02:17.309 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Updating menu item for owner=e708e5ed-5700-4fc5-854d-f780e0a1ec41 itemId=99
+2026-04-20 19:02:17.317 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Toggling availability owner=d4427dd5-4e2f-492a-9e28-987e819f6cba itemId=5 available=false
+2026-04-20 19:02:17.328 WARN  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Deleting menu item for owner=06c3b636-1e8c-4694-955c-0c8949da707c itemId=90
+2026-04-20 19:07:20.861 INFO  [menu-service] [main] c.q.m.controller.MenuControllerTest - Starting MenuControllerTest using Java 21.0.9 with PID 272 (started by jhars in C:\Users\jhars\Desktop\QuickbiteBackend\menu-service)
+2026-04-20 19:07:20.866 INFO  [menu-service] [main] c.q.m.controller.MenuControllerTest - No active profile set, falling back to 1 default profile: "default"
+2026-04-20 19:07:27.142 WARN  [menu-service] [main] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: a34bb1b0-4d6c-4c9d-8976-ef247de0cbcb
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-20 19:07:27.226 INFO  [menu-service] [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-20 19:07:27.741 INFO  [menu-service] [main] o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2026-04-20 19:07:27.741 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2026-04-20 19:07:27.744 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Completed initialization in 3 ms
+2026-04-20 19:07:27.813 INFO  [menu-service] [main] c.q.m.controller.MenuControllerTest - Started MenuControllerTest in 8.673 seconds (process running for 13.235)
+2026-04-20 19:07:28.713 INFO  [menu-service] [main] o.s.t.c.s.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.quickbite.menu.controller.MenuOwnerControllerTest]: MenuOwnerControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-04-20 19:07:28.727 INFO  [menu-service] [main] o.s.b.t.c.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.quickbite.menu.MenuServiceApplication for test class com.quickbite.menu.controller.MenuOwnerControllerTest
+2026-04-20 19:07:28.813 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Starting MenuOwnerControllerTest using Java 21.0.9 with PID 272 (started by jhars in C:\Users\jhars\Desktop\QuickbiteBackend\menu-service)
+2026-04-20 19:07:28.814 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - No active profile set, falling back to 1 default profile: "default"
+2026-04-20 19:07:29.303 WARN  [menu-service] [main] o.s.b.a.s.s.UserDetailsServiceAutoConfiguration - 
+
+Using generated security password: c3325a4d-3802-409c-a073-6bd3626e8ca4
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-04-20 19:07:29.305 INFO  [menu-service] [main] o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with UserDetailsService bean with name inMemoryUserDetailsManager
+2026-04-20 19:07:29.323 INFO  [menu-service] [main] o.s.b.t.m.w.SpringBootMockServletContext - Initializing Spring TestDispatcherServlet ''
+2026-04-20 19:07:29.324 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2026-04-20 19:07:29.324 INFO  [menu-service] [main] o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2026-04-20 19:07:29.334 INFO  [menu-service] [main] c.q.m.c.MenuOwnerControllerTest - Started MenuOwnerControllerTest in 0.603 seconds (process running for 14.757)
+2026-04-20 19:07:29.427 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Add menu item request for owner=7d73a21d-14b5-4ecd-92bb-eaaf53c8db06 restaurantId=1 itemName=Paneer Tikka
+2026-04-20 19:07:29.495 INFO  [menu-service] [main] c.q.m.controller.MenuOwnerController - Toggle menu item availability request for owner=9683f8c7-310a-41f2-8a7a-8e12769d547e itemId=5 available=false
+2026-04-20 19:07:29.904 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=ebcb42e6-f105-44a5-ac06-330be60b4637 restaurantId=1 itemName=Paneer
+2026-04-20 19:07:29.937 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Adding menu item for owner=311dfca9-c025-4a2b-a032-07019142651d restaurantId=1 itemName=Paneer
+2026-04-20 19:07:29.945 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Updating menu item for owner=0bfa5cc2-cf81-4f13-9267-b6373a060984 itemId=99
+2026-04-20 19:07:29.952 INFO  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Toggling availability owner=61d65153-c004-40f2-a76c-cd33f9747976 itemId=5 available=false
+2026-04-20 19:07:29.961 WARN  [menu-service] [main] c.q.m.s.impl.MenuOwnerServiceImpl - Deleting menu item for owner=7fabf599-e521-4a79-ab68-1a23c2c1de18 itemId=90
