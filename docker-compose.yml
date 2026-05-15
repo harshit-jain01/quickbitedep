@@ -7,7 +7,7 @@ x-backend-common: &backend-common
     JWT_SECRET: UVVpY2tCaXRlU3VwZXJTZWNyZXRLZXlGb3JKV1RTaWduaW5nMTIzNDU2Nzg5MA==
   depends_on:
     eureka-server:
-      condition: service_started
+      condition: service_healthy
 
 x-mysql-common: &mysql-common
   SPRING_DATASOURCE_USERNAME: root
@@ -20,7 +20,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: abcd
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - mysql-data:/var/lib/mysql
     healthcheck:
@@ -30,24 +30,27 @@ services:
       retries: 20
 
   kafka:
-    image: bitnami/kafka:3.7
+    image: apache/kafka:3.7.2
     restart: unless-stopped
     environment:
-      KAFKA_CFG_NODE_ID: 1
-      KAFKA_CFG_PROCESS_ROLES: broker,controller
-      KAFKA_CFG_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
-      KAFKA_CFG_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093
-      KAFKA_CFG_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
-      KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
-      KAFKA_CFG_CONTROLLER_LISTENER_NAMES: CONTROLLER
-      KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE: "true"
-      ALLOW_PLAINTEXT_LISTENER: "yes"
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
     ports:
       - "9092:9092"
     volumes:
-      - kafka-data:/bitnami/kafka
+      - kafka-data:/tmp/kraft-combined-logs
     healthcheck:
-      test: ["CMD-SHELL", "kafka-topics.sh --bootstrap-server localhost:9092 --list >/dev/null 2>&1"]
+      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-topics.sh --bootstrap-server localhost:9092 --list >/dev/null 2>&1"]
       interval: 10s
       timeout: 5s
       retries: 20
@@ -62,6 +65,12 @@ services:
       EUREKA_INSTANCE_HOSTNAME: eureka-server
     ports:
       - "8761:8761"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -T 5 -O /dev/null http://localhost:8761/ || exit 1"]
+      interval: 10s
+      timeout: 6s
+      retries: 12
+      start_period: 120s
 
   api-gateway:
     <<: *backend-common
@@ -104,7 +113,7 @@ services:
       mysql:
         condition: service_healthy
       eureka-server:
-        condition: service_started
+        condition: service_healthy
 
   restaurant-service:
     <<: *backend-common
@@ -124,7 +133,7 @@ services:
       mysql:
         condition: service_healthy
       eureka-server:
-        condition: service_started
+        condition: service_healthy
 
   menu-service:
     <<: *backend-common
@@ -144,7 +153,7 @@ services:
       mysql:
         condition: service_healthy
       eureka-server:
-        condition: service_started
+        condition: service_healthy
 
   cart-service:
     <<: *backend-common
@@ -163,7 +172,7 @@ services:
       mysql:
         condition: service_healthy
       eureka-server:
-        condition: service_started
+        condition: service_healthy
 
   order-service:
     <<: *backend-common
@@ -187,7 +196,7 @@ services:
       kafka:
         condition: service_healthy
       eureka-server:
-        condition: service_started
+        condition: service_healthy
 
   payment-service:
     <<: *backend-common
@@ -211,7 +220,7 @@ services:
       kafka:
         condition: service_healthy
       eureka-server:
-        condition: service_started
+        condition: service_healthy
 
   delivery-service:
     <<: *backend-common
@@ -229,7 +238,7 @@ services:
       kafka:
         condition: service_healthy
       eureka-server:
-        condition: service_started
+        condition: service_healthy
 
   review-service:
     <<: *backend-common
@@ -248,7 +257,7 @@ services:
       mysql:
         condition: service_healthy
       eureka-server:
-        condition: service_started
+        condition: service_healthy
 
   tracking-service:
     <<: *backend-common
