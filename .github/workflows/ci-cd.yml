@@ -12,8 +12,8 @@ permissions:
   packages: write
 
 env:
-  BACKEND_DIR: OnlineFoodDeliveryPlatform-Backend-main
-  FRONTEND_DIR: OnlineFoodDeliveryPlatform-Frontend-main
+  BACKEND_DIR: backend
+  FRONTEND_DIR: frontend
   REGISTRY: ghcr.io
 
 jobs:
@@ -84,29 +84,29 @@ jobs:
       matrix:
         include:
           - image: eureka-server
-            dockerfile: OnlineFoodDeliveryPlatform-Backend-main/eureka-server/Dockerfile
+            dockerfile: backend/eureka-server/Dockerfile
           - image: api-gateway
-            dockerfile: OnlineFoodDeliveryPlatform-Backend-main/api-gateway/Dockerfile
+            dockerfile: backend/api-gateway/Dockerfile
           - image: auth-service
-            dockerfile: OnlineFoodDeliveryPlatform-Backend-main/auth-service/Dockerfile
+            dockerfile: backend/auth-service/Dockerfile
           - image: restaurant-service
-            dockerfile: OnlineFoodDeliveryPlatform-Backend-main/restaurant-service/Dockerfile
+            dockerfile: backend/restaurant-service/Dockerfile
           - image: menu-service
-            dockerfile: OnlineFoodDeliveryPlatform-Backend-main/menu-service/Dockerfile
+            dockerfile: backend/menu-service/Dockerfile
           - image: cart-service
-            dockerfile: OnlineFoodDeliveryPlatform-Backend-main/cart-service/Dockerfile
+            dockerfile: backend/cart-service/Dockerfile
           - image: payment-service
-            dockerfile: OnlineFoodDeliveryPlatform-Backend-main/payment-service/Dockerfile
+            dockerfile: backend/payment-service/Dockerfile
           - image: delivery-service
-            dockerfile: OnlineFoodDeliveryPlatform-Backend-main/delivery-service/Dockerfile
+            dockerfile: backend/delivery-service/Dockerfile
           - image: order-service
-            dockerfile: OnlineFoodDeliveryPlatform-Backend-main/order-service/Dockerfile
+            dockerfile: backend/order-service/Dockerfile
           - image: review-service
-            dockerfile: OnlineFoodDeliveryPlatform-Backend-main/review-service/Dockerfile
+            dockerfile: backend/review-service/Dockerfile
           - image: tracking-service
-            dockerfile: OnlineFoodDeliveryPlatform-Backend-main/tracking-service/Dockerfile
+            dockerfile: backend/tracking-service/Dockerfile
           - image: frontend
-            dockerfile: OnlineFoodDeliveryPlatform-Frontend-main/Dockerfile
+            dockerfile: frontend/Dockerfile
     steps:
       - name: Checkout
         uses: actions/checkout@v4

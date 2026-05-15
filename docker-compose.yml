@@ -55,7 +55,7 @@ services:
   eureka-server:
     build:
       context: .
-      dockerfile: OnlineFoodDeliveryPlatform-Backend-main/eureka-server/Dockerfile
+      dockerfile: backend/eureka-server/Dockerfile
     image: quickbite/eureka-server:local
     restart: unless-stopped
     environment:
@@ -67,7 +67,7 @@ services:
     <<: *backend-common
     build:
       context: .
-      dockerfile: OnlineFoodDeliveryPlatform-Backend-main/api-gateway/Dockerfile
+      dockerfile: backend/api-gateway/Dockerfile
     image: quickbite/api-gateway:local
     environment:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
@@ -84,7 +84,7 @@ services:
     <<: *backend-common
     build:
       context: .
-      dockerfile: OnlineFoodDeliveryPlatform-Backend-main/auth-service/Dockerfile
+      dockerfile: backend/auth-service/Dockerfile
     image: quickbite/auth-service:local
     environment:
       <<: *mysql-common
@@ -110,7 +110,7 @@ services:
     <<: *backend-common
     build:
       context: .
-      dockerfile: OnlineFoodDeliveryPlatform-Backend-main/restaurant-service/Dockerfile
+      dockerfile: backend/restaurant-service/Dockerfile
     image: quickbite/restaurant-service:local
     environment:
       <<: *mysql-common
@@ -130,7 +130,7 @@ services:
     <<: *backend-common
     build:
       context: .
-      dockerfile: OnlineFoodDeliveryPlatform-Backend-main/menu-service/Dockerfile
+      dockerfile: backend/menu-service/Dockerfile
     image: quickbite/menu-service:local
     environment:
       <<: *mysql-common
@@ -150,7 +150,7 @@ services:
     <<: *backend-common
     build:
       context: .
-      dockerfile: OnlineFoodDeliveryPlatform-Backend-main/cart-service/Dockerfile
+      dockerfile: backend/cart-service/Dockerfile
     image: quickbite/cart-service:local
     environment:
       <<: *mysql-common
@@ -169,7 +169,7 @@ services:
     <<: *backend-common
     build:
       context: .
-      dockerfile: OnlineFoodDeliveryPlatform-Backend-main/order-service/Dockerfile
+      dockerfile: backend/order-service/Dockerfile
     image: quickbite/order-service:local
     environment:
       <<: *mysql-common
@@ -193,7 +193,7 @@ services:
     <<: *backend-common
     build:
       context: .
-      dockerfile: OnlineFoodDeliveryPlatform-Backend-main/payment-service/Dockerfile
+      dockerfile: backend/payment-service/Dockerfile
     image: quickbite/payment-service:local
     environment:
       <<: *mysql-common
@@ -217,7 +217,7 @@ services:
     <<: *backend-common
     build:
       context: .
-      dockerfile: OnlineFoodDeliveryPlatform-Backend-main/delivery-service/Dockerfile
+      dockerfile: backend/delivery-service/Dockerfile
     image: quickbite/delivery-service:local
     environment:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
@@ -235,7 +235,7 @@ services:
     <<: *backend-common
     build:
       context: .
-      dockerfile: OnlineFoodDeliveryPlatform-Backend-main/review-service/Dockerfile
+      dockerfile: backend/review-service/Dockerfile
     image: quickbite/review-service:local
     environment:
       <<: *mysql-common
@@ -254,7 +254,7 @@ services:
     <<: *backend-common
     build:
       context: .
-      dockerfile: OnlineFoodDeliveryPlatform-Backend-main/tracking-service/Dockerfile
+      dockerfile: backend/tracking-service/Dockerfile
     image: quickbite/tracking-service:local
     ports:
       - "8089:8089"
@@ -262,7 +262,7 @@ services:
   frontend:
     build:
       context: .
-      dockerfile: OnlineFoodDeliveryPlatform-Frontend-main/Dockerfile
+      dockerfile: frontend/Dockerfile
       args:
         VITE_API_BASE_URL: http://localhost:9090
         VITE_AUTH_API_BASE_URL: http://localhost:9090

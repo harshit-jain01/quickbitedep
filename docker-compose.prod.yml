@@ -1,0 +1,103 @@
+version: '3.8'
+
+services:
+  eureka-server:
+    image: ghcr.io/harshit-jain01/quickbitedep/eureka-server:latest
+    build:
+      context: . # Dummy context to override base
+      dockerfile: Dockerfile # Override to ignore base build
+
+  api-gateway:
+    image: ghcr.io/harshit-jain01/quickbitedep/api-gateway:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+
+  auth-service:
+    image: ghcr.io/harshit-jain01/quickbitedep/auth-service:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      JWT_SECRET: ${JWT_SECRET}
+
+  restaurant-service:
+    image: ghcr.io/harshit-jain01/quickbitedep/restaurant-service:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+
+  menu-service:
+    image: ghcr.io/harshit-jain01/quickbitedep/menu-service:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+
+  cart-service:
+    image: ghcr.io/harshit-jain01/quickbitedep/cart-service:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+
+  order-service:
+    image: ghcr.io/harshit-jain01/quickbitedep/order-service:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      ORDER_DB_PASSWORD: ${MYSQL_PASSWORD}
+      JWT_SECRET: ${JWT_SECRET}
+
+  payment-service:
+    image: ghcr.io/harshit-jain01/quickbitedep/payment-service:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      RAZORPAY_KEY_ID: ${RAZORPAY_KEY_ID}
+      RAZORPAY_KEY_SECRET: ${RAZORPAY_KEY_SECRET}
+      JWT_SECRET: ${JWT_SECRET}
+
+  delivery-service:
+    image: ghcr.io/harshit-jain01/quickbitedep/delivery-service:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+
+  review-service:
+    image: ghcr.io/harshit-jain01/quickbitedep/review-service:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      JWT_SECRET: ${JWT_SECRET}
+
+  tracking-service:
+    image: ghcr.io/harshit-jain01/quickbitedep/tracking-service:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+  frontend:
+    image: ghcr.io/harshit-jain01/quickbitedep/frontend:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+  mysql:
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
