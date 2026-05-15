@@ -143,18 +143,6 @@ jobs:
     needs: [docker-build-and-publish]
     if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Upload compose file
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          source: "docker-compose.prod.yml"
-          target: "~/quickbite"
-
       - name: Deploy on EC2
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -163,8 +151,8 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             set -e
-            mkdir -p ~/quickbite
             cd ~/quickbite
+            git pull
             cat << 'EOF' > .env
             JWT_SECRET=${{ secrets.JWT_SECRET }}
             MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}
