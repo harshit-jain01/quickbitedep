@@ -2,13 +2,13 @@ version: '3.8'
 
 services:
   eureka-server:
-    image: ghcr.io/harshit-jain01/quickbitedep/eureka-server:latest
+    image: harshitjain011/eureka-server:latest
     build:
       context: . # Dummy context to override base
       dockerfile: Dockerfile # Override to ignore base build
 
   api-gateway:
-    image: ghcr.io/harshit-jain01/quickbitedep/api-gateway:latest
+    image: harshitjain011/api-gateway:latest
     build:
       context: .
       dockerfile: Dockerfile
@@ -16,7 +16,7 @@ services:
       JWT_SECRET: ${JWT_SECRET}
 
   auth-service:
-    image: ghcr.io/harshit-jain01/quickbitedep/auth-service:latest
+    image: harshitjain011/auth-service:latest
     build:
       context: .
       dockerfile: Dockerfile
@@ -28,7 +28,7 @@ services:
       JWT_SECRET: ${JWT_SECRET}
 
   restaurant-service:
-    image: ghcr.io/harshit-jain01/quickbitedep/restaurant-service:latest
+    image: harshitjain011/restaurant-service:latest
     build:
       context: .
       dockerfile: Dockerfile
@@ -36,7 +36,7 @@ services:
       JWT_SECRET: ${JWT_SECRET}
 
   menu-service:
-    image: ghcr.io/harshit-jain01/quickbitedep/menu-service:latest
+    image: harshitjain011/menu-service:latest
     build:
       context: .
       dockerfile: Dockerfile
@@ -44,7 +44,7 @@ services:
       JWT_SECRET: ${JWT_SECRET}
 
   cart-service:
-    image: ghcr.io/harshit-jain01/quickbitedep/cart-service:latest
+    image: harshitjain011/cart-service:latest
     build:
       context: .
       dockerfile: Dockerfile
@@ -52,7 +52,7 @@ services:
       JWT_SECRET: ${JWT_SECRET}
 
   order-service:
-    image: ghcr.io/harshit-jain01/quickbitedep/order-service:latest
+    image: harshitjain011/order-service:latest
     build:
       context: .
       dockerfile: Dockerfile
@@ -61,7 +61,7 @@ services:
       JWT_SECRET: ${JWT_SECRET}
 
   payment-service:
-    image: ghcr.io/harshit-jain01/quickbitedep/payment-service:latest
+    image: harshitjain011/payment-service:latest
     build:
       context: .
       dockerfile: Dockerfile
@@ -71,7 +71,7 @@ services:
       JWT_SECRET: ${JWT_SECRET}
 
   delivery-service:
-    image: ghcr.io/harshit-jain01/quickbitedep/delivery-service:latest
+    image: harshitjain011/delivery-service:latest
     build:
       context: .
       dockerfile: Dockerfile
@@ -79,7 +79,7 @@ services:
       JWT_SECRET: ${JWT_SECRET}
 
   review-service:
-    image: ghcr.io/harshit-jain01/quickbitedep/review-service:latest
+    image: harshitjain011/review-service:latest
     build:
       context: .
       dockerfile: Dockerfile
