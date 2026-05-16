@@ -33,19 +33,19 @@ describe("api wrapper coverage", () => {
     await api.getOrderTracking("t", "OD-1");
 
     expect(fetch).toHaveBeenCalledWith(
-      "http://localhost:8081/api/v1/auth/profile",
+      "/api/v1/auth/profile",
       expect.objectContaining({ headers: expect.objectContaining({ Authorization: "Bearer t" }) })
     );
     expect(fetch).toHaveBeenCalledWith(
-      "http://localhost:8081/api/v1/auth/password",
+      "/api/v1/auth/password",
       expect.objectContaining({ method: "PUT" })
     );
     expect(fetch).toHaveBeenCalledWith(
-      "http://localhost:9090/api/v1/orders/checkout",
+      "/api/v1/orders/checkout",
       expect.objectContaining({ method: "POST" })
     );
     expect(fetch).toHaveBeenCalledWith(
-      "http://localhost:9090/api/v1/tracking/orders/OD-1",
+      "/api/v1/tracking/orders/OD-1",
       expect.objectContaining({ headers: expect.objectContaining({ Authorization: "Bearer t" }) })
     );
   });
@@ -68,11 +68,11 @@ describe("api wrapper coverage", () => {
     });
 
     expect(fetch).toHaveBeenCalledWith(
-      "http://localhost:9090/api/v1/agents/AGT-1/availability",
+      "/api/v1/agents/AGT-1/availability",
       expect.objectContaining({ method: "PUT" })
     );
     expect(fetch).toHaveBeenCalledWith(
-      "http://localhost:9090/api/v1/orders/OD-2/delivery-status",
+      "/api/v1/orders/OD-2/delivery-status",
       expect.objectContaining({ method: "PUT" })
     );
   });
@@ -87,11 +87,11 @@ describe("api wrapper coverage", () => {
     });
 
     expect(fetch).toHaveBeenCalledWith(
-      "http://localhost:9090/api/v1/payments/razorpay/orders",
+      "/api/v1/payments/razorpay/orders",
       expect.objectContaining({ method: "POST" })
     );
     expect(fetch).toHaveBeenCalledWith(
-      "http://localhost:9090/api/v1/payments/razorpay/verify",
+      "/api/v1/payments/razorpay/verify",
       expect.objectContaining({ method: "POST" })
     );
   });
@@ -149,11 +149,11 @@ describe("api wrapper coverage", () => {
     await api.getAdminOrders("admin-token");
 
     expect(fetch).toHaveBeenCalledWith(
-      "http://localhost:9090/api/v1/admin/dashboard",
+      "/api/v1/admin/dashboard",
       expect.objectContaining({ headers: expect.objectContaining({ Authorization: "Bearer admin-token" }) })
     );
     expect(fetch).toHaveBeenCalledWith(
-      "http://localhost:9090/api/v1/admin/users/u-1",
+      "/api/v1/admin/users/u-1",
       expect.objectContaining({ method: "DELETE" })
     );
   });

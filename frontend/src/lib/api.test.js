@@ -33,7 +33,7 @@ describe("api client", () => {
 
     expect(fetch).toHaveBeenCalledTimes(1);
     const [url, options] = fetch.mock.calls[0];
-    expect(url).toBe("http://localhost:8081/api/v1/auth/login");
+    expect(url).toBe("/api/v1/auth/login");
     expect(options.method).toBe("POST");
     expect(options.headers["Content-Type"]).toBe("application/json");
     expect(options.body).toBe(JSON.stringify({ email: "u@q.com", password: "pass123" }));
@@ -45,7 +45,7 @@ describe("api client", () => {
     await getRestaurants("token-123", { category: "Pizza", search: "stone oven" });
 
     const [url, options] = fetch.mock.calls[0];
-    expect(url).toContain("http://localhost:9090/api/v1/restaurants?");
+    expect(url).toContain("/api/v1/restaurants?");
     expect(url).toContain("category=Pizza");
     expect(url).toContain("search=stone+oven");
     expect(options.headers.Authorization).toBe("Bearer token-123");
@@ -56,7 +56,7 @@ describe("api client", () => {
     await createReview("token-x", { restaurantId: 2, rating: 5, comment: "Great" });
 
     const [url, options] = fetch.mock.calls[0];
-    expect(url).toBe("http://localhost:9090/api/v1/reviews");
+    expect(url).toBe("/api/v1/reviews");
     expect(options.method).toBe("POST");
     expect(JSON.parse(options.body)).toEqual({
       restaurantId: 2,
@@ -82,7 +82,7 @@ describe("api client", () => {
     });
 
     const [url, options] = fetch.mock.calls[0];
-    expect(url).toBe("http://localhost:9090/api/v1/menu/items");
+    expect(url).toBe("/api/v1/menu/items");
     expect(options.method).toBe("POST");
     expect(options.body).toBeInstanceOf(FormData);
     expect(options.headers.Authorization).toBe("Bearer owner-token");
@@ -122,7 +122,7 @@ describe("api client", () => {
     await updateAdminOrderStatus("admin-token", "OD-1", "DELIVERED");
 
     const [url, options] = fetch.mock.calls[0];
-    expect(url).toBe("http://localhost:9090/api/v1/admin/orders/OD-1/status");
+    expect(url).toBe("/api/v1/admin/orders/OD-1/status");
     expect(options.method).toBe("PUT");
     expect(JSON.parse(options.body)).toEqual({ status: "DELIVERED" });
   });
@@ -132,7 +132,7 @@ describe("api client", () => {
     await toggleMenuItemAvailability("owner-token", 10, { isAvailable: false });
 
     const [url, options] = fetch.mock.calls[0];
-    expect(url).toBe("http://localhost:9090/api/v1/menu/items/10/availability");
+    expect(url).toBe("/api/v1/menu/items/10/availability");
     expect(options.method).toBe("PATCH");
     expect(JSON.parse(options.body)).toEqual({ isAvailable: false });
   });

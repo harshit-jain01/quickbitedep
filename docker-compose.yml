@@ -272,11 +272,6 @@ services:
     build:
       context: .
       dockerfile: frontend/Dockerfile
-      args:
-        VITE_API_BASE_URL: http://localhost:9090
-        VITE_AUTH_API_BASE_URL: http://localhost:9090
-        VITE_ADMIN_API_BASE_URL: http://localhost:9090
-        VITE_OAUTH_BASE_URL: http://localhost:9090
     image: quickbite/frontend:local
     restart: unless-stopped
     ports:
