@@ -169,6 +169,28 @@ jobs:
           test -n "$RAZORPAY_KEY_SECRET" || { echo "Missing RAZORPAY_KEY_SECRET secret"; exit 1; }
           test -n "$APP_OAUTH2_REDIRECT_URI" || { echo "Missing APP_OAUTH2_REDIRECT_URI secret"; exit 1; }
 
+      - name: Validate SSH private key
+        env:
+          EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$EC2_SSH_KEY" > ~/.ssh/quickbite_deploy_key
+          chmod 600 ~/.ssh/quickbite_deploy_key
+          ssh-keygen -y -f ~/.ssh/quickbite_deploy_key > /dev/null
+
+      - name: Test SSH login
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_USER: ${{ secrets.EC2_USER }}
+        run: |
+          ssh -i ~/.ssh/quickbite_deploy_key \
+            -o BatchMode=yes \
+            -o IdentitiesOnly=yes \
+            -o StrictHostKeyChecking=accept-new \
+            -o ConnectTimeout=20 \
+            "$EC2_USER@$EC2_HOST" \
+            "echo SSH login successful"
+
       - name: Deploy on EC2
         uses: appleboy/ssh-action@v1.0.3
         with:
