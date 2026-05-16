@@ -34,6 +34,7 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.POST, "/api/v1/agents", "/api/v1/agents/").permitAll()
                         .pathMatchers(
                                 "/api/v1/auth/**",
+                                "/api/v1/restaurants/images/**",
                                 "/oauth2/**",
                                 "/actuator/health",
                                 "/v3/api-docs/**",

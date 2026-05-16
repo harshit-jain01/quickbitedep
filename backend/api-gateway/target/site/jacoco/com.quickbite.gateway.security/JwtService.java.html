@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JwtService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">api-gateway</a> &gt; <a href="index.source.html" class="el_package">com.quickbite.gateway.security</a> &gt; <span class="el_source">JwtService.java</span></div><h1>JwtService.java</h1><pre class="source lang-java linenums">package com.quickbite.gateway.security;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
+import javax.crypto.SecretKey;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+@Service
+public class JwtService {
+
+<span class="fc" id="L16">    private static final Logger logger = LoggerFactory.getLogger(JwtService.class);</span>
+
+    private final SecretKey signingKey;
+
+<span class="fc" id="L20">    public JwtService(@Value(&quot;${security.jwt.secret}&quot;) String secret) {</span>
+<span class="fc" id="L21">        this.signingKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secret));</span>
+<span class="fc" id="L22">    }</span>
+
+    public boolean isTokenValid(String token) {
+        try {
+<span class="fc" id="L26">            extractAllClaims(token);</span>
+<span class="fc" id="L27">            return true;</span>
+<span class="fc" id="L28">        } catch (Exception ex) {</span>
+<span class="fc" id="L29">            logger.warn(&quot;Gateway token validation failed&quot;);</span>
+<span class="fc" id="L30">            return false;</span>
+        }
+    }
+
+    public String extractSubject(String token) {
+<span class="fc" id="L35">        return extractAllClaims(token).getSubject();</span>
+    }
+
+    public String extractRole(String token) {
+<span class="fc" id="L39">        return extractAllClaims(token).get(&quot;role&quot;, String.class);</span>
+    }
+
+    public String extractPhone(String token) {
+<span class="fc" id="L43">        return extractAllClaims(token).get(&quot;phone&quot;, String.class);</span>
+    }
+
+    private Claims extractAllClaims(String token) {
+<span class="fc" id="L47">        return Jwts.parser()</span>
+<span class="fc" id="L48">                .verifyWith(signingKey)</span>
+<span class="fc" id="L49">                .build()</span>
+<span class="fc" id="L50">                .parseSignedClaims(token)</span>
+<span class="fc" id="L51">                .getPayload();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

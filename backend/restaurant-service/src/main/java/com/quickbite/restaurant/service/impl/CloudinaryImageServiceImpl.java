@@ -8,6 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -34,10 +35,12 @@ public class CloudinaryImageServiceImpl implements CloudinaryImageService {
 
     private final Cloudinary cloudinary;
     private final String folder;
+    private final Path localUploadDirectory;
 
     public CloudinaryImageServiceImpl(
             ObjectProvider<Cloudinary> cloudinaryProvider,
             @Value("${cloudinary.folder:quickbite/restaurants}") String folder,
+            @Value("${app.uploads.restaurants-dir:/tmp/quickbite/uploads/restaurants}") String localUploadDirectory,
             @Value("${cloudinary.enabled:false}") boolean enabled,
             @Value("${cloudinary.cloud-name:}") String cloudName,
             @Value("${cloudinary.api-key:}") String apiKey,
@@ -45,9 +48,13 @@ public class CloudinaryImageServiceImpl implements CloudinaryImageService {
     ) {
         this.cloudinary = resolveCloudinary(cloudinaryProvider.getIfAvailable(), enabled, cloudName, apiKey, apiSecret);
         this.folder = folder;
+        this.localUploadDirectory = Paths.get(localUploadDirectory).toAbsolutePath().normalize();
     }
 
     private Cloudinary resolveCloudinary(Cloudinary existing, boolean enabled, String cloudName, String apiKey, String apiSecret) {
+        if (!enabled) {
+            return null;
+        }
         if (existing != null) {
             return existing;
         }
@@ -56,11 +63,9 @@ public class CloudinaryImageServiceImpl implements CloudinaryImageService {
         String resolvedCloudName = firstNonBlank(cloudName, System.getenv("CLOUDINARY_CLOUD_NAME"), dotenv.get("CLOUDINARY_CLOUD_NAME"));
         String resolvedApiKey = firstNonBlank(apiKey, System.getenv("CLOUDINARY_API_KEY"), dotenv.get("CLOUDINARY_API_KEY"));
         String resolvedApiSecret = firstNonBlank(apiSecret, System.getenv("CLOUDINARY_API_SECRET"), dotenv.get("CLOUDINARY_API_SECRET"));
-        String envEnabled = firstNonBlank(System.getenv("CLOUDINARY_ENABLED"), dotenv.get("CLOUDINARY_ENABLED"));
 
         boolean hasCredentials = isNotBlank(resolvedCloudName) && isNotBlank(resolvedApiKey) && isNotBlank(resolvedApiSecret);
-        boolean resolvedEnabled = enabled || "true".equalsIgnoreCase(envEnabled) || (isBlank(envEnabled) && hasCredentials);
-        if (!resolvedEnabled || !hasCredentials) {
+        if (!hasCredentials) {
             return null;
         }
 
@@ -147,7 +152,8 @@ public class CloudinaryImageServiceImpl implements CloudinaryImageService {
         validateImageFormat(imageFile);
 
         if (cloudinary == null) {
-            throw new IllegalStateException("Cloudinary is disabled. Set CLOUDINARY_ENABLED=true and provide CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, and CLOUDINARY_API_SECRET.");
+            logger.info("Cloudinary upload is disabled for restaurant images; saving image locally for userId={}", userId);
+            return saveLocalImage(imageFile, userId);
         }
 
         try {
@@ -201,5 +207,22 @@ public class CloudinaryImageServiceImpl implements CloudinaryImageService {
         }
         return filename.substring(dotIndex + 1).toLowerCase(Locale.ROOT);
     }
-}
 
+    private String saveLocalImage(MultipartFile imageFile, UUID userId) {
+        String extension = getFileExtension(imageFile.getOriginalFilename());
+        String safeExtension = extension == null ? "jpg" : extension;
+        String filename = "restaurant_" + userId + "." + safeExtension;
+        try {
+            Files.createDirectories(localUploadDirectory);
+            Path target = localUploadDirectory.resolve(filename).normalize();
+            if (!target.startsWith(localUploadDirectory)) {
+                throw new IllegalArgumentException("Invalid image filename");
+            }
+            Files.copy(imageFile.getInputStream(), target, StandardCopyOption.REPLACE_EXISTING);
+            return "/api/v1/restaurants/images/" + filename;
+        } catch (IOException exception) {
+            logger.error("Failed to save restaurant image locally for userId={}", userId, exception);
+            throw new RuntimeException("Failed to save restaurant image", exception);
+        }
+    }
+}

@@ -43,3 +43,7 @@ cloudinary:
   api-key: ${CLOUDINARY_API_KEY:}
   api-secret: ${CLOUDINARY_API_SECRET:}
   folder: ${CLOUDINARY_FOLDER:quickbite/restaurants}
+
+app:
+  uploads:
+    restaurants-dir: ${RESTAURANT_UPLOAD_DIR:/tmp/quickbite/uploads/restaurants}

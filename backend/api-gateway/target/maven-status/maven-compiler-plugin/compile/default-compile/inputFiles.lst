@@ -1,7 +1,7 @@
-C:\Users\krish\OneDrive\Desktop\harshit's Quickbite\OnlineFoodDeliveryPlatform-Backend-main\api-gateway\src\main\java\com\quickbite\gateway\ApiGatewayApplication.java
-C:\Users\krish\OneDrive\Desktop\harshit's Quickbite\OnlineFoodDeliveryPlatform-Backend-main\api-gateway\src\main\java\com\quickbite\gateway\config\AdminGatewayRoutesConfig.java
-C:\Users\krish\OneDrive\Desktop\harshit's Quickbite\OnlineFoodDeliveryPlatform-Backend-main\api-gateway\src\main\java\com\quickbite\gateway\config\CorsHeaderSanitizingFilter.java
-C:\Users\krish\OneDrive\Desktop\harshit's Quickbite\OnlineFoodDeliveryPlatform-Backend-main\api-gateway\src\main\java\com\quickbite\gateway\config\SecurityConfig.java
-C:\Users\krish\OneDrive\Desktop\harshit's Quickbite\OnlineFoodDeliveryPlatform-Backend-main\api-gateway\src\main\java\com\quickbite\gateway\exception\GatewayErrorHandler.java
-C:\Users\krish\OneDrive\Desktop\harshit's Quickbite\OnlineFoodDeliveryPlatform-Backend-main\api-gateway\src\main\java\com\quickbite\gateway\security\JwtAuthenticationFilter.java
-C:\Users\krish\OneDrive\Desktop\harshit's Quickbite\OnlineFoodDeliveryPlatform-Backend-main\api-gateway\src\main\java\com\quickbite\gateway\security\JwtService.java
+C:\Users\jhars\Desktop\DeployQuickbite\harshit's Quickbite\backend\api-gateway\src\main\java\com\quickbite\gateway\ApiGatewayApplication.java
+C:\Users\jhars\Desktop\DeployQuickbite\harshit's Quickbite\backend\api-gateway\src\main\java\com\quickbite\gateway\config\AdminGatewayRoutesConfig.java
+C:\Users\jhars\Desktop\DeployQuickbite\harshit's Quickbite\backend\api-gateway\src\main\java\com\quickbite\gateway\config\CorsHeaderSanitizingFilter.java
+C:\Users\jhars\Desktop\DeployQuickbite\harshit's Quickbite\backend\api-gateway\src\main\java\com\quickbite\gateway\config\SecurityConfig.java
+C:\Users\jhars\Desktop\DeployQuickbite\harshit's Quickbite\backend\api-gateway\src\main\java\com\quickbite\gateway\exception\GatewayErrorHandler.java
+C:\Users\jhars\Desktop\DeployQuickbite\harshit's Quickbite\backend\api-gateway\src\main\java\com\quickbite\gateway\security\JwtAuthenticationFilter.java
+C:\Users\jhars\Desktop\DeployQuickbite\harshit's Quickbite\backend\api-gateway\src\main\java\com\quickbite\gateway\security\JwtService.java
