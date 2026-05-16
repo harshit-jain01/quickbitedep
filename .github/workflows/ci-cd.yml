@@ -156,6 +156,8 @@ jobs:
           RAZORPAY_KEY_ID: ${{ secrets.RAZORPAY_KEY_ID }}
           RAZORPAY_KEY_SECRET: ${{ secrets.RAZORPAY_KEY_SECRET }}
           APP_OAUTH2_REDIRECT_URI: ${{ secrets.APP_OAUTH2_REDIRECT_URI }}
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
         run: |
           test -n "$EC2_HOST" || { echo "Missing EC2_HOST secret"; exit 1; }
           test -n "$EC2_USER" || { echo "Missing EC2_USER secret"; exit 1; }
@@ -168,6 +170,8 @@ jobs:
           test -n "$RAZORPAY_KEY_ID" || { echo "Missing RAZORPAY_KEY_ID secret"; exit 1; }
           test -n "$RAZORPAY_KEY_SECRET" || { echo "Missing RAZORPAY_KEY_SECRET secret"; exit 1; }
           test -n "$APP_OAUTH2_REDIRECT_URI" || { echo "Missing APP_OAUTH2_REDIRECT_URI secret"; exit 1; }
+          test -n "$DOCKERHUB_USERNAME" || { echo "Missing DOCKERHUB_USERNAME secret"; exit 1; }
+          test -n "$DOCKERHUB_TOKEN" || { echo "Missing DOCKERHUB_TOKEN secret"; exit 1; }
 
       - name: Validate SSH private key
         env:
@@ -203,6 +207,8 @@ jobs:
             REPO_URL="https://github.com/${{ github.repository }}.git"
             BRANCH="${{ github.ref_name }}"
 
+            echo "${{ secrets.DOCKERHUB_TOKEN }}" | sudo docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
             if [ -d "$DEPLOY_DIR/.git" ]; then
               git -C "$DEPLOY_DIR" fetch origin "$BRANCH"
               git -C "$DEPLOY_DIR" checkout "$BRANCH"
@@ -228,3 +234,5 @@ jobs:
             sudo docker compose -f docker-compose.prod.yml pull
             sudo docker compose -f docker-compose.prod.yml up -d
             sudo docker image prune -f
+
+            sudo docker logout
