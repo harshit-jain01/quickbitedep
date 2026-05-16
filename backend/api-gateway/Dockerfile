@@ -1,4 +1,4 @@
-FROM ghcr.io/library/maven:3.9-eclipse-temurin-21 AS build
+FROM maven:3.9-eclipse-temurin-21 AS build
 
 ARG SERVICE_DIR=backend/api-gateway
 
