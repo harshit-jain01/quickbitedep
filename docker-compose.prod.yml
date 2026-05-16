@@ -15,7 +15,7 @@ x-mysql-common: &mysql-common
 
 services:
   mysql:
-    image: mysql:8.4
+    image: public.ecr.aws/docker/library/mysql:8.4
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?MYSQL_ROOT_PASSWORD is required}
@@ -42,14 +42,14 @@ services:
       - kafka-data:/tmp/kraft-combined-logs
 
   eureka-server:
-    image: harshitjain011/eureka-server:latest
+    image: ghcr.io/harshit-jain01/quickbitedep/eureka-server:latest
     restart: unless-stopped
     ports:
       - "8761:8761"
 
   api-gateway:
     <<: *backend-common
-    image: harshitjain011/api-gateway:latest
+    image: ghcr.io/harshit-jain01/quickbitedep/api-gateway:latest
     environment:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       AUTH_SERVICE_URI: lb://AUTH-SERVICE
@@ -63,7 +63,7 @@ services:
 
   auth-service:
     <<: *backend-common
-    image: harshitjain011/auth-service:latest
+    image: ghcr.io/harshit-jain01/quickbitedep/auth-service:latest
     environment:
       <<: *mysql-common
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
@@ -78,7 +78,7 @@ services:
 
   restaurant-service:
     <<: *backend-common
-    image: harshitjain011/restaurant-service:latest
+    image: ghcr.io/harshit-jain01/quickbitedep/restaurant-service:latest
     environment:
       <<: *mysql-common
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
@@ -89,7 +89,7 @@ services:
 
   menu-service:
     <<: *backend-common
-    image: harshitjain011/menu-service:latest
+    image: ghcr.io/harshit-jain01/quickbitedep/menu-service:latest
     environment:
       <<: *mysql-common
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
@@ -99,7 +99,7 @@ services:
 
   cart-service:
     <<: *backend-common
-    image: harshitjain011/cart-service:latest
+    image: ghcr.io/harshit-jain01/quickbitedep/cart-service:latest
     environment:
       <<: *mysql-common
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
@@ -108,7 +108,7 @@ services:
 
   order-service:
     <<: *backend-common
-    image: harshitjain011/order-service:latest
+    image: ghcr.io/harshit-jain01/quickbitedep/order-service:latest
     environment:
       <<: *mysql-common
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
@@ -119,7 +119,7 @@ services:
 
   payment-service:
     <<: *backend-common
-    image: harshitjain011/payment-service:latest
+    image: ghcr.io/harshit-jain01/quickbitedep/payment-service:latest
     environment:
       <<: *mysql-common
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
@@ -131,7 +131,7 @@ services:
 
   delivery-service:
     <<: *backend-common
-    image: harshitjain011/delivery-service:latest
+    image: ghcr.io/harshit-jain01/quickbitedep/delivery-service:latest
     environment:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
@@ -139,7 +139,7 @@ services:
 
   review-service:
     <<: *backend-common
-    image: harshitjain011/review-service:latest
+    image: ghcr.io/harshit-jain01/quickbitedep/review-service:latest
     environment:
       <<: *mysql-common
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
@@ -148,10 +148,10 @@ services:
 
   tracking-service:
     <<: *backend-common
-    image: harshitjain011/tracking-service:latest
+    image: ghcr.io/harshit-jain01/quickbitedep/tracking-service:latest
 
   frontend:
-    image: harshitjain011/frontend:latest
+    image: ghcr.io/harshit-jain01/quickbitedep/frontend:latest
     restart: unless-stopped
     ports:
       - "80:80"

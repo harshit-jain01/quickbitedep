@@ -116,7 +116,13 @@ jobs:
 
       - name: Prepare image name
         id: image
-        run: echo "name=harshitjain011/${{ matrix.image }}" >> "$GITHUB_OUTPUT"
+        run: |
+          owner="$(echo "${GITHUB_REPOSITORY_OWNER}" | tr '[:upper:]' '[:lower:]')"
+          repo="$(echo "${GITHUB_REPOSITORY#*/}" | tr '[:upper:]' '[:lower:]')"
+          {
+            echo "dockerhub=harshitjain011/${{ matrix.image }}"
+            echo "ghcr=ghcr.io/${owner}/${repo}/${{ matrix.image }}"
+          } >> "$GITHUB_OUTPUT"
 
       - name: Log in to Docker Hub
         if: github.event_name != 'pull_request'
@@ -139,8 +145,10 @@ jobs:
           file: ${{ matrix.dockerfile }}
           push: ${{ github.event_name != 'pull_request' }}
           tags: |
-            ${{ steps.image.outputs.name }}:${{ github.sha }}
-            ${{ steps.image.outputs.name }}:latest
+            ${{ steps.image.outputs.dockerhub }}:${{ github.sha }}
+            ${{ steps.image.outputs.dockerhub }}:latest
+            ${{ steps.image.outputs.ghcr }}:${{ github.sha }}
+            ${{ steps.image.outputs.ghcr }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -216,6 +224,7 @@ jobs:
             BRANCH="${{ github.ref_name }}"
 
             echo "${{ secrets.DOCKERHUB_TOKEN }}" | sudo docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+            echo "${{ secrets.GITHUB_TOKEN }}" | sudo docker login ghcr.io -u "${{ github.actor }}" --password-stdin
 
             if [ -d "$DEPLOY_DIR/.git" ]; then
               git -C "$DEPLOY_DIR" fetch origin "$BRANCH"
@@ -240,8 +249,10 @@ jobs:
             APP_OAUTH2_REDIRECT_URI=${{ secrets.APP_OAUTH2_REDIRECT_URI }}
             CORS_ALLOWED_ORIGINS=${{ secrets.CORS_ALLOWED_ORIGINS }}
             EOF
+            export COMPOSE_PARALLEL_LIMIT=2
             sudo docker compose -f docker-compose.prod.yml pull
             sudo docker compose -f docker-compose.prod.yml up -d
             sudo docker image prune -f
 
+            sudo docker logout ghcr.io
             sudo docker logout
