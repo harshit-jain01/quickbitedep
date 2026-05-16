@@ -143,6 +143,32 @@ jobs:
     needs: [docker-build-and-publish]
     if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
     steps:
+      - name: Validate deployment secrets
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_USER: ${{ secrets.EC2_USER }}
+          EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          RAZORPAY_KEY_ID: ${{ secrets.RAZORPAY_KEY_ID }}
+          RAZORPAY_KEY_SECRET: ${{ secrets.RAZORPAY_KEY_SECRET }}
+          APP_OAUTH2_REDIRECT_URI: ${{ secrets.APP_OAUTH2_REDIRECT_URI }}
+        run: |
+          test -n "$EC2_HOST" || { echo "Missing EC2_HOST secret"; exit 1; }
+          test -n "$EC2_USER" || { echo "Missing EC2_USER secret"; exit 1; }
+          test -n "$EC2_SSH_KEY" || { echo "Missing EC2_SSH_KEY secret"; exit 1; }
+          test -n "$JWT_SECRET" || { echo "Missing JWT_SECRET secret"; exit 1; }
+          test -n "$MYSQL_ROOT_PASSWORD" || { echo "Missing MYSQL_ROOT_PASSWORD secret"; exit 1; }
+          test -n "$MYSQL_PASSWORD" || { echo "Missing MYSQL_PASSWORD secret"; exit 1; }
+          test -n "$GOOGLE_CLIENT_ID" || { echo "Missing GOOGLE_CLIENT_ID secret"; exit 1; }
+          test -n "$GOOGLE_CLIENT_SECRET" || { echo "Missing GOOGLE_CLIENT_SECRET secret"; exit 1; }
+          test -n "$RAZORPAY_KEY_ID" || { echo "Missing RAZORPAY_KEY_ID secret"; exit 1; }
+          test -n "$RAZORPAY_KEY_SECRET" || { echo "Missing RAZORPAY_KEY_SECRET secret"; exit 1; }
+          test -n "$APP_OAUTH2_REDIRECT_URI" || { echo "Missing APP_OAUTH2_REDIRECT_URI secret"; exit 1; }
+
       - name: Deploy on EC2
         uses: appleboy/ssh-action@v1.0.3
         with:
