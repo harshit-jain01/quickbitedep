@@ -1,4 +1,4 @@
-FROM maven:3.9-eclipse-temurin-21 AS build
+FROM public.ecr.aws/docker/library/maven:3.9-eclipse-temurin-21 AS build
 
 ARG SERVICE_DIR=backend/auth-service
 
@@ -10,7 +10,7 @@ RUN mvn -B -ntp -Dmaven.test.skip=true package && \
     jar_file="$(find target -maxdepth 1 -name '*.jar' ! -name 'original-*' | head -n 1)" && \
     cp "$jar_file" app.jar
 
-FROM eclipse-temurin:21-jre-alpine
+FROM public.ecr.aws/docker/library/eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 RUN addgroup -S spring && adduser -S spring -G spring && \
