@@ -3,7 +3,6 @@ package com.quickbite.gateway.security;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.List;
-import java.util.Set;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.core.io.buffer.DataBuffer;
@@ -21,11 +20,6 @@ import reactor.core.publisher.Mono;
 
 @Component
 public class JwtAuthenticationFilter implements WebFilter {
-
-    private static final Set<String> ALLOWED_CORS_ORIGINS = Set.of(
-            "http://localhost:5173",
-            "http://127.0.0.1:5173"
-    );
 
     private final JwtService jwtService;
 
@@ -93,7 +87,7 @@ public class JwtAuthenticationFilter implements WebFilter {
         exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
         exchange.getResponse().getHeaders().setContentType(MediaType.APPLICATION_JSON);
         String origin = exchange.getRequest().getHeaders().getOrigin();
-        if (origin != null && ALLOWED_CORS_ORIGINS.contains(origin)) {
+        if (origin != null && !origin.isBlank()) {
             exchange.getResponse().getHeaders().set(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, origin);
             exchange.getResponse().getHeaders().set(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
             exchange.getResponse().getHeaders().add(HttpHeaders.VARY, HttpHeaders.ORIGIN);
