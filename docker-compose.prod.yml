@@ -66,6 +66,7 @@ services:
     image: harshitjain011/auth-service:latest
     environment:
       <<: *mysql-common
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       MYSQL_HOST: mysql
       MYSQL_PORT: 3306
       MYSQL_DATABASE: quickbite_auth
@@ -80,6 +81,7 @@ services:
     image: harshitjain011/restaurant-service:latest
     environment:
       <<: *mysql-common
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/quickbite_restaurant?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&createDatabaseIfNotExist=true
       CLOUDINARY_ENABLED: "false"
       JWT_SECRET: ${JWT_SECRET:?JWT_SECRET is required}
@@ -89,6 +91,7 @@ services:
     image: harshitjain011/menu-service:latest
     environment:
       <<: *mysql-common
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/quickbite_menu?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&createDatabaseIfNotExist=true
       CLOUDINARY_ENABLED: "false"
       JWT_SECRET: ${JWT_SECRET:?JWT_SECRET is required}
@@ -98,6 +101,7 @@ services:
     image: harshitjain011/cart-service:latest
     environment:
       <<: *mysql-common
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/quickbite_cart?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&createDatabaseIfNotExist=true
       JWT_SECRET: ${JWT_SECRET:?JWT_SECRET is required}
 
@@ -106,6 +110,7 @@ services:
     image: harshitjain011/order-service:latest
     environment:
       <<: *mysql-common
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       ORDER_DB_URL: jdbc:mysql://mysql:3306/quickbite_order?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
       ORDER_DB_USERNAME: root
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
@@ -116,6 +121,7 @@ services:
     image: harshitjain011/payment-service:latest
     environment:
       <<: *mysql-common
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/quickbite_payment?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&createDatabaseIfNotExist=true
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       RAZORPAY_KEY_ID: ${RAZORPAY_KEY_ID:?RAZORPAY_KEY_ID is required}
@@ -126,6 +132,7 @@ services:
     <<: *backend-common
     image: harshitjain011/delivery-service:latest
     environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       JWT_SECRET: ${JWT_SECRET:?JWT_SECRET is required}
 
@@ -134,6 +141,7 @@ services:
     image: harshitjain011/review-service:latest
     environment:
       <<: *mysql-common
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/quickbite_review?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&createDatabaseIfNotExist=true
       JWT_SECRET: ${JWT_SECRET:?JWT_SECRET is required}
 
