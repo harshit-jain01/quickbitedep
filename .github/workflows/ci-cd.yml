@@ -199,8 +199,22 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             set -e
-            cd ~/quickbite
-            git pull
+            DEPLOY_DIR="$HOME/quickbite"
+            REPO_URL="https://github.com/${{ github.repository }}.git"
+            BRANCH="${{ github.ref_name }}"
+
+            if [ -d "$DEPLOY_DIR/.git" ]; then
+              git -C "$DEPLOY_DIR" fetch origin "$BRANCH"
+              git -C "$DEPLOY_DIR" checkout "$BRANCH"
+              git -C "$DEPLOY_DIR" reset --hard "origin/$BRANCH"
+            else
+              if [ -e "$DEPLOY_DIR" ]; then
+                mv "$DEPLOY_DIR" "$DEPLOY_DIR.backup.$(date +%Y%m%d%H%M%S)"
+              fi
+              git clone --branch "$BRANCH" "$REPO_URL" "$DEPLOY_DIR"
+            fi
+
+            cd "$DEPLOY_DIR"
             cat << 'EOF' > .env
             JWT_SECRET=${{ secrets.JWT_SECRET }}
             MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}
